@@ -11,5 +11,6 @@ class AC180(BaseDeviceV2):
                 UIntField(FieldName.AC_OUTPUT_POWER, 142),
                 UIntField(FieldName.DC_INPUT_POWER, 144),
                 UIntField(FieldName.AC_INPUT_POWER, 146),
+                UIntField(FieldName.AC_INPUT_VOLTAGE, 1314, 0.1),
             ],
         )

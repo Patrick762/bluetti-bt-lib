@@ -5,6 +5,7 @@ from typing import Any, Callable, cast
 from bleak import BleakClient
 from bleak.exc import BleakError
 
+from .encryption import BluettiEncryption, Message, MessageType
 from ..registers import ReadableRegisters
 from ..const import NOTIFY_UUID, WRITE_UUID
 from ..base_devices import BluettiDevice
@@ -14,8 +15,9 @@ _LOGGER.setLevel(logging.DEBUG)  # TODO Remove before release
 
 
 class DeviceReaderConfig:
-    def __init__(self):
-        self.timeout = 60
+    def __init__(self, timeout: int = 60, use_encryption: bool = False):
+        self.timeout = timeout
+        self.use_encryption = use_encryption
 
 
 class DeviceReader:
@@ -39,7 +41,7 @@ class DeviceReader:
         self.current_registers = None
         self.notify_response = bytearray()
         self.notify_future: asyncio.Future[Any] | None = None
-
+        self.encryption = BluettiEncryption()
         self.polling_lock = asyncio.Lock()
 
     async def read(self) -> dict | None:
@@ -65,6 +67,13 @@ class DeviceReader:
                         self.has_notifier = True
 
                     _LOGGER.debug("Notification handler setup complete")
+
+                    while (
+                        self.config.use_encryption
+                        and not self.encryption.is_ready_for_commands
+                    ):
+                        await asyncio.sleep(5)
+                        _LOGGER.debug("Encryption handshake not finished yet")
 
                     for register in registers:
                         body = register.parse_response(
@@ -102,6 +111,9 @@ class DeviceReader:
                 await self.client.disconnect()
                 _LOGGER.debug("Disconnected from device")
 
+            # Reset Encryption keys
+            self.encryption.reset()
+
             # Check if dict is empty
             if not parsed_data:
                 return None
@@ -114,9 +126,19 @@ class DeviceReader:
         self.notify_response = bytearray()
         self.notify_future = self.create_future()
 
+        command_bytes = bytes(registers)
+
+        # Encrypt command
+        if self.config.use_encryption is True:
+            if not self.encryption.is_ready_for_commands:
+                return bytes()
+            command_bytes = self.encryption.aes_encrypt(
+                command_bytes, self.encryption.secure_aes_key, None
+            )
+
         try:
             # Make request
-            await self.client.write_gatt_char(WRITE_UUID, bytes(registers))
+            await self.client.write_gatt_char(WRITE_UUID, command_bytes)
 
             _LOGGER.debug("Request sent (%s)", registers)
 
@@ -131,9 +153,45 @@ class DeviceReader:
 
         return bytes()
 
-    def _notification_handler(self, _: int, data: bytearray):
+    async def _notification_handler(self, _: int, data: bytearray):
         """Handle bt data."""
         _LOGGER.debug("Got new data")
+
+        if self.config.use_encryption is True:
+            message = Message(data)
+
+            if message.is_pre_key_exchange:
+                message.verify_checksum()
+
+                if message.type == MessageType.CHALLENGE:
+                    challenge_response = self.encryption.msg_challenge(message)
+                    await self.client.write_gatt_char(WRITE_UUID, challenge_response)
+                    return
+
+                if message.type == MessageType.CHALLENGE_ACCEPTED:
+                    _LOGGER.debug("Challenge accepted")
+                    return
+
+            if self.encryption.unsecure_aes_key is None:
+                _LOGGER.error("Received encrypted message before key initialization")
+
+            key, iv = self.encryption.getKeyIv()
+            decrypted = Message(self.encryption.aes_decrypt(message.buffer, key, iv))
+
+            if decrypted.is_pre_key_exchange:
+                decrypted.verify_checksum()
+
+                if decrypted.type == MessageType.PEER_PUBKEY:
+                    peer_pubkey_response = self.encryption.msg_peer_pubkey(decrypted)
+                    await self.client.write_gatt_char(WRITE_UUID, peer_pubkey_response)
+                    return
+
+                if decrypted.type == MessageType.PUBKEY_ACCEPTED:
+                    self.encryption.msg_key_accepted(decrypted)
+                    return
+
+            # Handle as message
+            data = decrypted.buffer
 
         # Save data
         self.notify_response.extend(data)

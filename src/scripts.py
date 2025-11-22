@@ -6,7 +6,7 @@ from typing import List
 from bleak import BleakClient, BleakScanner
 from bleak.backends.device import BLEDevice
 
-from .bluetooth import DeviceReader
+from .bluetooth import DeviceReader, DeviceReaderConfig
 from .utils.device_info import get_type_by_bt_name
 from .utils.device_builder import build_device
 
@@ -22,14 +22,20 @@ async def read_device(name: str, address: str):
 
     print("Client created")
 
-    reader = DeviceReader(client, built, asyncio.Future)
+    reader = DeviceReader(client, built, asyncio.Future, DeviceReaderConfig(10, True))
 
     print("Reader created")
 
     data = await reader.read()
 
+    if data is None:
+        print("Error")
+        return
+
+    print()
     for key, value in data.items():
         print("{}: {}".format(key, value))
+    print()
 
 
 async def scan_async():
@@ -39,6 +45,8 @@ async def scan_async():
 
     async def callback(device: BLEDevice, _):
         result = get_type_by_bt_name(device.name)
+
+        # TODO Handle PBOX IoT modules
 
         if result is not None:
             found.append(
