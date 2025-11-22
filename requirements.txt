@@ -1,0 +1,7 @@
+async_timeout
+asyncio
+bleak
+crcmod
+cryptography
+logging
+pyasn1

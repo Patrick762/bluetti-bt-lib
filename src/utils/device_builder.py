@@ -1,14 +1,11 @@
 """Device builder helper."""
 
-from ..const import DEVICE_NAME_RE
 from ..base_devices import BluettiDevice
 
-# Add new classes below
-from ..devices.ac180 import AC180
-from ..devices.eb3a import EB3A
+from ..devices import DEVICES, DEVICE_NAME_RE
 
 
-def build_device(mac: str, name: str) -> BluettiDevice | None:
+def build_device(name: str) -> BluettiDevice | None:
     devMatch = DEVICE_NAME_RE.match(name)
 
     if devMatch is None:
@@ -19,16 +16,9 @@ def build_device(mac: str, name: str) -> BluettiDevice | None:
     if devType is None:
         return None
 
-    Station = None
-
-    # Add new classes as case below
-    match devType:
-        case "AC180":
-            Station = AC180
-        case "EB3A":
-            Station = EB3A
+    Station = DEVICES.get(devType)
 
     if Station is None:
         return None
 
-    return Station(mac)
+    return Station()

@@ -5,8 +5,7 @@ from ..fields import DeviceField
 
 
 class BluettiDevice:
-    def __init__(self, mac: str, fields: List[DeviceField]):
-        self.mac = mac
+    def __init__(self, fields: List[DeviceField]):
         self.fields = fields
 
     def addFields(self, fields: List[DeviceField]):
@@ -22,6 +21,12 @@ class BluettiDevice:
             result.append(ReadableRegisters(f.address, f.size))
 
         return result
+
+    def get_device_type_registers(self) -> List[ReadableRegisters]:
+        raise NotImplementedError
+    
+    def get_iot_version(self) -> int:
+        raise NotImplementedError
 
     def parse(self, starting_address: int, data: bytes) -> dict:
         # Offsets and size are counted in 2 byte chunks, so for the range we

@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import async_timeout
-from typing import Any, Callable, cast
+from typing import Any, Callable, List, cast
 from bleak import BleakClient
 from bleak.exc import BleakError
 
@@ -11,7 +11,6 @@ from ..const import NOTIFY_UUID, WRITE_UUID
 from ..base_devices import BluettiDevice
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.DEBUG)  # TODO Remove before release
 
 
 class DeviceReaderConfig:
@@ -44,8 +43,13 @@ class DeviceReader:
         self.encryption = BluettiEncryption()
         self.polling_lock = asyncio.Lock()
 
-    async def read(self) -> dict | None:
+    async def read(
+        self, only_registers: List[ReadableRegisters] | None = None
+    ) -> dict | None:
         registers = self.bluetti_device.get_polling_registers()
+
+        if only_registers is not None:
+            registers = only_registers
 
         parsed_data: dict = {}
 

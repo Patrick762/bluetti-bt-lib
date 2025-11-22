@@ -24,10 +24,13 @@ setup(
     url="https://github.com/Patrick762/bluetti-bt-lib",
     packages=find_packages(),
     install_requires=[
+        "async_timeout",
         "asyncio",
         "bleak",
         "crcmod",
+        "cryptography",
         "logging",
+        "pyasn1",
     ],
     keywords=[],
     entry_points={

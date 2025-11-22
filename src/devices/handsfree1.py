@@ -2,7 +2,7 @@ from ..base_devices import BaseDeviceV2
 from ..fields import FieldName, UIntField
 
 
-class AC180(BaseDeviceV2):
+class Handsfree1(BaseDeviceV2):
     def __init__(self):
         super().__init__(
             [

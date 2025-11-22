@@ -1,6 +1,6 @@
 """Device info helper."""
 
-from ..const import DEVICE_NAME_RE
+from ..devices import DEVICE_NAME_RE
 
 
 def get_type_by_bt_name(bt_name: str):

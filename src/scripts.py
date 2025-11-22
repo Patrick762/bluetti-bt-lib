@@ -7,22 +7,38 @@ from bleak import BleakClient, BleakScanner
 from bleak.backends.device import BLEDevice
 
 from .bluetooth import DeviceReader, DeviceReaderConfig
+from .bluetooth.device_recognizer import recognize_device
 from .utils.device_info import get_type_by_bt_name
 from .utils.device_builder import build_device
 
 
-async def read_device(name: str, address: str):
-    built = build_device(address, name)
+async def read_device(address: str):
+    client = BleakClient(address)
 
-    if built is None:
-        print("Unknown powerstation type")
+    print("Detecting device type")
+    print()
+
+    recognized = await recognize_device(client, asyncio.Future)
+
+    if recognized is None:
+        print("Unable to find device type information")
         return
 
-    client = BleakClient(address)
+    print()
+    print("Device type is '{}' with iot version {}".format(recognized.name, recognized.iot_version))
+    print()
+
+    built = build_device(recognized.name + "12345678")
+
+    if built is None:
+        print("Unsupported powerstation type")
+        return
 
     print("Client created")
 
-    reader = DeviceReader(client, built, asyncio.Future, DeviceReaderConfig(10, True))
+    reader = DeviceReader(
+        client, built, asyncio.Future, DeviceReaderConfig(10, recognized.encrypted)
+    )
 
     print("Reader created")
 
@@ -46,15 +62,8 @@ async def scan_async():
     async def callback(device: BLEDevice, _):
         result = get_type_by_bt_name(device.name)
 
-        # TODO Handle PBOX IoT modules
-
-        if result is not None:
-            found.append(
-                [
-                    device.name,
-                    device.address,
-                ]
-            )
+        if result is not None or device.name.startswith("PBOX"):
+            found.append(device.address)
             stop_event.set()
             print([result, device.address])
 
@@ -62,7 +71,7 @@ async def scan_async():
         await stop_event.wait()
 
     for dev in found:
-        await read_device(dev[0], dev[1])
+        await read_device(dev)
 
 
 def start():
