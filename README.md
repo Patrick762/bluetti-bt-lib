@@ -18,9 +18,17 @@ bluetti
 
 ## Supported Powerstations and data
 
+Validated by me
+
 |Device Name|total_battery_percent|dc_input_power|ac_input_power|dc_output_power|ac_output_power|
 |-----------|---------------------|--------------|--------------|---------------|---------------|
 |AC70       |✅                   |✅            |✅            |✅             |✅             |
 |AC180      |✅                   |✅            |✅            |✅             |✅             |
 |EB3A       |✅                   |✅            |✅            |✅             |✅             |
 |Handsfree 1|✅                   |✅            |✅            |✅             |✅             |
+
+Added and validated by contributors:
+
+|Device Name|Contributor     |total_battery_percent|dc_input_power|ac_input_power|dc_output_power|ac_output_power|
+|-----------|----------------|---------------------|--------------|--------------|---------------|---------------|
+|AC2A       |@ruanmed        |✅                   |✅            |✅            |✅             |✅             |

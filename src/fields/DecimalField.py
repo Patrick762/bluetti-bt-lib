@@ -5,7 +5,7 @@ from . import DeviceField
 
 
 class DecimalField(DeviceField):
-    def __init__(self, name: str, address: int, scale: int, multiplier: int):
+    def __init__(self, name: str, address: int, scale: int = 1, multiplier: float = 1):
         super().__init__(name, address, 1)
         self.scale = scale
         self.multiplier = multiplier
