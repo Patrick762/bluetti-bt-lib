@@ -1,7 +1,7 @@
 from typing import Any, List
 
 from ..registers import ReadableRegisters, WriteableRegister
-from ..fields import DeviceField, EnumField, BoolField
+from ..fields import DeviceField, EnumField, BoolField, SwitchField, SelectField
 
 
 class BluettiDevice:
@@ -59,3 +59,21 @@ class BluettiDevice:
             value = 1 if value else 0
 
         return WriteableRegister(field.address, value)
+
+    def get_bool_fields(self):
+        return [f for f in self.fields if isinstance(f, BoolField)]
+
+    def get_switch_fields(self):
+        return [f for f in self.fields if isinstance(f, SwitchField)]
+
+    def get_select_fields(self):
+        return [f for f in self.fields if isinstance(f, SelectField)]
+
+    def get_sensor_fields(self):
+        return [
+            f
+            for f in self.fields
+            if not isinstance(f, BoolField)
+            and not isinstance(f, SwitchField)
+            and not isinstance(f, SelectField)
+        ]

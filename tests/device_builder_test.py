@@ -1,7 +1,7 @@
 import unittest
 
-from src.utils.device_builder import build_device
-from src.devices import DEVICES
+from bluetti_bt_lib.utils.device_builder import build_device
+from bluetti_bt_lib.devices import DEVICES
 
 
 class TestDeviceBuilder(unittest.TestCase):

@@ -4,6 +4,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY tests ./tests
-COPY src ./src
+COPY bluetti_bt_lib ./bluetti_bt_lib
 
 RUN python3 -m unittest discover -s tests -p "*_test.py"
