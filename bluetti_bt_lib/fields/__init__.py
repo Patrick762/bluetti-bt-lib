@@ -8,6 +8,7 @@ from .DecimalArrayField import *
 from .EnumField import *
 from .IntField import *
 from .SelectField import *
+from .SerialNumberField import *
 from .StringField import *
 from .SwapStringField import *
 from .SwitchField import *

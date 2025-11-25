@@ -21,8 +21,8 @@ async def async_detect_device(address: str):
 
     print()
     print(
-        "Device type is '{}' with iot version {}".format(
-            recognized.name, recognized.iot_version
+        "Device type is '{}' with iot version {} and serial {}".format(
+            recognized.name, recognized.iot_version, recognized.sn
         )
     )
     if recognized.encrypted:

@@ -30,6 +30,7 @@ class FieldName(Enum):
     DC_OUTPUT_ON = "dc_output_on"
     DC_OUTPUT_POWER = "dc_output_power"
     DEVICE_TYPE = "device_type"
+    DEVICE_SN = "device_sn"
     GRID_FREQUENCY = "grid_frequency"
     GRID_P1_CURRENT = "grid_p1_current"
     GRID_P1_POWER = "grid_p1_power"

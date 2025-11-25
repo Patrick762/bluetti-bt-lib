@@ -2,7 +2,7 @@ from typing import List
 
 from . import BluettiDevice
 from ..fields import DeviceField
-from ..fields import FieldName, StringField, UIntField
+from ..fields import FieldName, StringField, UIntField, SerialNumberField
 from ..registers import ReadableRegisters
 
 
@@ -11,6 +11,7 @@ class BaseDeviceV1(BluettiDevice):
         super().__init__(
             [
                 StringField(FieldName.DEVICE_TYPE, 10, 6),
+                SerialNumberField(FieldName.DEVICE_SN, 17),
                 UIntField(FieldName.BATTERY_SOC, 43),
                 UIntField(FieldName.DC_INPUT_POWER, 36),
                 UIntField(FieldName.AC_INPUT_POWER, 37),
@@ -23,6 +24,11 @@ class BaseDeviceV1(BluettiDevice):
     def get_device_type_registers(self) -> List[ReadableRegisters]:
         return [
             ReadableRegisters(10, 6),
+        ]
+
+    def get_device_sn_registers(self) -> List[ReadableRegisters]:
+        return [
+            ReadableRegisters(17, 4),
         ]
 
     def get_iot_version(self) -> int:

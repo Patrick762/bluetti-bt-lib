@@ -25,6 +25,9 @@ class BluettiDevice:
     def get_device_type_registers(self) -> List[ReadableRegisters]:
         raise NotImplementedError
 
+    def get_device_sn_registers(self) -> List[ReadableRegisters]:
+        raise NotImplementedError
+
     def get_iot_version(self) -> int:
         raise NotImplementedError
 

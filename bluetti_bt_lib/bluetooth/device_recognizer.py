@@ -3,6 +3,7 @@ import logging
 from typing import Any, Callable, List
 from bleak import BleakClient
 
+from ..fields import FieldName
 from ..base_devices import BluettiDevice, BaseDeviceV1, BaseDeviceV2
 from ..bluetooth import DeviceReader, DeviceReaderConfig
 
@@ -10,10 +11,14 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class DeviceRecognizerResult:
-    def __init__(self, name: str, iot_version: int, encrypted: bool):
+    def __init__(
+        self, name: str, iot_version: int, encrypted: bool, sn: str | None = None
+    ):
         self.name = name
         self.iot_version = iot_version
         self.encrypted = encrypted
+        self.sn = sn
+        self.full_name = name + sn
 
 
 async def recognize_device(
@@ -54,29 +59,53 @@ async def recognize_device(
             )
 
             if data is None:
-                # Should not happen
                 continue
 
-            field_data = data.get("device_type")
+            type_data = data.get(FieldName.DEVICE_TYPE.value)
 
-            if field_data is None:
+            if type_data is None:
                 # We have a problem
-                _LOGGER.error("No data in device type field_data")
+                _LOGGER.error("No data in device type type_data")
                 continue
 
-            if not isinstance(field_data, str):
+            if not isinstance(type_data, str):
                 # We have a problem
-                _LOGGER.error("Invalid data in device type field_data")
+                _LOGGER.error("Invalid data in device type type_data")
                 continue
 
-            if field_data == "":
+            if type_data == "":
                 # Empty string is not a valid device type
                 continue
 
+            data = await device_reader.read(
+                bluetti_device.get_device_sn_registers(),
+            )
+
+            if data is None:
+                # Should never happen
+                return DeviceRecognizerResult(
+                    type_data,
+                    bluetti_device.get_iot_version(),
+                    device_reader.config.use_encryption,
+                    "000000000000",  # Use dummy SN
+                )
+
+            sn_data = data.get(FieldName.DEVICE_SN.value)
+
+            if isinstance(sn_data, str) or sn_data == "":
+                # Should never happen
+                return DeviceRecognizerResult(
+                    type_data,
+                    bluetti_device.get_iot_version(),
+                    device_reader.config.use_encryption,
+                    "000000000000",  # Use dummy SN
+                )
+
             return DeviceRecognizerResult(
-                field_data,
+                type_data,
                 bluetti_device.get_iot_version(),
                 device_reader.config.use_encryption,
+                sn_data,
             )
 
     return None
