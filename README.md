@@ -159,3 +159,5 @@ options:
   -e ENCRYPTION, --encryption ENCRYPTION
                         Add this if encryption is needed
 ```
+
+With the separate tool at [bluetti-bt-raw-reader](https://github.com/Patrick762/bluetti-bt-raw-reader) you can view those values in a more understandable way.
