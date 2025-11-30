@@ -23,6 +23,8 @@ class FieldName(Enum):
     CTRL_AC = "ctrl_ac"
     CTRL_CHARGING_MODE = "ctrl_charging_mode"
     CTRL_DC = "ctrl_dc"
+    CTRL_ECO = "ctrl_eco"
+    CTRL_ECO_TIME_MODE = "ctrl_eco_time_mode"
     CTRL_LED_MODE = "ctrl_led_mode"
     CTRL_POWER_LIFTING = "ctrl_power_lifting"
     CTRL_POWER_OFF = "ctrl_power_off"
