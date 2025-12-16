@@ -1,5 +1,5 @@
 from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField, SwitchField
+from ..fields import FieldName, UIntField, DecimalField
 
 
 class AC70(BaseDeviceV2):
