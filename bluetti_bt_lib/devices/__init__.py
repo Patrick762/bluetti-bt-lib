@@ -7,6 +7,7 @@ from .ac70 import AC70
 from .ac70p import AC70P
 from .ac180 import AC180
 from .ac180p import AC180P
+from .ac180t import AC180T
 from .ac200l import AC200L
 from .ac200m import AC200M
 from .ac200pl import AC200PL
@@ -29,6 +30,7 @@ DEVICES = {
     "AC70": AC70,
     "AC70P": AC70P,
     "AC180": AC180,
+    "AC180T": AC180T,
     "AC180P": AC180P,
     "AC200L": AC200L,
     "AC200M": AC200M,
@@ -47,5 +49,5 @@ DEVICES = {
 
 # Prefixes of all currently supported devices
 DEVICE_NAME_RE = re.compile(
-    r"^(AC2A|AC60|AC60P|AC70|AC70P|AC180|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL100V2|EP500|EP500P|EP600|EP760|EP800|Handsfree\s1)(\d+)$"
+    r"^(AC2A|AC60|AC60P|AC70|AC70P|AC180|AC180T|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL100V2|EP500|EP500P|EP600|EP760|EP800|Handsfree\s1)(\d+)$"
 )
