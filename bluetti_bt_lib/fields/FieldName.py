@@ -70,3 +70,4 @@ class FieldName(Enum):
     SM_P3_CURRENT = "sm_p3_current"
     SM_P3_POWER = "sm_p3_power"
     SM_P3_VOLTAGE = "sm_p3_voltage"
+    TIME_REMAINING = "time_remaining"
