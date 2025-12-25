@@ -6,4 +6,4 @@ class StringField(DeviceField):
         super().__init__(name, address, size)
 
     def parse(self, data: bytes) -> str:
-        return data.rstrip(b"\0").decode("ascii")
+        return data.rstrip(b"\0").decode("ascii", errors="ignore")
