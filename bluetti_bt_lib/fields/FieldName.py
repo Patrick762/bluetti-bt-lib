@@ -73,3 +73,5 @@ class FieldName(Enum):
     SM_P3_POWER = "sm_p3_power"
     SM_P3_VOLTAGE = "sm_p3_voltage"
     TIME_REMAINING = "time_remaining"
+    VER_ARM = "version_arm"
+    VER_DSP = "version_dsp"

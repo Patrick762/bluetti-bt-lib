@@ -1,5 +1,5 @@
 from ..base_devices import BaseDeviceV1
-from ..fields import FieldName, SwitchField, SelectField
+from ..fields import FieldName, SwitchField, SelectField, VersionField
 from ..enums import EcoMode, LedMode, ChargingMode
 
 
@@ -7,6 +7,8 @@ class EB3A(BaseDeviceV1):
     def __init__(self):
         super().__init__(
             [
+                VersionField(FieldName.VER_ARM, 23),
+                VersionField(FieldName.VER_DSP, 25),
                 SwitchField(FieldName.CTRL_AC, 3007),
                 SwitchField(FieldName.CTRL_DC, 3008),
                 SelectField(FieldName.CTRL_LED_MODE, 3034, LedMode),

@@ -41,6 +41,7 @@ setup(
             "bluetti-read = bluetti_bt_lib.scripts.bluetti_read:start",
             "bluetti-readall = bluetti_bt_lib.scripts.bluetti_readall:start",
             "bluetti-write = bluetti_bt_lib.scripts.bluetti_write:start",
+            "bluetti-parse = bluetti_bt_lib.scripts.bluetti_parse:start",
         ],
     },
     classifiers=[

@@ -3,9 +3,9 @@ import asyncio
 import json
 import logging
 
-from ..registers import ReadableRegisters
 from ..bluetooth.device_reader import DeviceReader, DeviceReaderConfig
 from ..base_devices import BaseDeviceV1, BaseDeviceV2
+from .types import ReadallData
 
 
 async def async_read_device(address: str, iot_version: int, encryption: bool):
@@ -41,15 +41,15 @@ async def async_read_device(address: str, iot_version: int, encryption: bool):
     for key, value in data.items():
         register_data[key] = value.hex()
 
-    data_obj = {
-        "mac": address,
-        "iotVersion": iot_version,
-        "encryption": encryption,
-        "registers": register_data,
-    }
+    data_obj = ReadallData(
+        address,
+        iot_version,
+        encryption,
+        register_data,
+    )
 
-    with open("bluetti_data.{}.json".format(address.replace(":", "-")), "w") as f:
-        json.dump(data_obj, f)
+    with open(f"bluetti_data.{address.replace(':', '-')}.json", "w") as f:
+        json.dump(data_obj.toJSON(), f)
 
 
 def start():

@@ -34,7 +34,7 @@ async def async_read_device(address: str, type: str, encryption: bool):
     for key, value in data.items():
         key = FieldName(key)
         unit = get_unit(key)
-        print("{}: {}{}".format(key, value, "" if unit is None else unit))
+        print(f"{key}: {value}" + ("" if unit is None else unit))
 
 
 def start():
