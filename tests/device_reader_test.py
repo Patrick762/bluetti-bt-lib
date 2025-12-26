@@ -11,7 +11,7 @@ from bluetti_bt_lib.bluetooth import DeviceReader, DeviceReaderConfig
 from tests.bluetti_test_device import BluettiTestDevice
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
-LOGGER_NAME = "bluetti_bt_lib.bluetooth.device_reader"
+LOGGER_NAME = "bluetti_bt_lib.bluetooth.device_reader.XX_XX_XX_XX_XX_testdevice"
 
 
 class DeviceFixture(TypedDict):
