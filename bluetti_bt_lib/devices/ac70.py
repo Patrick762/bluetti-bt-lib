@@ -1,5 +1,6 @@
 from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField
+from ..enums import ChargingMode, EcoMode
+from ..fields import FieldName, UIntField, DecimalField, SwitchField, SelectField
 
 
 class AC70(BaseDeviceV2):
@@ -18,5 +19,15 @@ class AC70(BaseDeviceV2):
                 DecimalField(FieldName.AC_INPUT_CURRENT, 1315, 1),
                 DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 1500, 1),
                 DecimalField(FieldName.AC_OUTPUT_VOLTAGE, 1511, 1),
+                SwitchField(FieldName.CTRL_AC, 2011),
+                SwitchField(FieldName.CTRL_DC, 2012),
+                SwitchField(FieldName.CTRL_ECO_DC, 2014),
+                SelectField(FieldName.CTRL_ECO_TIME_MODE_DC, 2015, EcoMode),
+                UIntField(FieldName.CTRL_ECO_MIN_POWER_DC, 2016),  # Not controlable
+                SwitchField(FieldName.CTRL_ECO_AC, 2017),
+                SelectField(FieldName.CTRL_ECO_TIME_MODE_AC, 2018, EcoMode),
+                UIntField(FieldName.CTRL_ECO_MIN_POWER_AC, 2019),  # Not controlable
+                SelectField(FieldName.CTRL_CHARGING_MODE, 2020, ChargingMode),
+                SwitchField(FieldName.CTRL_POWER_LIFTING, 2021),
             ],
         )
