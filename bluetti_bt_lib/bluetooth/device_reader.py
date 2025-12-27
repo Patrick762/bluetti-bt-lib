@@ -2,7 +2,7 @@ import asyncio
 import logging
 import async_timeout
 from typing import Any, Callable, List, cast
-from bleak import BleakScanner
+from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakError
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
 
@@ -27,12 +27,16 @@ class DeviceReader:
         future_builder_method: Callable[[], asyncio.Future[Any]],
         config: DeviceReaderConfig = DeviceReaderConfig(),
         lock: asyncio.Lock = asyncio.Lock(),
+        ble_client: BleakClient | None = None,
     ):
         self.mac = mac
         self.bluetti_device = bluetti_device
         self.create_future = future_builder_method
         self.config = config
         self.polling_lock = lock
+
+        self.ble_client = ble_client
+        """Used for unittests"""
 
         self.logger = logging.getLogger(
             f"{__name__}.{mac_loggable(mac).replace(':', '_')}"
@@ -64,22 +68,29 @@ class DeviceReader:
             try:
                 async with async_timeout.timeout(self.config.timeout):
                     self.logger.debug("Searching for device")
-                    self.device = await BleakScanner.find_device_by_address(
-                        self.mac, timeout=5
-                    )
 
-                    if self.device is None:
-                        self.logger.error("Device not found")
-                        return
+                    if self.ble_client:
+                        self.device = None
+                    else:
+                        self.device = await BleakScanner.find_device_by_address(
+                            self.mac, timeout=5
+                        )
+
+                        if self.device is None:
+                            self.logger.error("Device not found")
+                            return
 
                     self.logger.debug("Connecting to device")
 
-                    self.client = await establish_connection(
-                        BleakClientWithServiceCache,
-                        self.device,
-                        self.device.name or "Unknown Device",
-                        max_attempts=10,
-                    )
+                    if self.ble_client:
+                        self.client = self.ble_client
+                    else:
+                        self.client = await establish_connection(
+                            BleakClientWithServiceCache,
+                            self.device,
+                            self.device.name or "Unknown Device",
+                            max_attempts=10,
+                        )
 
                     self.logger.debug("Connected to device")
 
