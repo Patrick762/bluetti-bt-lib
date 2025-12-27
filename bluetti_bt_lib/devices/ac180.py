@@ -1,6 +1,13 @@
 from ..base_devices import BaseDeviceV2
 from ..enums import ChargingMode, EcoMode
-from ..fields import FieldName, UIntField, DecimalField, SwitchField, SelectField
+from ..fields import (
+    FieldName,
+    UIntField,
+    DecimalField,
+    SwitchField,
+    SelectField,
+    VersionField,
+)
 
 
 class AC180(BaseDeviceV2):
@@ -31,5 +38,6 @@ class AC180(BaseDeviceV2):
                 # Display timeout (?)
                 # AC frequency (?)
                 # Grid stabilizing (?)
+                VersionField(FieldName.PACK_VER_BMS, 6175),
             ],
         )

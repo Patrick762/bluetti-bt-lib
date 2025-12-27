@@ -1,6 +1,13 @@
 from ..base_devices import BaseDeviceV2
 from ..enums import ChargingMode, EcoMode
-from ..fields import FieldName, UIntField, DecimalField, SwitchField, SelectField
+from ..fields import (
+    FieldName,
+    UIntField,
+    DecimalField,
+    SwitchField,
+    SelectField,
+    VersionField,
+)
 
 
 class AC70(BaseDeviceV2):
@@ -29,5 +36,6 @@ class AC70(BaseDeviceV2):
                 UIntField(FieldName.CTRL_ECO_MIN_POWER_AC, 2019),  # Not controlable
                 SelectField(FieldName.CTRL_CHARGING_MODE, 2020, ChargingMode),
                 SwitchField(FieldName.CTRL_POWER_LIFTING, 2021),
+                VersionField(FieldName.PACK_VER_BMS, 6175),
             ],
         )
