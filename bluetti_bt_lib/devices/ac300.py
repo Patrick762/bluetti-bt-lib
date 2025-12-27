@@ -31,7 +31,7 @@ class AC300(BaseDeviceV1):
                 SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
             ],
             [
-                DecimalField(FieldName.PACK_BATTERY_SOC, 99),
+                UIntField(FieldName.PACK_BATTERY_SOC, 99),
                 VersionField(FieldName.PACK_VER_BMS, 201),
             ],
             max_packs=2,
