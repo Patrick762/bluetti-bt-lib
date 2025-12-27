@@ -1,7 +1,6 @@
 name: Unittests
 on:
   push:
-  pull_request:
 
 jobs:
   test:
