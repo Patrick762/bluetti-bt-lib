@@ -52,9 +52,11 @@ class DeviceReader:
     ) -> dict | None:
 
         registers = self.bluetti_device.get_polling_registers()
+        pack_registers = self.bluetti_device.get_pack_polling_registers()
 
         if only_registers is not None:
             registers = only_registers
+            pack_registers = []
 
         parsed_data: dict = {}
 
@@ -118,6 +120,32 @@ class DeviceReader:
                         self.logger.debug("Parsed data: %s", parsed)
 
                         parsed_data.update(parsed)
+
+                    for pack in range(self.bluetti_device.max_packs):
+                        # TODO set pack num
+
+                        for register in pack_registers:
+                            body = register.parse_response(
+                                await self._async_send_command(register)
+                            )
+
+                            self.logger.debug("Raw data: %s", body)
+
+                            if raw:
+                                d = {}
+                                d[register.starting_address] = body
+                                parsed_data.update(d)
+                                continue
+
+                            parsed = self.bluetti_device.parse(
+                                register.starting_address,
+                                body,
+                                pack_num=pack,
+                            )
+
+                            self.logger.debug("Parsed data: %s", parsed)
+
+                            parsed_data.update(parsed)
 
             except TimeoutError:
                 self.logger.warning("Timeout")
