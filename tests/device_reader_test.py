@@ -8,7 +8,7 @@ from bluetti_bt_lib.utils.bleak_client_mock import ClientMockNoEncryption
 
 
 class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
-    def __init__(self, methodName = "runTest"):
+    def __init__(self, methodName="runTest"):
         super().__init__(methodName)
         self.ble_mock = ClientMockNoEncryption()
 
@@ -27,7 +27,7 @@ class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
         # SOC
         self.ble_mock.r_int(43, 78)
 
-    async def test_read(self):
+    async def test_read_all_correct(self):
         device = BaseDeviceV1()
         reader = DeviceReader(
             "00:11:00:11:00:11",
@@ -45,3 +45,19 @@ class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(data.get(FieldName.AC_OUTPUT_POWER.value), 9)
         self.assertEqual(data.get(FieldName.DC_OUTPUT_POWER.value), 7)
         self.assertEqual(data.get(FieldName.BATTERY_SOC.value), 78)
+
+    async def test_read_soc_wrong(self):
+        # SOC
+        self.ble_mock.r_int(43, 1234)
+
+        device = BaseDeviceV1()
+        reader = DeviceReader(
+            "00:11:00:11:00:11",
+            device,
+            asyncio.Future,
+            ble_client=self.ble_mock,
+        )
+
+        data = await reader.read()
+
+        self.assertIsNone(data.get(FieldName.BATTERY_SOC.value))

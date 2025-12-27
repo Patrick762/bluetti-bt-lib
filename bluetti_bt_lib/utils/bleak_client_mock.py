@@ -22,20 +22,22 @@ class BleakClientMock:
         self._bytemap: bytearray = bytearray(8000)
 
     def r_int(self, register: int, value: int):
-        real = register*2
-        self._bytemap[real:real*2] = struct.pack("!H", value)
-    
+        real = register * 2
+        self._bytemap[real : real * 2] = struct.pack("!H", value)
+
     def r_str(self, register: int, value: str, max_size: int):
-        real = register*2
-        self._bytemap[real:(real+max_size)*2] = struct.pack(f"!{max_size}s", value.encode("ascii"))
+        real = register * 2
+        self._bytemap[real : (real + max_size) * 2] = struct.pack(
+            f"!{max_size}s", value.encode("ascii")
+        )
 
     def r_sn(self, register: int, value: int):
-        real = register*2
+        real = register * 2
         part4 = value & 0xFFFF
         part3 = (value >> 16) & 0xFFFF
         part2 = (value >> 32) & 0xFFFF
         part1 = (value >> 48) & 0xFFFF
-        self._bytemap[real:real+8] = struct.pack("!4H", part4, part3, part2, part1)
+        self._bytemap[real : real + 8] = struct.pack("!4H", part4, part3, part2, part1)
 
     async def start_notify(
         self,
@@ -67,7 +69,7 @@ class BleakClientMock:
         await self._callback(char_specifier, content)
 
     async def _get_register(self, addr: int, size: int):
-        data = self._bytemap[(addr*2):(addr*2+size*2)]
+        data = self._bytemap[(addr * 2) : (addr * 2 + size * 2)]
         response = bytearray(len(data) + 4)
         response[0] = 0
         response[1] = 0
@@ -75,6 +77,7 @@ class BleakClientMock:
         response[3:-2] = data
         struct.pack_into("<H", response, -2, modbus_crc(response[:-2]))
         return response
+
 
 class ClientMockNoEncryption(BleakClientMock):
     """Mock for unencrypted devices"""
