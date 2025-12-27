@@ -132,7 +132,7 @@ class DeviceReader:
 
                         parsed_data.update(parsed)
 
-                    for pack in range(self.bluetti_device.max_packs):
+                    for pack in range(1, self.bluetti_device.max_packs + 1):
                         body = register.parse_response(
                             await self._async_send_command(
                                 self.bluetti_device.get_pack_selector(pack),
