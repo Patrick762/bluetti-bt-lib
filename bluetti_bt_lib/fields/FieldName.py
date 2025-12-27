@@ -88,9 +88,11 @@ class FieldName(Enum):
     VER_DSP = "version_dsp"
 
     # Battery pack fields will get a prefix from the reader
-    PACK_TYPE = "type"
+    PACK_BATTERY_SOC = "battery_soc"
     PACK_SN = "sn"
+    PACK_TYPE = "type"
     PACK_VER_BCU = "version_bcu"
+    PACK_VER_BMS = "version_bms"
     PACK_VER_BMU = "version_bmu"
     PACK_VER_SAFETY_MOD = "version_safety_module"
     PACK_VER_HV_MOD = "version_hv_module"
