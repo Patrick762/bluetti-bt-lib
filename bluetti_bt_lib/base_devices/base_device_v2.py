@@ -42,5 +42,4 @@ class BaseDeviceV2(BluettiDevice):
 
     def get_pack_selector(self, pack: int) -> WriteableRegister:
         # TODO
-        # raise NotImplementedError
-        return WriteableRegister(3001, pack)
+        raise NotImplementedError
