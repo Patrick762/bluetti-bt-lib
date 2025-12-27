@@ -32,7 +32,7 @@ async def async_read_device(address: str, type: str, encryption: bool):
 
     print()
     for key, value in data.items():
-        key = FieldName(key)
+        key = FieldName(key) if key in FieldName else key
         unit = get_unit(key)
         print(f"{key}: {value}" + ("" if unit is None else unit))
 

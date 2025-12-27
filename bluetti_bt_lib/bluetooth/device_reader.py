@@ -122,7 +122,10 @@ class DeviceReader:
                         parsed_data.update(parsed)
 
                     for pack in range(self.bluetti_device.max_packs):
-                        # TODO set pack num
+                        await self.client.write_gatt_char(
+                            WRITE_UUID,
+                            bytes(self.bluetti_device.get_pack_selector(pack)),
+                        )
 
                         for register in pack_registers:
                             body = register.parse_response(
