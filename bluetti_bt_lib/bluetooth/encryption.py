@@ -1,3 +1,7 @@
+"""
+Encryption based on https://github.com/nhurman/bluetti_mqtt/blob/b746f17c1f6cdf051ba59ab4b0c0262066b25aa5/bluetti_mqtt/bluetooth/encryption.py
+"""
+
 from enum import Enum
 import hashlib
 import logging

@@ -1,5 +1,5 @@
 from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField, IntField
+from ..fields import FieldName, UIntField, DecimalField, IntField, SwapStringField, SerialNumberField, VersionField, SwitchField
 
 
 class EP600(BaseDeviceV2):
@@ -42,7 +42,17 @@ class EP600(BaseDeviceV2):
                 IntField(FieldName.AC_P3_POWER, 1524),
                 DecimalField(FieldName.AC_P3_VOLTAGE, 1525, 1),
                 DecimalField(FieldName.AC_P3_CURRENT, 1526, 1),
+                SwitchField(FieldName.CTRL_AC, 2011),
                 IntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
                 IntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
             ],
+            [
+                SwapStringField(FieldName.PACK_TYPE, 6101, 6),
+                SerialNumberField(FieldName.PACK_SN, 6107),
+                VersionField(FieldName.PACK_VER_BCU, 6175),
+                VersionField(FieldName.PACK_VER_BMU, 6178),
+                VersionField(FieldName.PACK_VER_SAFETY_MOD, 6181),
+                VersionField(FieldName.PACK_VER_HV_MOD, 6184),
+            ],
+            max_packs=2,
         )

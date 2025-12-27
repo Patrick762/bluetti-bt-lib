@@ -3,11 +3,16 @@ from typing import List
 from . import BluettiDevice
 from ..fields import DeviceField
 from ..fields import FieldName, StringField, UIntField, SerialNumberField
-from ..registers import ReadableRegisters
+from ..registers import ReadableRegisters, WriteableRegister
 
 
 class BaseDeviceV1(BluettiDevice):
-    def __init__(self, additional_fields: List[DeviceField] = []):
+    def __init__(
+        self,
+        additional_fields: List[DeviceField] = [],
+        pack_fields: List[DeviceField] = [],
+        max_packs: int = 0,
+    ):
         super().__init__(
             [
                 StringField(FieldName.DEVICE_TYPE, 10, 6),
@@ -19,6 +24,8 @@ class BaseDeviceV1(BluettiDevice):
                 UIntField(FieldName.DC_OUTPUT_POWER, 39),
             ]
             + additional_fields,
+            pack_fields,
+            max_packs,
         )
 
     def get_full_registers_range(self) -> List[ReadableRegisters]:
@@ -36,3 +43,6 @@ class BaseDeviceV1(BluettiDevice):
 
     def get_iot_version(self) -> int:
         return 1
+
+    def get_pack_selector(self, pack: int) -> WriteableRegister:
+        return WriteableRegister(3006, pack)

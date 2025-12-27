@@ -27,7 +27,7 @@ async def async_parse_file(filename: str):
 
     addr = 1
     for r in registers:
-        parsed.update(device.parse(addr, r))
+        parsed.update(device.parse(addr, r, 0))
         addr += 50
 
     device_type = parsed.get(FieldName.DEVICE_TYPE.value)
