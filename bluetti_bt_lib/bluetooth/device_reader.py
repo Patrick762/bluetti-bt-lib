@@ -9,7 +9,7 @@ from bleak_retry_connector import BleakClientWithServiceCache, establish_connect
 from .encryption import BluettiEncryption, Message, MessageType
 from ..base_devices import BluettiDevice
 from ..const import NOTIFY_UUID, WRITE_UUID
-from ..registers import ReadableRegisters
+from ..registers import ReadableRegisters, DeviceRegister
 from ..utils.privacy import mac_loggable
 
 
@@ -133,9 +133,10 @@ class DeviceReader:
                         parsed_data.update(parsed)
 
                     for pack in range(self.bluetti_device.max_packs):
-                        await self.client.write_gatt_char(
-                            WRITE_UUID,
-                            bytes(self.bluetti_device.get_pack_selector(pack)),
+                        body = register.parse_response(
+                            await self._async_send_command(
+                                self.bluetti_device.get_pack_selector(pack),
+                            )
                         )
 
                         for register in pack_registers:
@@ -192,7 +193,7 @@ class DeviceReader:
 
             return parsed_data
 
-    async def _async_send_command(self, registers: ReadableRegisters) -> bytes:
+    async def _async_send_command(self, registers: DeviceRegister) -> bytes:
         """Send command and return response"""
         self.current_registers = registers
         self.notify_response = bytearray()
