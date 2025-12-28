@@ -6,7 +6,6 @@ from .BoolField import *
 from .DecimalArrayField import *
 from .DecimalField import *
 from .EnumField import *
-from .IntField import *
 from .SelectField import *
 from .SerialNumberField import *
 from .StringField import *

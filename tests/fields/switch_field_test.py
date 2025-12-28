@@ -17,3 +17,12 @@ class TestSwitchField(unittest.TestCase):
     def test_parse_invalid(self):
         result = self.field.parse(b"\x00\x05")
         self.assertIsNone(result)
+
+    def test_is_writeable(self):
+        self.assertTrue(self.field.is_writeable())
+
+    def test_allowed_write_type(self):
+        self.assertTrue(self.field.allowed_write_type(True))
+        self.assertTrue(self.field.allowed_write_type(False))
+        self.assertFalse(self.field.allowed_write_type(1))
+        self.assertFalse(self.field.allowed_write_type("true"))
