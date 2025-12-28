@@ -9,10 +9,14 @@ E = TypeVar("E", bound=Enum)
 
 
 class EnumField(DeviceField):
-    def __init__(self, name: FieldName, address: int, enum: Type[E]):
+    def __init__(self, name: FieldName, address: int, e: Type[E]):
         super().__init__(name, address, 1)
-        self.enum = enum
+        self.e = e
 
     def parse(self, data: bytes) -> E | None:
         val = struct.unpack("!H", data)[0]
-        return self.enum(val)
+
+        if val not in [e.value for e in self.e]:
+            return None
+
+        return self.e(val)

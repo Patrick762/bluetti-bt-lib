@@ -17,3 +17,6 @@ class TestBoolField(unittest.TestCase):
     def test_parse_invalid(self):
         result = self.field.parse(b"\x00\x05")
         self.assertIsNone(result)
+
+    def test_is_writeable(self):
+        self.assertFalse(self.field.is_writeable())

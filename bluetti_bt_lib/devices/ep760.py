@@ -1,5 +1,5 @@
 from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField, IntField
+from ..fields import FieldName, UIntField, DecimalField
 
 
 class EP760(BaseDeviceV2):
@@ -20,7 +20,7 @@ class EP760(BaseDeviceV2):
                 DecimalField(FieldName.GRID_P1_VOLTAGE, 1314, 1),
                 DecimalField(FieldName.GRID_P1_CURRENT, 1315, 1),
                 DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 1500, 1),
-                IntField(FieldName.AC_P1_POWER, 1510),
+                UIntField(FieldName.AC_P1_POWER, 1510),
                 DecimalField(FieldName.AC_P1_VOLTAGE, 1511, 1),
                 DecimalField(FieldName.AC_P1_CURRENT, 1512, 1),
             ],
