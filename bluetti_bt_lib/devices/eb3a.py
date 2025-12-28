@@ -17,7 +17,7 @@ class EB3A(BaseDeviceV1):
                 VersionField(FieldName.VER_ARM, 23),
                 VersionField(FieldName.VER_DSP, 25),
                 DecimalField(FieldName.AC_INPUT_VOLTAGE, 77, 1),
-                UIntField(FieldName.DC_INPUT_VOLTAGE, 86, 0.01),
+                DecimalField(FieldName.DC_INPUT_VOLTAGE, 86, 2),
                 SwitchField(FieldName.CTRL_AC, 3007),
                 SwitchField(FieldName.CTRL_DC, 3008),
                 SelectField(FieldName.CTRL_LED_MODE, 3034, LedMode),

@@ -19,7 +19,7 @@ class AC500(BaseDeviceV1):
                 DecimalField(FieldName.INTERNAL_AC_FREQUENCY, 74, 2, 10),
                 DecimalField(FieldName.AC_INPUT_VOLTAGE, 77, 1),
                 DecimalField(FieldName.AC_INPUT_FREQUENCY, 80, 2),
-                UIntField(FieldName.PV_S1_VOLTAGE, 86, 0.1),
+                DecimalField(FieldName.PV_S1_VOLTAGE, 86, 1),
                 DecimalField(FieldName.PV_S1_POWER, 87, 1, 10),
                 DecimalField(FieldName.PV_S1_CURRENT, 88, 2, 10),
                 SelectField(FieldName.CTRL_UPS_MODE, 3001, UpsMode),

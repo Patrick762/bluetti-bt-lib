@@ -1,6 +1,6 @@
 from ..base_devices import BaseDeviceV2
 from ..enums import ChargingMode
-from ..fields import FieldName, UIntField, SwitchField, SelectField
+from ..fields import FieldName, UIntField, SwitchField, SelectField, DecimalField
 
 
 class AC180P(BaseDeviceV2):
@@ -11,7 +11,7 @@ class AC180P(BaseDeviceV2):
                 UIntField(FieldName.AC_OUTPUT_POWER, 142),
                 UIntField(FieldName.DC_INPUT_POWER, 144),
                 UIntField(FieldName.AC_INPUT_POWER, 146),
-                UIntField(FieldName.AC_INPUT_VOLTAGE, 1314, 0.1),
+                DecimalField(FieldName.AC_INPUT_VOLTAGE, 1314, 1),
                 SwitchField(FieldName.CTRL_AC, 2011),
                 SwitchField(FieldName.CTRL_DC, 2012),
                 SelectField(FieldName.CTRL_CHARGING_MODE, 2020, ChargingMode),
