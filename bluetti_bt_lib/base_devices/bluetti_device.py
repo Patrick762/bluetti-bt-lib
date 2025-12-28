@@ -10,7 +10,6 @@ class BluettiDevice:
         fields: List[DeviceField],
         pack_fields: List[DeviceField] = [],
         max_packs: int = 0,
-        tolerance: int = 20,
     ):
         self.fields = fields
         self.pack_fields = pack_fields
@@ -22,13 +21,8 @@ class BluettiDevice:
         self.polling_registers: List[ReadableRegisters] = []
         self.pack_polling_registers: List[ReadableRegisters] = []
 
-        # Optimize amount of registers to separately request
-        group = ReadableRegisters(self.fields[0].address, tolerance)
-        self.polling_registers.append(group)
         for f in self.fields:
-            if f.address + f.size < group.starting_address + tolerance:
-                continue
-            group = ReadableRegisters(f.address, tolerance)
+            group = ReadableRegisters(f.address, f.size)
             self.polling_registers.append(group)
 
         # Check if we even have battery pack fields defined
@@ -36,12 +30,8 @@ class BluettiDevice:
             return
 
         # Optimize amount of registers to separately request
-        group = ReadableRegisters(self.pack_fields[0].address, tolerance)
-        self.pack_polling_registers.append(group)
         for f in self.pack_fields:
-            if f.address + f.size < group.starting_address + tolerance:
-                continue
-            group = ReadableRegisters(f.address, tolerance)
+            group = ReadableRegisters(f.address, f.size)
             self.pack_polling_registers.append(group)
 
     def get_polling_registers(self) -> List[ReadableRegisters]:

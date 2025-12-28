@@ -16,4 +16,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run unittests
-      run: python3 -m unittest discover -s tests -p "*_test.py"
+      run: python3 -m unittest discover -s tests -p "*.py"
+    - name: Run field unittests
+      run: python3 -m unittest discover -s tests/fields -p "*.py
+    - name: Run device unittests
+      run: python3 -m unittest discover -s tests/devices -p "*.py"

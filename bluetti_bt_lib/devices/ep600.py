@@ -70,5 +70,5 @@ class EP600(BaseDeviceV2):
                 VersionField(FieldName.PACK_VER_SAFETY_MOD, 6181),
                 VersionField(FieldName.PACK_VER_HV_MOD, 6184),
             ],
-            max_packs=2,
+            # max_packs=2,
         )
