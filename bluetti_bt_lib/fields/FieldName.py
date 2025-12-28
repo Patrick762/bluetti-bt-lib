@@ -37,6 +37,7 @@ class FieldName(Enum):
     CTRL_ECO_TIME_MODE = "ctrl_eco_time_mode"
     CTRL_ECO_TIME_MODE_AC = "ctrl_eco_time_mode_ac"
     CTRL_ECO_TIME_MODE_DC = "ctrl_eco_time_mode_dc"
+    CTRL_GENERATOR = "ctrl_generator"
     CTRL_GRID_STABILIZING = "ctrl_grid_stabilizing"
     CTRL_LED_MODE = "ctrl_led_mode"
     CTRL_POWER_LIFTING = "ctrl_power_lifting"
@@ -52,6 +53,8 @@ class FieldName(Enum):
     DEVICE_TYPE = "device_type"
     DEVICE_SN = "device_sn"
     GRID_FREQUENCY = "grid_frequency"
+    GRID_FREQ_MAX_VALUE = "grid_frequency_max_value"
+    GRID_FREQ_MIN_VALUE = "grid_frequency_min_value"
     GRID_P1_CURRENT = "grid_p1_current"
     GRID_P1_POWER = "grid_p1_power"
     GRID_P1_VOLTAGE = "grid_p1_voltage"
@@ -61,6 +64,8 @@ class FieldName(Enum):
     GRID_P3_CURRENT = "grid_p3_current"
     GRID_P3_POWER = "grid_p3_power"
     GRID_P3_VOLTAGE = "grid_p3_voltage"
+    GRID_VOLT_MAX_VAL = "grid_voltage_max_value"
+    GRID_VOLT_MIN_VAL = "grid_voltage_min_value"
     INTERNAL_AC_FREQUENCY = "internal_ac_frequency"
     INTERNAL_AC_VOLTAGE = "internal_ac_voltage"
     INTERNAL_DC_INPUT_CURRENT = "internal_dc_input_current"
@@ -86,6 +91,7 @@ class FieldName(Enum):
     TIME_REMAINING = "time_remaining"
     VER_ARM = "version_arm"
     VER_DSP = "version_dsp"
+    WIFI_NAME = "wifi_name"
 
     # Battery pack fields will get a prefix from the reader
     PACK_BATTERY_SOC = "battery_soc"

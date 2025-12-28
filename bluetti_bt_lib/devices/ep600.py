@@ -8,6 +8,7 @@ from ..fields import (
     SerialNumberField,
     VersionField,
     SwitchField,
+    BoolField,
 )
 
 
@@ -54,6 +55,12 @@ class EP600(BaseDeviceV2):
                 SwitchField(FieldName.CTRL_AC, 2011),
                 IntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
                 IntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
+                BoolField(FieldName.CTRL_GENERATOR, 2246),
+                DecimalField(FieldName.GRID_VOLT_MIN_VAL, 2435, 1),
+                DecimalField(FieldName.GRID_VOLT_MAX_VAL, 2436, 1),
+                DecimalField(FieldName.GRID_FREQ_MIN_VALUE, 2437, 2),
+                DecimalField(FieldName.GRID_FREQ_MAX_VALUE, 2438, 2),
+                SwapStringField(FieldName.WIFI_NAME, 12002, 16),
             ],
             [
                 SwapStringField(FieldName.PACK_TYPE, 6101, 6),
