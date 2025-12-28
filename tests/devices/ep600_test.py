@@ -137,15 +137,15 @@ class TestEP600(unittest.IsolatedAsyncioTestCase):
 
         self.assertIsNotNone(data)
 
-        self.assertEqual(data.get(FieldName.POWER_GENERATION.value), Decimal('350.5'))
+        self.assertEqual(data.get(FieldName.POWER_GENERATION.value), Decimal("350.5"))
 
         self.assertEqual(data.get(FieldName.PV_S1_POWER.value), 1200)
-        self.assertEqual(data.get(FieldName.PV_S1_VOLTAGE.value), Decimal('45.0'))
-        self.assertEqual(data.get(FieldName.PV_S1_CURRENT.value), Decimal('26.6'))
+        self.assertEqual(data.get(FieldName.PV_S1_VOLTAGE.value), Decimal("45.0"))
+        self.assertEqual(data.get(FieldName.PV_S1_CURRENT.value), Decimal("26.6"))
 
         self.assertEqual(data.get(FieldName.PV_S2_POWER.value), 2300)
-        self.assertEqual(data.get(FieldName.PV_S2_VOLTAGE.value), Decimal('48.0'))
-        self.assertEqual(data.get(FieldName.PV_S2_CURRENT.value), Decimal('47.9'))
+        self.assertEqual(data.get(FieldName.PV_S2_VOLTAGE.value), Decimal("48.0"))
+        self.assertEqual(data.get(FieldName.PV_S2_CURRENT.value), Decimal("47.9"))
 
         self.assertEqual(data.get(FieldName.SM_P1_POWER.value), 0)
         self.assertEqual(data.get(FieldName.SM_P1_VOLTAGE.value), 0)
@@ -159,7 +159,7 @@ class TestEP600(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(data.get(FieldName.SM_P3_VOLTAGE.value), 0)
         self.assertEqual(data.get(FieldName.SM_P3_CURRENT.value), 0)
 
-        self.assertEqual(data.get(FieldName.GRID_FREQUENCY.value), Decimal('50.0'))
+        self.assertEqual(data.get(FieldName.GRID_FREQUENCY.value), Decimal("50.0"))
 
         self.assertEqual(data.get(FieldName.GRID_P1_POWER.value), 0)
         self.assertEqual(data.get(FieldName.GRID_P1_VOLTAGE.value), 0)
@@ -173,8 +173,8 @@ class TestEP600(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(data.get(FieldName.GRID_P3_VOLTAGE.value), 0)
         self.assertEqual(data.get(FieldName.GRID_P3_CURRENT.value), 0)
 
-        self.assertEqual(data.get(FieldName.AC_OUTPUT_FREQUENCY.value), Decimal('50.0'))
-        
+        self.assertEqual(data.get(FieldName.AC_OUTPUT_FREQUENCY.value), Decimal("50.0"))
+
         self.assertEqual(data.get(FieldName.AC_P1_POWER.value), 5)
         self.assertEqual(data.get(FieldName.AC_P1_VOLTAGE.value), 0)
         self.assertEqual(data.get(FieldName.AC_P1_CURRENT.value), 0)
@@ -194,14 +194,13 @@ class TestEP600(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(data.get(FieldName.CTRL_GENERATOR.value), False)
 
-        self.assertEqual(data.get(FieldName.GRID_VOLT_MIN_VAL.value), Decimal('20.0'))
-        self.assertEqual(data.get(FieldName.GRID_VOLT_MAX_VAL.value), Decimal('24.5'))
+        self.assertEqual(data.get(FieldName.GRID_VOLT_MIN_VAL.value), Decimal("20.0"))
+        self.assertEqual(data.get(FieldName.GRID_VOLT_MAX_VAL.value), Decimal("24.5"))
 
-        self.assertEqual(data.get(FieldName.GRID_FREQ_MIN_VALUE.value), Decimal('48'))
-        self.assertEqual(data.get(FieldName.GRID_FREQ_MAX_VALUE.value), Decimal('52'))
+        self.assertEqual(data.get(FieldName.GRID_FREQ_MIN_VALUE.value), Decimal("48"))
+        self.assertEqual(data.get(FieldName.GRID_FREQ_MAX_VALUE.value), Decimal("52"))
 
         self.assertEqual(data.get(FieldName.WIFI_NAME.value), "MyHomeSSID")
-
 
     async def test_ep600_invalid_bool(self):
         self.ble_mock.add_r_int(2011, 5)
