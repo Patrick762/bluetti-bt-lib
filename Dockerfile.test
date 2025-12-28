@@ -6,4 +6,6 @@ RUN pip install -r requirements.txt
 COPY tests ./tests
 COPY bluetti_bt_lib ./bluetti_bt_lib
 
-RUN python3 -m unittest discover -s tests -p "*_test.py"
+RUN python3 -m unittest discover -s tests -p "*.py"
+RUN python3 -m unittest discover -s tests/fields -p "*.py"
+RUN python3 -m unittest discover -s tests/devices -p "*.py"

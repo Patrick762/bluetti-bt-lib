@@ -13,19 +13,19 @@ class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
         self.ble_mock = ClientMockNoEncryption()
 
         # Device type
-        self.ble_mock.r_str(10, "AC300", 6)
+        self.ble_mock.add_r_str(10, "AC300", 6)
         # Serial
-        self.ble_mock.r_sn(17, 2300000000000)
+        self.ble_mock.add_r_sn(17, 2300000000000)
         # DC input power
-        self.ble_mock.r_int(36, 10)
+        self.ble_mock.add_r_int(36, 10)
         # AC input power
-        self.ble_mock.r_int(37, 8)
+        self.ble_mock.add_r_int(37, 8)
         # AC output power
-        self.ble_mock.r_int(38, 9)
+        self.ble_mock.add_r_int(38, 9)
         # AC output power
-        self.ble_mock.r_int(39, 7)
+        self.ble_mock.add_r_int(39, 7)
         # SOC
-        self.ble_mock.r_int(43, 78)
+        self.ble_mock.add_r_int(43, 78)
 
     async def test_read_all_correct(self):
         device = BaseDeviceV1()
@@ -48,7 +48,7 @@ class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
 
     async def test_read_soc_wrong(self):
         # SOC
-        self.ble_mock.r_int(43, 1234)
+        self.ble_mock.add_r_int(43, 1234)
 
         device = BaseDeviceV1()
         reader = DeviceReader(
