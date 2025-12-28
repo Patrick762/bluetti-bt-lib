@@ -1,5 +1,6 @@
 from enum import Enum, unique
 
+
 # TODO
 @unique
 class FrequencyMode(Enum):

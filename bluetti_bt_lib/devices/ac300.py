@@ -7,7 +7,7 @@ from ..fields import (
     SelectField,
     BoolField,
 )
-from ..enums import OutputMode, DisplayMode, UpsMode, SplitPhaseMode
+from ..enums import OutputMode, UpsMode, SplitPhaseMode
 
 
 class AC300(BaseDeviceV1):
@@ -27,7 +27,7 @@ class AC300(BaseDeviceV1):
                 EnumField(FieldName.CTRL_SPLIT_PHASE_MODE, 3005, SplitPhaseMode),
                 UIntField(FieldName.BATTERY_SOC_RANGE_START, 3015),
                 UIntField(FieldName.BATTERY_SOC_RANGE_END, 3016),
-                SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
+                # SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
             ],
             [
                 UIntField(FieldName.PACK_SELECTED, 96),

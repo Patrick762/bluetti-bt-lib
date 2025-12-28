@@ -1,6 +1,6 @@
 import struct
 from enum import Enum
-from typing import Any, Type, TypeVar
+from typing import Type, TypeVar
 
 from . import DeviceField, FieldName
 

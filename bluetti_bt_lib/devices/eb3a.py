@@ -5,7 +5,6 @@ from ..fields import (
     SelectField,
     VersionField,
     DecimalField,
-    UIntField,
 )
 from ..enums import EcoMode, LedMode, ChargingMode
 
