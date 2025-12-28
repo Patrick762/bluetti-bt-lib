@@ -139,6 +139,9 @@ class DeviceReader:
                             )
                         )
 
+                        # We need to wait for the powerstation to populate all registers
+                        await asyncio.sleep(3)
+
                         for register in pack_registers:
                             body = register.parse_response(
                                 await self._async_send_command(register)

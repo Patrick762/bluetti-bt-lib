@@ -3,6 +3,7 @@ from .FieldName import *
 from .FieldUnit import *
 
 from .BoolField import *
+from .DecimalArrayField import *
 from .DecimalField import *
 from .EnumField import *
 from .IntField import *

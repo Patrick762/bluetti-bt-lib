@@ -6,7 +6,6 @@ from ..fields import (
     UIntField,
     SelectField,
     BoolField,
-    VersionField,
 )
 from ..enums import OutputMode, DisplayMode, UpsMode, SplitPhaseMode
 
@@ -31,8 +30,11 @@ class AC300(BaseDeviceV1):
                 SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
             ],
             [
+                UIntField(FieldName.PACK_SELECTED, 96),
+                DecimalField(FieldName.PACK_VOLTAGE, 98, 2),
                 UIntField(FieldName.PACK_BATTERY_SOC, 99),
-                VersionField(FieldName.PACK_VER_BMS, 201),
+                # DecimalArrayField(FieldName.PACK_CELL_VOLTAGES, 105, 16, 2),
+                # VersionField(FieldName.PACK_VER_BMS, 201),
             ],
             max_packs=2,
         )
