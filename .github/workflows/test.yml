@@ -19,5 +19,7 @@ jobs:
       run: python3 -m unittest discover -s tests -p "*.py"
     - name: Run field unittests
       run: python3 -m unittest discover -s tests/fields -p "*.py"
+    - name: Run base device unittests
+      run: python3 -m unittest discover -s tests/base_devices -p "*.py"
     - name: Run device unittests
       run: python3 -m unittest discover -s tests/devices -p "*.py"
