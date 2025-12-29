@@ -36,6 +36,6 @@ class AC70(BaseDeviceV2):
                 UIntField(FieldName.CTRL_ECO_MIN_POWER_AC, 2019),  # Not controlable
                 SelectField(FieldName.CTRL_CHARGING_MODE, 2020, ChargingMode),
                 SwitchField(FieldName.CTRL_POWER_LIFTING, 2021),
-                VersionField(FieldName.PACK_VER_BMS, 6175),
+                VersionField(FieldName.VER_BMS, 6175),
             ],
         )

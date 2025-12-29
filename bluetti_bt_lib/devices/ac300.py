@@ -34,7 +34,7 @@ class AC300(BaseDeviceV1):
                 DecimalField(FieldName.PACK_VOLTAGE, 98, 2),
                 UIntField(FieldName.PACK_BATTERY_SOC, 99),
                 # DecimalArrayField(FieldName.PACK_CELL_VOLTAGES, 105, 16, 2),
-                # VersionField(FieldName.PACK_VER_BMS, 201),
+                # VersionField(FieldName.VER_BMS, 201),
             ],
             max_packs=2,
         )

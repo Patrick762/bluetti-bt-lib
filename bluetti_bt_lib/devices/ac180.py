@@ -38,6 +38,6 @@ class AC180(BaseDeviceV2):
                 # Display timeout (?)
                 # AC frequency (?)
                 # Grid stabilizing (?)
-                VersionField(FieldName.PACK_VER_BMS, 6175),
+                VersionField(FieldName.VER_BMS, 6175),
             ],
         )

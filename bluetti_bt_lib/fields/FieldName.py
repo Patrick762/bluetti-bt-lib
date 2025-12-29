@@ -90,6 +90,7 @@ class FieldName(Enum):
     SM_P3_VOLTAGE = "sm_p3_voltage"
     TIME_REMAINING = "time_remaining"
     VER_ARM = "version_arm"
+    VER_BMS = "version_bms"
     VER_DSP = "version_dsp"
     WIFI_NAME = "wifi_name"
 
@@ -100,7 +101,6 @@ class FieldName(Enum):
     PACK_SN = "sn"
     PACK_TYPE = "type"
     PACK_VER_BCU = "version_bcu"
-    PACK_VER_BMS = "version_bms"
     PACK_VER_BMU = "version_bmu"
     PACK_VER_SAFETY_MOD = "version_safety_module"
     PACK_VER_HV_MOD = "version_hv_module"
