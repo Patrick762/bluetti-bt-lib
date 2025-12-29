@@ -1,7 +1,22 @@
+from enum import Enum
 import unittest
 from bluetti_bt_lib.base_devices import BluettiDevice
-from bluetti_bt_lib.fields import BoolField, StringField, SerialNumberField, FieldName
+from bluetti_bt_lib.fields import (
+    BoolField,
+    EnumField,
+    SelectField,
+    StringField,
+    SerialNumberField,
+    FieldName,
+    SwitchField,
+)
 from bluetti_bt_lib.registers import ReadableRegisters
+
+
+class Dummy(Enum):
+    VALUE_0 = 0
+    VALUE_1 = 1
+    VALUE_2 = 2
 
 
 class TestBluettiDevice(unittest.TestCase):
@@ -39,7 +54,7 @@ class TestBluettiDevice(unittest.TestCase):
 
         with self.assertRaises(NotImplementedError):
             device.get_pack_selector(1)
-    
+
     def test_parse(self):
         # TODO: Implement test for parse method
         pass
@@ -81,3 +96,25 @@ class TestBluettiDevice(unittest.TestCase):
 
         bool_fields = device.get_bool_fields()
         self.assertEqual(len(bool_fields), 1)
+
+    def test_switch_fields(self):
+        fields = [
+            SwitchField(FieldName.CTRL_AC, 150),
+            BoolField(FieldName.CTRL_DC, 160),
+        ]
+
+        device = BluettiDevice(fields=fields, pack_fields=[], max_packs=0)
+
+        self.assertEqual(len(device.get_switch_fields()), 1)
+        self.assertEqual(len(device.get_bool_fields()), 1)
+
+    def test_select_fields(self):
+        fields = [
+            SelectField(FieldName.CTRL_CHARGING_MODE, 180, Dummy),
+            EnumField(FieldName.AC_OUTPUT_MODE, 70, Dummy),
+        ]
+
+        device = BluettiDevice(fields=fields, pack_fields=[], max_packs=0)
+
+        self.assertEqual(len(device.get_select_fields()), 1)
+        self.assertEqual(len(device.get_sensor_fields()), 1)

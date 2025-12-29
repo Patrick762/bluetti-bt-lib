@@ -110,7 +110,11 @@ class BluettiDevice:
 
     def get_bool_fields(self):
         """Returns all bool fields for this device"""
-        return [f for f in self.fields if isinstance(f, BoolField)]
+        return [
+            f
+            for f in self.fields
+            if isinstance(f, BoolField) and not isinstance(f, SwitchField)
+        ]
 
     def get_switch_fields(self):
         """Returns all switch fields for this device"""
