@@ -94,16 +94,21 @@ class BluettiDevice:
 
         return parsed
 
-    def build_write_command(self, name: str, value: Any) -> WriteableRegister:
+    def build_write_command(self, name: str, value: Any) -> WriteableRegister | None:
         """Build a command to write values to the device"""
 
         matches = [f for f in self.fields if f.name == name]
-        field = next(f for f in matches if f.is_writeable)
+        fields = [f for f in matches if f.is_writeable()]
+
+        if len(fields) == 0:
+            return None
+
+        field = next(iter(fields))
 
         # Convert value to an integer
         if isinstance(field, SelectField):
             value = field.e[value].value
-        elif isinstance(field, BoolField):
+        elif isinstance(field, SwitchField):
             value = 1 if value else 0
 
         return WriteableRegister(field.address, value)

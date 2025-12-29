@@ -18,6 +18,11 @@ class ReadableRegisters(DeviceRegister):
         return 2 * self.quantity + 5
 
     def parse_response(self, response: bytes):
+        if len(response) != self.response_size():
+            raise ValueError(
+                f"Response size {len(response)} does not match expected size {self.response_size()}"
+            )
+
         return bytes(response[3:-2])
 
     def __repr__(self):

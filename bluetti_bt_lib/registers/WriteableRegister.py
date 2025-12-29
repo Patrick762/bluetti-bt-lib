@@ -13,6 +13,9 @@ class WriteableRegister(DeviceRegister):
         return 8
 
     def parse_response(self, response: bytes):
+        if len(response) != self.response_size():
+            raise ValueError("Invalid response size")
+
         return bytes(response[4:6])
 
     def __repr__(self):

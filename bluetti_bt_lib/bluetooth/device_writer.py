@@ -45,6 +45,10 @@ class DeviceWriter:
 
         command = self.bluetti_device.build_write_command(field, value)
 
+        if command is None:
+            self.logger.error("Field is not writeable")
+            return
+
         self.logger.debug("Writing to device register")
 
         async with self.polling_lock:
@@ -56,13 +60,14 @@ class DeviceWriter:
 
                     self.logger.debug("Connected to device")
 
+                    self.logger.debug("Writing command: %s", command)
+
                     await self.client.write_gatt_char(
                         WRITE_UUID,
                         bytes(command),
                     )
 
-                    # Wait until device has changed value, otherwise reading register might reset it
-                    await asyncio.sleep(5)
+                    self.logger.debug("Write successful")
 
             except TimeoutError:
                 self.logger.warning("Timeout")

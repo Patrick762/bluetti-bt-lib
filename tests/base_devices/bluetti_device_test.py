@@ -56,12 +56,59 @@ class TestBluettiDevice(unittest.TestCase):
             device.get_pack_selector(1)
 
     def test_parse(self):
-        # TODO: Implement test for parse method
-        pass
+        fields = [
+            StringField(FieldName.DEVICE_TYPE, 200, 6),
+            SerialNumberField(FieldName.DEVICE_SN, 100),
+            BoolField(FieldName.CTRL_AC, 150),
+        ]
+
+        device = BluettiDevice(fields)
+
+        raw: bytes = b"\x00\x00\x00\x01\x00\x00"
+
+        parsed = device.parse(starting_address=149, data=raw)
+
+        self.assertEqual(len(parsed), 1)
+        self.assertTrue(parsed.get(FieldName.CTRL_AC.value))
+
+    def test_parse_invalid(self):
+        fields = [
+            StringField(FieldName.DEVICE_TYPE, 200, 6),
+            SerialNumberField(FieldName.DEVICE_SN, 100),
+            BoolField(FieldName.CTRL_AC, 150),
+        ]
+
+        device = BluettiDevice(fields)
+
+        raw: bytes = b"\x00\x00\x00\x02\x00\x00"
+
+        parsed = device.parse(starting_address=149, data=raw)
+
+        self.assertEqual(len(parsed), 1)
+        self.assertIsNone(parsed.get(FieldName.CTRL_AC.value))
 
     def test_build_write_command(self):
-        # TODO: Implement test for build_write_command method
-        pass
+        fields = [
+            SwitchField(FieldName.CTRL_AC, 150),
+        ]
+
+        device = BluettiDevice(fields)
+
+        command = device.build_write_command(FieldName.CTRL_AC.value, True)
+
+        self.assertEqual(command.address, 150)
+        self.assertEqual(command.value, 1)
+
+    def test_build_write_command_not_writeable(self):
+        fields = [
+            BoolField(FieldName.CTRL_DC, 160),
+        ]
+
+        device = BluettiDevice(fields)
+
+        command = device.build_write_command(FieldName.CTRL_DC.value, False)
+
+        self.assertIsNone(command)
 
     def test_initialization_with_fields(self):
         fields = [
