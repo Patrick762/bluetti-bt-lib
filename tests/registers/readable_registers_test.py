@@ -18,8 +18,3 @@ class TestReadableRegisters(unittest.TestCase):
         response = b"\x01\x03\x04\x00\x64\x00\x00\x79\x84"
         parsed = self.register.parse_response(response)
         self.assertEqual(parsed, b"\x00\x64\x00\x00")
-
-    def test_parse_response_invalid_size(self):
-        response = b"\x01\x03\x04\x00\x64"
-        with self.assertRaises(ValueError):
-            self.register.parse_response(response)

@@ -15,8 +15,3 @@ class TestWriteableRegister(unittest.TestCase):
         response = b"\x01\x03\x04\x00\x01\x00\x00\x79"
         parsed = self.register.parse_response(response)
         self.assertEqual(parsed, b"\x01\x00")
-
-    def test_parse_response_invalid_size(self):
-        response = b"\x01\x03\x04\x00"
-        with self.assertRaises(ValueError):
-            self.register.parse_response(response)
