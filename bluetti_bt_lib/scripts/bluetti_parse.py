@@ -21,25 +21,30 @@ async def async_parse_file(filename: str):
     else:
         device = BaseDeviceV2()
 
-    registers: list[bytes] = [bytes.fromhex(b) for b in data.registers.values()]
+    registers_map = bytearray(40000)
 
-    parsed = {}
+    registers: list[bytes] = [
+        bytes.fromhex(b) if len(b) > 0 else b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        for b in data.registers.values()
+    ]
 
-    addr = 1
+    i = 0
     for r in registers:
-        parsed.update(device.parse(addr, r, 0))
-        addr += 50
+        registers_map[i : i + 20] = r
+        i += 20
+
+    parsed = device.parse(1, registers_map, 0)
 
     device_type = parsed.get(FieldName.DEVICE_TYPE.value)
 
+    if device_type is None:
+        print("Unknown device type")
+        print("Parsed data:", parsed)
+        return
+
     device = build_device(device_type + "12345678")
 
-    data = {}
-
-    addr = 1
-    for r in registers:
-        data.update(device.parse(addr, r))
-        addr += 50
+    data = device.parse(1, registers_map, 0)
 
     print()
     for key, value in data.items():

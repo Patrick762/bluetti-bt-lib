@@ -6,6 +6,7 @@ from .ac60 import AC60
 from .ac60p import AC60P
 from .ac70 import AC70
 from .ac70p import AC70P
+from .ac80 import AC80
 from .ac180 import AC180
 from .ac180p import AC180P
 from .ac180t import AC180T
@@ -22,6 +23,7 @@ from .ep500 import EP500
 from .ep500p import EP500P
 from .ep600 import EP600
 from .ep800 import EP800
+from .ep2000 import EP2000
 from .handsfree1 import Handsfree1
 
 # Add new device classes here
@@ -32,6 +34,7 @@ DEVICES = {
     "AC60P": AC60P,
     "AC70": AC70,
     "AC70P": AC70P,
+    "AC80": AC80,
     "AC180": AC180,
     "AC180T": AC180T,
     "AC180P": AC180P,
@@ -48,10 +51,11 @@ DEVICES = {
     "EP500P": EP500P,
     "EP600": EP600,
     "EP800": EP800,
+    "EP2000": EP2000,
     "Handsfree 1": Handsfree1,
 }
 
 # Prefixes of all currently supported devices
 DEVICE_NAME_RE = re.compile(
-    r"^(AC2A|AC50B|AC60|AC60P|AC70|AC70P|AC180|AC180T|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL100V2|EL30V2|EP500|EP500P|EP600|EP760|EP800|Handsfree\s1)(\d+)$"
+    r"^(AC2A|AC50B|AC60|AC60P|AC70|AC70P|AC80|AC180|AC180T|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL100V2|EL30V2|EP500|EP500P|EP600|EP760|EP800|EP2000|Handsfree\s1)(\d+)$"
 )
