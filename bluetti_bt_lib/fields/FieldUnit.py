@@ -62,6 +62,7 @@ FIELD_UNIT: Dict[FieldName, str] = {
     FieldName.TIME_REMAINING: "h",
     # Battery pack fields
     FieldName.PACK_BATTERY_SOC: "%",
+    FieldName.PACK_CELL_VOLTAGES: "V",
     FieldName.PACK_VOLTAGE: "V",
 }
 
