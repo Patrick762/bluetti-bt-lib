@@ -105,9 +105,10 @@ class BluettiDevice:
 
         field = next(iter(fields))
 
-        # Convert value to an integer
+        # Convert value to an integer if its not already
         if isinstance(field, SelectField):
-            value = field.e[value].value
+            if not isinstance(value, int):
+                value = field.e[value].value
         elif isinstance(field, SwitchField):
             value = 1 if value else 0
 
