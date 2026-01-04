@@ -6,7 +6,7 @@ from ..fields import (
     SwitchField,
     SelectField,
 )
-from ..enums import OutputMode, DisplayMode
+from ..enums import OutputMode, DisplayMode, UpsMode
 
 
 class AC200L(BaseDeviceV1):
@@ -19,6 +19,7 @@ class AC200L(BaseDeviceV1):
                 DecimalField(FieldName.INTERNAL_DC_INPUT_VOLTAGE, 86, 1),
                 DecimalField(FieldName.INTERNAL_DC_INPUT_POWER, 87, 1, 10),
                 DecimalField(FieldName.INTERNAL_DC_INPUT_CURRENT, 88, 2),
+                SelectField(FieldName.CTRL_UPS_MODE, 3001, UpsMode),
                 SwitchField(FieldName.CTRL_AC, 3007),
                 SwitchField(FieldName.CTRL_DC, 3008),
                 SwitchField(FieldName.CTRL_POWER_OFF, 3060),
