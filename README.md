@@ -50,13 +50,16 @@ Added and mostly validated by contributors (some are moved here from the HA Inte
 
 ## Controls
 
-Currently only "switches" are supported
-
-Validated
+Validated:
 
 |Device Name|ctrl_ac|ctrl_dc|
 |-----------|-------|-------|
 |EB3A       |✅     |✅     |
+
+Added and mostly validated by contributors:
+|Device Name|Contributor             |ctrl_ac|ctrl_dc|ctrl_ups_mode|soc_range_start|soc_range_end|
+|-----------|------------------------|-------|-------|-------------|---------------|-------------|
+|AC200L     |bluetti-mqtt, @seaburger|✅     |✅     |✅           |❌             |❌           |
 
 ## Battery pack data
 
