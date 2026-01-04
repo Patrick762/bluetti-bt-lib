@@ -47,6 +47,9 @@ def start():
     parser.add_argument("--off", type=bool, help="Value to write")
     parser.add_argument("-v", "--value", type=int, help="Value to write")
     parser.add_argument(
+        "-s", "--select", type=str, help="Value to write to a Select/Enum field"
+    )
+    parser.add_argument(
         "-e", "--encryption", type=bool, help="Add this if encryption is needed"
     )
     parser.add_argument("field", type=str, help="Field name (ctrl_dc f.ex.)")
@@ -57,7 +60,12 @@ def start():
         return
 
     # No value given
-    if args.on is None and args.off is None and args.value is None:
+    if (
+        args.on is None
+        and args.off is None
+        and args.value is None
+        and args.select is None
+    ):
         parser.print_help()
         return
 
@@ -67,6 +75,9 @@ def start():
 
     if args.value:
         value = args.value
+
+    if args.select:
+        value = args.select
 
     logging.basicConfig(level=logging.WARNING)
 
@@ -79,3 +90,7 @@ def start():
             value,
         )
     )
+
+
+if __name__ == "__main__":
+    start()
