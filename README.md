@@ -27,26 +27,26 @@ Validated
 
 Added and mostly validated by contributors (some are moved here from the HA Integration https://github.com/Patrick762/hassio-bluetti-bt):
 
-|Device Name|Contributor     |total_battery_percent|dc_input_power|ac_input_power|dc_output_power|ac_output_power|
-|-----------|----------------|---------------------|--------------|--------------|---------------|---------------|
-|AC2A       |@ruanmed        |✅                   |✅            |✅            |✅             |✅             |
-|AC50B      |@goetzc         |✅                   |❌            |✅            |✅             |✅             |
-|AC60       |@mzpwr          |✅                   |✅            |✅            |✅             |✅             |
-|AC60P      |@mzpwr          |✅                   |✅            |✅            |✅             |✅             |
-|AC70P      |@matthewpucc    |✅                   |✅            |✅            |✅             |✅             |
-|AC180P     |@Patrick762     |✅                   |✅            |✅            |✅             |✅             |
-|AC200L     |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
-|AC200M     |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
-|AC200PL    |@0x4E4448       |✅                   |✅            |✅            |✅             |✅             |
-|AC300      |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
-|AC500      |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
-|AP300      |@seaburger      |✅                   |✅            |✅            |❌             |✅             |
-|EL30V2     |@dgudim         |✅                   |✅            |✅            |✅             |✅             |
-|EL100V2    |@seaburger      |✅                   |✅            |✅            |✅             |✅             |
-|EP500      |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
-|EP500P     |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
-|EP760      |@Apfuntimes     |✅                   |PV            |Grid          |❌             |AC Phases      |
-|EP800      |@jhagenk        |✅                   |❌            |❌            |❌             |❌             |
+|Device Name|Contributor          |total_battery_percent|dc_input_power|ac_input_power|dc_output_power|ac_output_power|
+|-----------|---------------------|---------------------|--------------|--------------|---------------|---------------|
+|AC2A       |@ruanmed             |✅                   |✅            |✅            |✅             |✅             |
+|AC50B      |@goetzc              |✅                   |❌            |✅            |✅             |✅             |
+|AC60       |@mzpwr               |✅                   |✅            |✅            |✅             |✅             |
+|AC60P      |@mzpwr               |✅                   |✅            |✅            |✅             |✅             |
+|AC70P      |@matthewpucc         |✅                   |✅            |✅            |✅             |✅             |
+|AC180P     |@Patrick762          |✅                   |✅            |✅            |✅             |✅             |
+|AC200L     |bluetti-mqtt         |✅                   |✅            |✅            |✅             |✅             |
+|AC200M     |bluetti-mqtt         |✅                   |✅            |✅            |✅             |✅             |
+|AC200PL    |@0x4E4448            |✅                   |✅            |✅            |✅             |✅             |
+|AC300      |bluetti-mqtt         |✅                   |✅            |✅            |✅             |✅             |
+|AC500      |bluetti-mqtt         |✅                   |✅            |✅            |✅             |✅             |
+|AP300      |@seaburger, @sidieje |✅                   |✅            |✅            |✅             |✅             |
+|EL30V2     |@dgudim              |✅                   |✅            |✅            |✅             |✅             |
+|EL100V2    |@seaburger           |✅                   |✅            |✅            |✅             |✅             |
+|EP500      |bluetti-mqtt         |✅                   |✅            |✅            |✅             |✅             |
+|EP500P     |bluetti-mqtt         |✅                   |✅            |✅            |✅             |✅             |
+|EP760      |@Apfuntimes          |✅                   |PV            |Grid          |❌             |AC Phases      |
+|EP800      |@jhagenk             |✅                   |❌            |❌            |❌             |❌             |
 
 ## Controls
 
