@@ -63,7 +63,9 @@ Added and mostly validated by contributors:
 
 ## Battery pack data
 
-Data for battery packs will no longer be available in this library
+|Device Name|voltage|battery_soc|cell_voltages|
+|-----------|-------|-----------|-------------|
+|AC300      |✅     |✅         |✅           |
 
 ## Installation
 
