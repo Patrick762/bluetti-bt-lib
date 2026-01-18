@@ -1,7 +1,7 @@
 from typing import Any, List
 
 from ..registers import ReadableRegisters, WriteableRegister
-from ..fields import DeviceField, BoolField, SwitchField, SelectField
+from ..fields import DeviceField, BoolField, BoolFieldNonZero, SwitchField, SelectField
 
 
 class BluettiDevice:
@@ -119,7 +119,8 @@ class BluettiDevice:
         return [
             f
             for f in self.fields
-            if isinstance(f, BoolField) and not isinstance(f, SwitchField)
+            if (isinstance(f, BoolField) or isinstance(f, BoolFieldNonZero))
+            and not isinstance(f, SwitchField)
         ]
 
     def get_switch_fields(self):
@@ -136,6 +137,7 @@ class BluettiDevice:
             f
             for f in self.fields
             if not isinstance(f, BoolField)
+            and not isinstance(f, BoolFieldNonZero)
             and not isinstance(f, SwitchField)
             and not isinstance(f, SelectField)
         ]
