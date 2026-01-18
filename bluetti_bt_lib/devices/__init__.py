@@ -1,6 +1,7 @@
 import re
 
 from .ac2a import AC2A
+from .ac2p import AC2P
 from .ac50b import AC50B
 from .ac60 import AC60
 from .ac60p import AC60P
@@ -29,6 +30,7 @@ from .pr30v2 import PR30V2
 # Add new device classes here
 DEVICES = {
     "AC2A": AC2A,
+    "AC2P": AC2P,
     "AC50B": AC50B,
     "AC60": AC60,
     "AC60P": AC60P,
@@ -57,5 +59,5 @@ DEVICES = {
 
 # Prefixes of all currently supported devices
 DEVICE_NAME_RE = re.compile(
-    r"^(AC2A|AC50B|AC60|AC60P|AC70|AC70P|AC180|AC180T|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL100V2|EL30V2|EP500|EP500P|EP600|EP760|EP800|EP2000|Handsfree\s1|PR30V2)(\d+)$"
+    r"^(AC2A|AC2P|AC50B|AC60|AC60P|AC70|AC70P|AC180|AC180T|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL100V2|EL30V2|EP500|EP500P|EP600|EP760|EP800|EP2000|Handsfree\s1|PR30V2)(\d+)$"
 )
