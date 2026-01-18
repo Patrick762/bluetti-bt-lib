@@ -82,12 +82,16 @@ Commands included in this library should only be used for testing.
 ### Scan for supported devices
 
 ```bash
-usage: bluetti-scan [-h]
+usage: bluetti-scan [-h] [-r REGEX] [-s SCAN_TIME]
 
 Detect bluetti devices by bluetooth name
 
 options:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  -r REGEX, --regex REGEX
+                        Custom regex to match device name
+  -s SCAN_TIME, --scan-time SCAN_TIME
+                        How long to scan for devices (seconds)
 ```
 
 Example output: `['EB3A', '00:00:00:00:00:00']`
