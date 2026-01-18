@@ -1,4 +1,4 @@
-﻿import re
+import re
 
 from .ac2a import AC2A
 from .ac2p import AC2P

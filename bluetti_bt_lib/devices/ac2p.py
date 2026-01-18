@@ -1,4 +1,4 @@
-﻿from ..base_devices import BaseDeviceV2
+from ..base_devices import BaseDeviceV2
 from ..fields import FieldName, UIntField, DecimalField, BoolFieldNonZero, SwitchField
 
 
@@ -6,13 +6,11 @@ class AC2P(BaseDeviceV2):
     """Bluetti AC2P device.
     
     Note: AC2P uses register 2011 for AC output state (not 1509 like AC2A).
-    The AC output register returns non-standard boolean values:
-    - 1 = ON
-    - 3 = OFF (device returns 3, not 0)
+    The AC output register returns non-standard boolean values where any
+    non-zero value indicates ON state.
     
     For reading AC output state, we use BoolFieldNonZero which treats any 
-    non-zero value as True. This is correct because when the AC output is 
-    actually ON, the register shows 1, and when OFF it shows 3.
+    non-zero value as True.
     
     For the control switches, we use SwitchField which writes standard 
     boolean values (0/1) that the device accepts correctly.
@@ -28,7 +26,6 @@ class AC2P(BaseDeviceV2):
                 DecimalField(FieldName.POWER_GENERATION, 154),
                 
                 # Status sensors - AC2P uses register 2011 for AC output (not 1509)
-                # Using BoolFieldNonZero because AC2P returns 1=ON, 3=OFF
                 BoolFieldNonZero(FieldName.AC_OUTPUT_ON, 2011),
                 BoolFieldNonZero(FieldName.DC_OUTPUT_ON, 2012),
                 BoolFieldNonZero(FieldName.POWER_LIFTING_ON, 2021),
