@@ -6,7 +6,7 @@ from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakError
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
 
-from .encryption import BluettiEncryption, Message, MessageType
+from .encryption import BluettiEncryption, Message, MessageType, AES_BLOCK_SIZE
 from ..base_devices import BluettiDevice
 from ..const import NOTIFY_UUID, WRITE_UUID
 from ..registers import ReadableRegisters, DeviceRegister
@@ -50,6 +50,7 @@ class DeviceReader:
         self.notify_response = bytearray()
         self.notify_future: asyncio.Future[Any] | None = None
         self.encryption = BluettiEncryption()
+        self.encrypted_buffer = bytearray()
 
     async def read(
         self, only_registers: List[ReadableRegisters] | None = None, raw: bool = False
@@ -189,6 +190,7 @@ class DeviceReader:
 
             # Reset Encryption keys
             self.encryption.reset()
+            self.encrypted_buffer.clear()
 
             # Check if dict is empty
             if not parsed_data:
@@ -201,6 +203,7 @@ class DeviceReader:
         self.current_registers = registers
         self.notify_response = bytearray()
         self.notify_future = self.create_future()
+        self.encrypted_buffer.clear()
 
         command_bytes = bytes(registers)
 
@@ -229,9 +232,26 @@ class DeviceReader:
 
         return bytes()
 
+    def _calculate_expected_encrypted_length(self, buffer: bytearray) -> int | None:
+        """Calculate expected total length of an encrypted message."""
+        if len(buffer) < 2:
+            return None
+
+        data_len = (buffer[0] << 8) + buffer[1]
+
+        key, iv = self.encryption.getKeyIv()
+        if iv is None:
+            header_size = 6
+        else:
+            header_size = 2
+
+        padded_len = ((data_len + AES_BLOCK_SIZE - 1) // AES_BLOCK_SIZE) * AES_BLOCK_SIZE
+
+        return header_size + padded_len
+
     async def _notification_handler(self, _: int, data: bytearray):
         """Handle bt data."""
-        self.logger.debug("Got new data")
+        self.logger.debug("Got new data (%d bytes)", len(data))
 
         if self.config.use_encryption is True:
             message = Message(data)
@@ -248,13 +268,44 @@ class DeviceReader:
                     self.logger.debug("Challenge accepted")
                     return
 
+                return
+
             if self.encryption.unsecure_aes_key is None:
                 self.logger.error(
                     "Received encrypted message before key initialization"
                 )
+                return
+
+            self.encrypted_buffer.extend(data)
+
+            expected_len = self._calculate_expected_encrypted_length(self.encrypted_buffer)
+
+            if expected_len is None:
+                return
+
+            if len(self.encrypted_buffer) < expected_len:
+                self.logger.debug(
+                    "Buffering fragment: %d/%d bytes",
+                    len(self.encrypted_buffer),
+                    expected_len
+                )
+                return
+
+            complete_message = bytes(self.encrypted_buffer[:expected_len])
+
+            if len(self.encrypted_buffer) > expected_len:
+                self.encrypted_buffer = self.encrypted_buffer[expected_len:]
+            else:
+                self.encrypted_buffer.clear()
 
             key, iv = self.encryption.getKeyIv()
-            decrypted = Message(self.encryption.aes_decrypt(message.buffer, key, iv))
+
+            try:
+                decrypted = Message(self.encryption.aes_decrypt(complete_message, key, iv))
+            except ValueError as e:
+                self.logger.error("Decryption failed: %s", e)
+                self.encrypted_buffer.clear()
+                return
 
             if decrypted.is_pre_key_exchange:
                 decrypted.verify_checksum()
