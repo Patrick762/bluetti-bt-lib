@@ -2,7 +2,7 @@ from ..base_devices import BaseDeviceV2
 from ..fields import FieldName, UIntField, DecimalField
 
 
-class EL200V2(BaseDeviceV2):
+class E200V2(BaseDeviceV2):
     def __init__(self):
         super().__init__(
             [
