@@ -6,7 +6,7 @@ import logging
 from typing import Any
 from bleak import BleakClient
 
-from ..bluetooth import DeviceWriter
+from ..bluetooth import DeviceWriter, DeviceWriterConfig
 from ..utils.device_builder import build_device
 
 
@@ -20,15 +20,12 @@ async def async_write(
         print("Unsupported powerstation type")
         return
 
-    if encryption:
-        print("Encryption is not supported")
-        return
-
     print("Client created")
 
     writer = DeviceWriter(
         client,
         built,
+        DeviceWriterConfig(use_encryption=encryption),
     )
 
     print("Writer created")
@@ -43,14 +40,21 @@ def start():
     parser.add_argument(
         "-t", "--type", type=str, help="Type of the powerstation (AC70 f.ex.)"
     )
-    parser.add_argument("--on", type=bool, help="Value to write")
-    parser.add_argument("--off", type=bool, help="Value to write")
-    parser.add_argument("-v", "--value", type=int, help="Value to write")
+    parser.add_argument(
+        "--on", action="store_true", help="Write on/true for a switch field"
+    )
+    parser.add_argument(
+        "--off", action="store_true", help="Write off/false for a switch field"
+    )
+    parser.add_argument("-v", "--value", type=int, help="Integer value to write")
     parser.add_argument(
         "-s", "--select", type=str, help="Value to write to a Select/Enum field"
     )
     parser.add_argument(
-        "-e", "--encryption", type=bool, help="Add this if encryption is needed"
+        "-e",
+        "--encryption",
+        action="store_true",
+        help="Use this if the device requires encryption (e.g. EL10)",
     )
     parser.add_argument("field", type=str, help="Field name (ctrl_dc f.ex.)")
     args = parser.parse_args()
@@ -60,23 +64,17 @@ def start():
         return
 
     # No value given
-    if (
-        args.on is None
-        and args.off is None
-        and args.value is None
-        and args.select is None
-    ):
+    if not args.on and not args.off and args.value is None and args.select is None:
         parser.print_help()
         return
 
-    value = args.on is not None
-    if args.off is not None:
+    if args.on:
+        value = True
+    elif args.off:
         value = False
-
-    if args.value:
+    elif args.value is not None:
         value = args.value
-
-    if args.select:
+    else:
         value = args.select
 
     logging.basicConfig(level=logging.WARNING)
