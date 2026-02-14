@@ -1,5 +1,6 @@
 from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, SwitchField
+from ..enums import LedPanelState
+from ..fields import EnumField, FieldName, UIntField, SwitchField
 
 
 class AC60(BaseDeviceV2):
@@ -13,6 +14,7 @@ class AC60(BaseDeviceV2):
                 UIntField(FieldName.AC_INPUT_VOLTAGE, 1314),
                 SwitchField(FieldName.CTRL_AC, 2011),
                 SwitchField(FieldName.CTRL_DC, 2012),
+                EnumField(FieldName.LED_MODE, 2007, LedPanelState),
                 SwitchField(FieldName.CTRL_POWER_LIFTING, 2021),
             ],
         )

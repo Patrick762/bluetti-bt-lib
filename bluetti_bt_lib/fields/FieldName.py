@@ -71,6 +71,7 @@ class FieldName(Enum):
     INTERNAL_DC_INPUT_CURRENT = "internal_dc_input_current"
     INTERNAL_DC_INPUT_POWER = "internal_dc_input_power"
     INTERNAL_DC_INPUT_VOLTAGE = "internal_dc_input_voltage"
+    LED_MODE = "led_mode"
     POWER_GENERATION = "power_generation"
     POWER_LIFTING_ON = "power_lifting_on"
     PV_S1_CURRENT = "pv_s1_current"
