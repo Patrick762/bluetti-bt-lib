@@ -111,6 +111,8 @@ class BluettiDevice:
                 value = field.e[value].value
         elif isinstance(field, SwitchField):
             value = 1 if value else 0
+        else:
+            value = int(value)
 
         return WriteableRegister(field.address, value)
 

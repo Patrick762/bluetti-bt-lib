@@ -11,11 +11,16 @@ class UIntField(DeviceField):
         multiplier: float = 1,
         min: int | None = None,
         max: int | None = None,
+        writeable: bool = False,
     ):
         super().__init__(name, address, 1)
         self.multiplier = multiplier
         self.min = min
         self.max = max
+        self._writeable = writeable
+
+    def is_writeable(self) -> bool:
+        return self._writeable
 
     def parse(self, data: bytes) -> int:
         val = struct.unpack("!H", data)[0]

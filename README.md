@@ -81,16 +81,36 @@ Commands included in this library should only be used for testing.
 
 ### Scan for supported devices
 
-```bash
-usage: bluetti-scan [-h]
+The scanner discovers Bluetti devices by Bluetooth name. Without `-t`, it stops after the first device found; with `-t SECONDS`, it scans for that duration and lists all devices (deduplicated by address).
 
-Detect bluetti devices by bluetooth name
+```bash
+usage: bluetti-scan [-h] [-t SECONDS] [-f REGEX]
+
+Detect Bluetti devices by Bluetooth name
 
 options:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  -t SECONDS, --timeout SECONDS
+                        Scan for this many seconds and list all discovered devices.
+                        If omitted, stop after the first device is found.
+  -f REGEX, --filter REGEX
+                        Only show devices whose Bluetooth name matches this regex
 ```
 
-Example output: `['EB3A', '00:00:00:00:00:00']`
+Examples:
+
+```bash
+# Stop at first device (legacy behaviour)
+bluetti-scan
+
+# Scan for 15 seconds and list all devices
+bluetti-scan -t 15
+
+# Only devices whose name matches (e.g. AC60 or EP600)
+bluetti-scan -t 10 -f "AC60|EP600"
+```
+
+Example output (one line per device): `['EB3A', '00:00:00:00:00:00']`
 
 ### Detect device type by mac address
 
@@ -117,22 +137,22 @@ Example output: `Device type is 'EB3A' with iot version 1 and serial 00000000000
 ### Read device data for supported devices
 
 ```bash
-usage: bluetti-read [-h] [-m MAC] [-t TYPE] [-e ENCRYPTION]
+usage: bluetti-read [-h] [-m MAC] [-t TYPE] [-e]
 
-Detect bluetti devices
+Read data from Bluetti devices
 
 options:
   -h, --help            show this help message and exit
   -m MAC, --mac MAC     Mac-address of the powerstation
   -t TYPE, --type TYPE  Type of the powerstation (AC70 f.ex.)
-  -e ENCRYPTION, --encryption ENCRYPTION
-                        Add this if encryption is needed
+  -e, --encryption      Use encryption (required for some devices, e.g. Handsfree 1)
 ```
 
-Example:
+Examples:
 
 ```bash
 bluetti-read -m 00:00:00:00:00:00 -t EB3A
+bluetti-read -m 00:00:00:00:00:00 -t "Handsfree 1" -e
 ```
 
 Example output:
