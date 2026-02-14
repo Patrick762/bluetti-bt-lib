@@ -29,3 +29,10 @@ class UIntField(DeviceField):
         if self.max is not None and self.max < value:
             return False
         return value >= 0
+
+
+class WriteableUIntField(UIntField):
+    """UIntField that can be written; use min/max for allowed value range."""
+
+    def is_writeable(self) -> bool:
+        return True
