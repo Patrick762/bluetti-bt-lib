@@ -1,8 +1,11 @@
 # bluetti-bt-lib
-Inofficial Library for basic communication to bluetti powerstations.
-Core functions based on https://github.com/warhammerkid/bluetti_mqtt
 
-The current [Roadmap for this project and repositories using this library can be found here](https://github.com/users/Patrick762/projects/4)
+Inofficial Library for basic communication to bluetti powerstations.  
+**This is the [mzpwr fork](https://github.com/mzpwr/bluetti-bt-lib).** Please support the original author and project:
+
+- **Original repository:** [https://github.com/Patrick762/bluetti-bt-lib](https://github.com/Patrick762/bluetti-bt-lib)
+
+Core functions based on https://github.com/warhammerkid/bluetti_mqtt
 
 ## Disclaimer
 This library is provided without any warranty or support by Bluetti. I do not take responsibility for any problems it may cause in all cases. Use it at your own risk.
@@ -59,9 +62,11 @@ Validated:
 |EB3A       |✅     |✅     |
 
 Added and mostly validated by contributors:
-|Device Name|Contributor                                              |ctrl_ac|ctrl_dc|ctrl_ups_mode|soc_range_start|soc_range_end|
-|-----------|---------------------------------------------------------|-------|-------|-------------|---------------|-------------|
-|AC200L     |bluetti-mqtt, [@seaburger](https://github.com/seaburger) |✅     |✅     |✅           |❌             |❌           |
+
+| Device Name | Contributor                                              | ctrl_ac | ctrl_dc | led_mode (read-only) | ctrl_ups_mode | soc_range_start | soc_range_end |
+|-------------|----------------------------------------------------------|---------|---------|----------------------|---------------|-----------------|---------------|
+| AC60        | [@mzpwr](https://github.com/mzpwr)                       | ✅      | ✅      | ✅                   | ❌            | ❌              | ❌            |
+| AC200L      | bluetti-mqtt, [@seaburger](https://github.com/seaburger) | ✅      | ✅      | ❌                   | ✅            | ❌              | ❌            |
 
 ## Battery pack data
 
@@ -75,6 +80,17 @@ Added and mostly validated by contributors:
 pip install bluetti-bt-lib
 ```
 
+## Pushing with SSH (fork only)
+
+All work is done in **this fork only**. Do not push to the original repository (Patrick762/bluetti-bt-lib). To push your branches using SSH key authentication, ensure `origin` points to **this fork**:
+
+```bash
+git remote set-url origin git@github.com:mzpwr/bluetti-bt-lib.git
+git push -u origin <branch-name>
+```
+
+Pull requests, if any, are opened against **this fork’s** branches (e.g. on GitHub: mzpwr/bluetti-bt-lib), not against the original repo.
+
 ## Commands for testing
 
 Commands included in this library should only be used for testing.
@@ -82,15 +98,23 @@ Commands included in this library should only be used for testing.
 ### Scan for supported devices
 
 ```bash
-usage: bluetti-scan [-h]
+usage: bluetti-scan [-h] [-t SECONDS]
 
 Detect bluetti devices by bluetooth name
 
 options:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  -t SECONDS, --timeout SECONDS
+                        Scan for this many seconds and list all discovered devices.
+                        If omitted, stop after the first device is found.
 ```
 
-Example output: `['EB3A', '00:00:00:00:00:00']`
+- **Without `--timeout`**: Stops as soon as the first supported device is found (legacy behavior).
+- **With `--timeout N`**: Scans for N seconds and reports every discovered device once (deduplicated by address). Use this to discover multiple devices in range.
+
+Example output (single device): `['EB3A', '00:00:00:00:00:00']`
+
+Example (scan 15 seconds for all devices): `bluetti-scan --timeout 15`
 
 ### Detect device type by mac address
 
