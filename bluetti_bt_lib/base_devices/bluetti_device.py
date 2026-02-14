@@ -1,7 +1,14 @@
 from typing import Any, List
 
 from ..registers import ReadableRegisters, WriteableRegister
-from ..fields import DeviceField, BoolField, BoolFieldNonZero, SwitchField, SelectField
+from ..fields import (
+    DeviceField,
+    BoolField,
+    BoolFieldNonZero,
+    SwitchField,
+    SelectField,
+    WriteableUIntField,
+)
 
 
 class BluettiDevice:
@@ -111,6 +118,10 @@ class BluettiDevice:
                 value = field.e[value].value
         elif isinstance(field, SwitchField):
             value = 1 if value else 0
+        elif isinstance(field, WriteableUIntField):
+            value = int(value)
+            if not field.in_range(value):
+                return None
 
         return WriteableRegister(field.address, value)
 
