@@ -2,9 +2,11 @@
 
 from .base_devices import BluettiDevice
 from .bluetooth import (
+    DeviceConnection,
     DeviceReader,
     DeviceReaderConfig,
     DeviceWriter,
+    DeviceWriterConfig,
     DeviceRecognizerResult,
     recognize_device,
 )
