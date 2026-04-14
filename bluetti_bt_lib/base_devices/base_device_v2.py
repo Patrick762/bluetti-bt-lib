@@ -25,7 +25,8 @@ class BaseDeviceV2(BluettiDevice):
         )
 
     def get_full_registers_range(self) -> List[ReadableRegisters]:
-        return [ReadableRegisters(i, 10) for i in range(1, 20000, 10)]
+        #return [ReadableRegisters(i, 10) for i in [10, 100, 110, 140, 1500]]
+        return [ReadableRegisters(i, 10) for i in range(1, 2000, 10)]
 
     def get_device_type_registers(self) -> List[ReadableRegisters]:
         return [

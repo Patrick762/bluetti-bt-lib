@@ -39,7 +39,7 @@ class DeviceReader:
         """Used for unittests"""
 
         self.logger = logging.getLogger(
-            f"{__name__}.{mac_loggable(mac).replace(':', '_')}"
+            f"{__name__}.{mac.replace(':', '_')}"
         )
 
         self.device = None
@@ -111,6 +111,8 @@ class DeviceReader:
                         await asyncio.sleep(5)
                         self.logger.debug("Encryption handshake not finished yet")
 
+                    self.logger.info("Starting to read registers")
+
                     for register in registers:
                         body = register.parse_response(
                             await self._async_send_command(register)
@@ -132,38 +134,38 @@ class DeviceReader:
 
                         parsed_data.update(parsed)
 
-                    for pack in range(1, self.bluetti_device.max_packs + 1):
-                        body = register.parse_response(
-                            await self._async_send_command(
-                                self.bluetti_device.get_pack_selector(pack),
-                            )
-                        )
+                    # for pack in range(1, self.bluetti_device.max_packs + 1):
+                    #     body = register.parse_response(
+                    #         await self._async_send_command(
+                    #             self.bluetti_device.get_pack_selector(pack),
+                    #         )
+                    #     )
 
-                        # We need to wait for the powerstation to populate all registers
-                        await asyncio.sleep(3)
+                    #     # We need to wait for the powerstation to populate all registers
+                    #     await asyncio.sleep(3)
 
-                        for register in pack_registers:
-                            body = register.parse_response(
-                                await self._async_send_command(register)
-                            )
+                    #     for register in pack_registers:
+                    #         body = register.parse_response(
+                    #             await self._async_send_command(register)
+                    #         )
 
-                            self.logger.debug("Raw data: %s", body)
+                    #         self.logger.debug("Raw data: %s", body)
 
-                            if raw:
-                                d = {}
-                                d[register.starting_address] = body
-                                parsed_data.update(d)
-                                continue
+                    #         if raw:
+                    #             d = {}
+                    #             d[register.starting_address] = body
+                    #             parsed_data.update(d)
+                    #             continue
 
-                            parsed = self.bluetti_device.parse(
-                                register.starting_address,
-                                body,
-                                pack_num=pack,
-                            )
+                    #         parsed = self.bluetti_device.parse(
+                    #             register.starting_address,
+                    #             body,
+                    #             pack_num=pack,
+                    #         )
 
-                            self.logger.debug("Parsed data: %s", parsed)
+                    #         self.logger.debug("Parsed data: %s", parsed)
 
-                            parsed_data.update(parsed)
+                    #         parsed_data.update(parsed)
 
             except TimeoutError:
                 self.logger.warning("Timeout")
@@ -224,7 +226,7 @@ class DeviceReader:
             self.logger.debug("Got response")
 
             return cast(bytes, res)
-        except:
+        except Exception as e:
             self.logger.warning("Error while reading data")
 
         return bytes()

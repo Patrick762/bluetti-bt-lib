@@ -40,3 +40,6 @@ def start():
     logging.basicConfig(level=logging.WARNING)
 
     asyncio.run(scan_async())
+
+if __name__ == "__main__":
+    start()
