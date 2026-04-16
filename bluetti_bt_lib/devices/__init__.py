@@ -49,6 +49,7 @@ DEVICES = {
     "EB3A": EB3A,
     "EL100V2": EL100V2,
     "E200V2": E200V2,
+    "Elite 200 V2": E200V2,
     "EL30V2": EL30V2,
     "EP500": EP500,
     "EP500P": EP500P,
