@@ -46,6 +46,13 @@ async def run() -> None:
         else:
             disconnected.set()
 
+    # Clear any stale connection state from previous attempts
+    try:
+        await cli.bluetooth_device_disconnect(BLUETTI_ADDR)
+        await asyncio.sleep(2)
+    except Exception:
+        pass
+
     print(f"Connecting to Bluetti ({BLUETTI_MAC})...")
     await cli.bluetooth_device_connect(
         BLUETTI_ADDR,

@@ -23,23 +23,54 @@ async def run() -> None:
     cli.subscribe_logs(on_log, log_level=LogLevel.LOG_LEVEL_VERBOSE)
 
     connected = asyncio.Event()
+    disconnected = asyncio.Event()
 
     def on_bt_state(is_connected: bool, mtu: int, error: int) -> None:
         print(f">>> BT state: connected={is_connected}  mtu={mtu}  error={error}")
         if is_connected:
             connected.set()
+        else:
+            disconnected.set()
+
+    # Clear stale want_disconnect_ state from any previous session.
+    # We must wait for the callback confirming it resolved before connecting.
+    print("Clearing stale BLE state...")
+    try:
+        await cli.bluetooth_device_connect(
+            BLUETTI_ADDR,
+            on_bluetooth_connection_state=on_bt_state,
+            timeout=5,
+            feature_flags=feature_flags,
+            has_cache=False,
+            address_type=1,
+        )
+    except Exception as e:
+        print(f"  (pre-connect raised: {e})")
+
+    # Wait for a disconnect event (confirming the slot is clean) or just pause
+    try:
+        await asyncio.wait_for(disconnected.wait(), timeout=8)
+        print("  Got disconnect confirmation, slot is clean.")
+    except asyncio.TimeoutError:
+        print("  No disconnect event received, proceeding anyway.")
+
+    # Reset events for the real attempt
+    connected.clear()
+    disconnected.clear()
+    await asyncio.sleep(1)
 
     print(f"Sending connect request to {BLUETTI_MAC}...")
     await cli.bluetooth_device_connect(
         BLUETTI_ADDR,
         on_bluetooth_connection_state=on_bt_state,
-        timeout=30,
+        timeout=10,
         feature_flags=feature_flags,
+        has_cache=False,
         address_type=1,
     )
 
     try:
-        await asyncio.wait_for(connected.wait(), timeout=30)
+        await asyncio.wait_for(connected.wait(), timeout=10)
         print("Connected!")
     except asyncio.TimeoutError:
         print("Timed out waiting for connection.")

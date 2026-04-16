@@ -25,6 +25,7 @@ class FieldName(Enum):
     BATTERY_SOC = "total_battery_percent"
     BATTERY_SOC_RANGE_END = "soc_range_end"
     BATTERY_SOC_RANGE_START = "soc_range_start"
+    BATTERY_VOLTAGE = "battery_voltage"
     CTRL_AC = "ctrl_ac"
     CTRL_CHARGING_MODE = "ctrl_charging_mode"
     CTRL_DC = "ctrl_dc"
