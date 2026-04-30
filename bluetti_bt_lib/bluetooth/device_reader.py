@@ -69,32 +69,36 @@ class DeviceReader:
         async with self.polling_lock:
             try:
                 async with async_timeout.timeout(self.config.timeout):
-                    self.logger.debug("Searching for device")
+                    if not (self.client and self.client.is_connected):
+                        self.logger.debug("Searching for device")
 
-                    if self.ble_client:
-                        self.device = None
+                        if self.ble_client:
+                            self.device = None
+                        else:
+                            self.device = await BleakScanner.find_device_by_address(
+                                self.mac, timeout=5
+                            )
+
+                            if self.device is None:
+                                self.logger.error("Device not found")
+                                return
+
+                        self.logger.debug("Connecting to device")
+
+                        if self.ble_client:
+                            self.client = self.ble_client
+                        else:
+                            self.client = await establish_connection(
+                                BleakClientWithServiceCache,
+                                self.device,
+                                self.device.name or "Unknown Device",
+                                max_attempts=10,
+                            )
+
+                        self.logger.debug("Connected to device")
+                        self.has_notifier = False
                     else:
-                        self.device = await BleakScanner.find_device_by_address(
-                            self.mac, timeout=5
-                        )
-
-                        if self.device is None:
-                            self.logger.error("Device not found")
-                            return
-
-                    self.logger.debug("Connecting to device")
-
-                    if self.ble_client:
-                        self.client = self.ble_client
-                    else:
-                        self.client = await establish_connection(
-                            BleakClientWithServiceCache,
-                            self.device,
-                            self.device.name or "Unknown Device",
-                            max_attempts=10,
-                        )
-
-                    self.logger.debug("Connected to device")
+                        self.logger.debug("Reusing existing connection")
 
                     if not self.has_notifier:
                         await self.client.start_notify(
@@ -169,34 +173,44 @@ class DeviceReader:
 
             except TimeoutError:
                 self.logger.warning("Timeout")
+                await self._cleanup()
                 return None
             except BleakError as err:
                 self.logger.warning("Bleak error: %s", err)
+                await self._cleanup()
                 return None
             except BaseException as err:
                 self.logger.warning("Unknown error %s", err)
+                await self._cleanup()
                 return None
-            finally:
-                if self.has_notifier:
-                    try:
-                        await self.client.stop_notify(NOTIFY_UUID)
-                        self.logger.debug("Stopped notifier")
-                    except:
-                        # Ignore errors here
-                        pass
-                    self.has_notifier = False
-                if self.client:
-                    await self.client.disconnect()
-                    self.logger.debug("Disconnected from device")
-
-            # Reset Encryption keys
-            self.encryption.reset()
 
             # Check if dict is empty
             if not parsed_data:
                 return None
 
             return parsed_data
+
+    async def disconnect(self):
+        """Disconnect from device. Call on coordinator shutdown."""
+        await self._cleanup()
+
+    async def _cleanup(self):
+        """Disconnect and reset all state after an error."""
+        if self.has_notifier:
+            try:
+                await self.client.stop_notify(NOTIFY_UUID)
+                self.logger.debug("Stopped notifier")
+            except Exception:
+                pass
+            self.has_notifier = False
+        if self.client:
+            try:
+                await self.client.disconnect()
+                self.logger.debug("Disconnected from device")
+            except Exception:
+                pass
+            self.client = None
+        self.encryption.reset()
 
     async def _async_send_command(self, registers: DeviceRegister) -> bytes:
         """Send command and return response"""
