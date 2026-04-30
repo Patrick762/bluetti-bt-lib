@@ -206,4 +206,6 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-bluetti_data.*.json
+data/
+.vscode/
+bluetti_data.json

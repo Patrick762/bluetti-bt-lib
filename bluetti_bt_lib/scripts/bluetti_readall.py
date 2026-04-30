@@ -21,7 +21,7 @@ async def async_read_device(address: str, iot_version: int, encryption: bool):
         return
 
     reader = DeviceReader(
-        address, device, asyncio.Future, DeviceReaderConfig(use_encryption=encryption)
+        address, device, asyncio.Future, DeviceReaderConfig(use_encryption=encryption, timeout=9999)
     )
 
     print("Reader created")
@@ -48,7 +48,7 @@ async def async_read_device(address: str, iot_version: int, encryption: bool):
         register_data,
     )
 
-    with open(f"bluetti_data.{address.replace(':', '-')}.json", "w") as f:
+    with open(f"bluetti_data.json", "w") as f:
         json.dump(data_obj.toJSON(), f)
 
 
@@ -68,6 +68,9 @@ def start():
 
     encryption = False if args.encryption is None else True
 
-    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.INFO)
 
     asyncio.run(async_read_device(args.mac, args.version, encryption))
+
+if __name__ == "__main__":
+    start()

@@ -56,3 +56,6 @@ def start():
     logging.basicConfig(level=logging.WARNING)
 
     asyncio.run(async_read_device(args.mac, args.type, args.encryption))
+
+if __name__ == "__main__":
+    start()

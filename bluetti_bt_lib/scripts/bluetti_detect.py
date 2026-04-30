@@ -38,3 +38,6 @@ def start():
     logging.basicConfig(level=logging.WARNING)
 
     asyncio.run(async_detect_device(args.mac))
+
+if __name__ == "__main__":
+    start()

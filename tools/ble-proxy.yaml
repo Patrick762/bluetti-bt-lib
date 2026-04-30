@@ -1,0 +1,26 @@
+esphome:
+  name: bluetti-ble-proxy
+  friendly_name: Bluetti BLE Proxy
+
+esp32:
+  board: m5stack-atom
+  framework:
+    type: arduino
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "bluetti-ble-proxy"
+    password: "bluettifallback"
+
+api:
+
+ota:
+  - platform: esphome
+
+logger:
+  level: DEBUG
+
+bluetooth_proxy:
+  active: true
