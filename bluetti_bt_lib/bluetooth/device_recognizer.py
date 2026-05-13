@@ -6,6 +6,11 @@ from ..base_devices import BluettiDevice, BaseDeviceV1, BaseDeviceV2
 from ..bluetooth import DeviceReader, DeviceReaderConfig
 from ..devices import DEVICE_NAME_RE
 from ..fields import FieldName
+from .exceptions import (
+    DeviceNotFoundError,
+    ConnectionFailedError,
+    EncryptionHandshakeError,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -54,9 +59,16 @@ async def recognize_device(
         for device_reader in device_readers:
 
             # We only need 6 registers to get the device type
-            data = await device_reader.read(
-                bluetti_device.get_device_type_registers(),
-            )
+            try:
+                data = await device_reader.read(
+                    bluetti_device.get_device_type_registers(),
+                )
+            except DeviceNotFoundError:
+                # Device not in range — no point trying other protocols
+                raise
+            except (ConnectionFailedError, EncryptionHandshakeError):
+                # Try next protocol variant
+                continue
 
             if data is None:
                 continue
@@ -82,9 +94,17 @@ async def recognize_device(
                 _LOGGER.warning("Device has populated type_data with trash data")
                 continue
 
-            data = await device_reader.read(
-                bluetti_device.get_device_sn_registers(),
-            )
+            try:
+                data = await device_reader.read(
+                    bluetti_device.get_device_sn_registers(),
+                )
+            except (DeviceNotFoundError, ConnectionFailedError, EncryptionHandshakeError):
+                return DeviceRecognizerResult(
+                    type_data,
+                    bluetti_device.get_iot_version(),
+                    device_reader.config.use_encryption,
+                    "000000000000",  # Use dummy SN
+                )
 
             if data is None:
                 # Should never happen

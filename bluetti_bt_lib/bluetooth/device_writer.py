@@ -8,6 +8,7 @@ from bleak.exc import BleakError
 from ..const import WRITE_UUID
 from ..base_devices import BluettiDevice
 from ..utils.privacy import mac_loggable
+from .exceptions import ConnectionFailedError
 
 
 class DeviceWriterConfig:
@@ -56,7 +57,14 @@ class DeviceWriter:
                 async with async_timeout.timeout(self.config.timeout):
                     if not self.client.is_connected:
                         self.logger.debug("Connecting to device")
-                        await self.client.connect()
+                        try:
+                            await self.client.connect()
+                        except (BleakError, TimeoutError) as err:
+                            raise ConnectionFailedError(
+                                "Failed to connect to device for writing. "
+                                "Another Bluetooth client (such as the "
+                                "Bluetti app) may already be connected."
+                            ) from err
 
                     self.logger.debug("Connected to device")
 
@@ -69,15 +77,20 @@ class DeviceWriter:
 
                     self.logger.debug("Write successful")
 
+            except ConnectionFailedError:
+                raise
             except TimeoutError:
-                self.logger.warning("Timeout")
-                return None
+                raise ConnectionFailedError(
+                    "Timed out writing to device. Another Bluetooth client "
+                    "(such as the Bluetti app) may already be connected."
+                )
             except BleakError as err:
-                self.logger.warning("Bleak error: %s", err)
-                return None
-            except BaseException as err:
-                self.logger.warning("Unknown error: %s", err)
-                return None
+                raise ConnectionFailedError(
+                    f"Bluetooth error writing to device: {err}"
+                ) from err
+            except Exception as err:
+                self.logger.error("Unexpected error writing to device: %s", err)
+                raise
             finally:
                 await self.client.disconnect()
                 self.logger.debug("Disconnected from device")

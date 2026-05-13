@@ -4,9 +4,21 @@ import async_timeout
 from typing import Any, Callable, List, cast
 from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakError
-from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
+from bleak_retry_connector import (
+    BleakClientWithServiceCache,
+    BleakNotFoundError,
+    BleakAbortedError,
+    BleakConnectionError,
+    BleakOutOfConnectionSlotsError,
+    establish_connection,
+)
 
 from .encryption import BluettiEncryption, Message, MessageType
+from .exceptions import (
+    DeviceNotFoundError,
+    ConnectionFailedError,
+    EncryptionHandshakeError,
+)
 from ..base_devices import BluettiDevice
 from ..const import NOTIFY_UUID, WRITE_UUID
 from ..registers import ReadableRegisters, DeviceRegister
@@ -69,6 +81,7 @@ class DeviceReader:
         async with self.polling_lock:
             try:
                 async with async_timeout.timeout(self.config.timeout):
+                    # Stage 1: Scan for device
                     self.logger.debug("Searching for device")
 
                     if self.ble_client:
@@ -79,38 +92,75 @@ class DeviceReader:
                         )
 
                         if self.device is None:
-                            self.logger.error("Device not found")
-                            return
+                            raise DeviceNotFoundError(
+                                f"Device {mac_loggable(self.mac)} not found. "
+                                "The device may be out of range or powered off."
+                            )
 
+                    # Stage 2: Connect
                     self.logger.debug("Connecting to device")
 
                     if self.ble_client:
                         self.client = self.ble_client
                     else:
-                        self.client = await establish_connection(
-                            BleakClientWithServiceCache,
-                            self.device,
-                            self.device.name or "Unknown Device",
-                            max_attempts=10,
-                        )
+                        try:
+                            self.client = await establish_connection(
+                                BleakClientWithServiceCache,
+                                self.device,
+                                self.device.name or "Unknown Device",
+                                max_attempts=3,
+                            )
+                        except (
+                            BleakNotFoundError,
+                            BleakAbortedError,
+                            BleakConnectionError,
+                            BleakOutOfConnectionSlotsError,
+                            BleakError,
+                        ) as err:
+                            raise ConnectionFailedError(
+                                f"Device {mac_loggable(self.mac)} was found but the "
+                                "connection failed. Another Bluetooth client (such as "
+                                "the Bluetti app) may already be connected. "
+                                "Disconnect any other Bluetooth clients and try again."
+                            ) from err
 
                     self.logger.debug("Connected to device")
 
-                    if not self.has_notifier:
-                        await self.client.start_notify(
-                            NOTIFY_UUID, self._notification_handler
-                        )
-                        self.has_notifier = True
+                    # Stage 3: Subscribe to notifications
+                    try:
+                        if not self.has_notifier:
+                            await self.client.start_notify(
+                                NOTIFY_UUID, self._notification_handler
+                            )
+                            self.has_notifier = True
+                    except BleakError as err:
+                        raise ConnectionFailedError(
+                            f"Device {mac_loggable(self.mac)} connected but failed "
+                            "to subscribe to notifications."
+                        ) from err
 
                     self.logger.debug("Notification handler setup complete")
 
-                    while (
-                        self.config.use_encryption
-                        and not self.encryption.is_ready_for_commands
-                    ):
-                        await asyncio.sleep(5)
-                        self.logger.debug("Encryption handshake not finished yet")
+                    # Stage 4: Encryption handshake
+                    if self.config.use_encryption:
+                        handshake_timeout = 30
+                        elapsed = 0
+                        while not self.encryption.is_ready_for_commands:
+                            if elapsed >= handshake_timeout:
+                                raise EncryptionHandshakeError(
+                                    f"Device {mac_loggable(self.mac)} connected but "
+                                    "the encryption handshake failed. This may "
+                                    "indicate a library bug. Please open an issue at "
+                                    "https://github.com/Patrick762/bluetti-bt-lib/issues "
+                                    "with your device model and firmware version."
+                                )
+                            await asyncio.sleep(2)
+                            elapsed += 2
+                            self.logger.debug(
+                                "Encryption handshake not finished yet"
+                            )
 
+                    # Stage 5: Read registers
                     for register in registers:
                         body = register.parse_response(
                             await self._async_send_command(register)
@@ -165,15 +215,29 @@ class DeviceReader:
 
                             parsed_data.update(parsed)
 
+            except (
+                DeviceNotFoundError,
+                ConnectionFailedError,
+                EncryptionHandshakeError,
+            ):
+                raise
             except TimeoutError:
-                self.logger.warning("Timeout")
-                return None
+                raise ConnectionFailedError(
+                    f"Device {mac_loggable(self.mac)} communication timed out "
+                    f"after {self.config.timeout}s. Another Bluetooth client "
+                    "(such as the Bluetti app) may already be connected."
+                )
             except BleakError as err:
-                self.logger.warning("Bleak error: %s", err)
-                return None
-            except BaseException as err:
-                self.logger.warning("Unknown error %s", err)
-                return None
+                raise ConnectionFailedError(
+                    f"Device {mac_loggable(self.mac)} Bluetooth error: {err}"
+                ) from err
+            except Exception as err:
+                self.logger.error(
+                    "Unexpected error communicating with %s: %s",
+                    mac_loggable(self.mac),
+                    err,
+                )
+                raise
             finally:
                 if self.has_notifier:
                     try:
