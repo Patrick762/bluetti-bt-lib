@@ -254,7 +254,16 @@ class DeviceReader:
                 )
 
             key, iv = self.encryption.getKeyIv()
-            decrypted = Message(self.encryption.aes_decrypt(message.buffer, key, iv))
+            try:
+                decrypted = Message(self.encryption.aes_decrypt(message.buffer, key, iv))
+            except ValueError as err:
+                if str(err) == "Data not aligned on aes block size":
+                    self.logger.debug(
+                        "Ignoring invalid encrypted Bluetti notification frame: %s",
+                        err,
+                    )
+                    return
+                raise
 
             if decrypted.is_pre_key_exchange:
                 decrypted.verify_checksum()
