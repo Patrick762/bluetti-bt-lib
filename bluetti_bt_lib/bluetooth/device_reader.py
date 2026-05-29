@@ -8,10 +8,9 @@ from bleak_retry_connector import BleakClientWithServiceCache, establish_connect
 
 from .encryption import BluettiEncryption, Message, MessageType
 from ..base_devices import BluettiDevice
-from ..const import NOTIFY_UUID, WRITE_UUID
+from ..const import NOTIFY_UUID, NOTIFY_UUID2, WRITE_UUID
 from ..registers import ReadableRegisters, DeviceRegister
 from ..utils.privacy import mac_loggable
-
 
 class DeviceReaderConfig:
     def __init__(self, timeout: int = 60, use_encryption: bool = False):
@@ -45,6 +44,7 @@ class DeviceReader:
         self.device = None
         self.client = None
 
+        self.pubkey_sent = False
         self.has_notifier = False
         self.current_registers = None
         self.notify_response = bytearray()
@@ -87,16 +87,24 @@ class DeviceReader:
                     if self.ble_client:
                         self.client = self.ble_client
                     else:
-                        self.client = await establish_connection(
-                            BleakClientWithServiceCache,
-                            self.device,
-                            self.device.name or "Unknown Device",
-                            max_attempts=10,
-                        )
+                        import platform
+                        if platform.system() == "Darwin":
+                            self.client = BleakClient(self.device, timeout=20.0)
+                            await self.client.connect()
+                        else:
+                            self.client = await establish_connection(
+                                BleakClientWithServiceCache,
+                                self.device,
+                                self.device.name or "Unknown Device",
+                                max_attempts=10,
+                            )
 
                     self.logger.debug("Connected to device")
 
                     if not self.has_notifier:
+                        await self.client.start_notify(
+                            NOTIFY_UUID2, self._notification_handler
+                        )
                         await self.client.start_notify(
                             NOTIFY_UUID, self._notification_handler
                         )
@@ -214,7 +222,7 @@ class DeviceReader:
 
         try:
             # Make request
-            await self.client.write_gatt_char(WRITE_UUID, command_bytes)
+            await self.client.write_gatt_char(WRITE_UUID, command_bytes, response=False)
 
             self.logger.debug("Request sent (%s)", registers)
 
@@ -241,7 +249,7 @@ class DeviceReader:
 
                 if message.type == MessageType.CHALLENGE:
                     challenge_response = self.encryption.msg_challenge(message)
-                    await self.client.write_gatt_char(WRITE_UUID, challenge_response)
+                    await self.client.write_gatt_char(WRITE_UUID, challenge_response, response=False)
                     return
 
                 if message.type == MessageType.CHALLENGE_ACCEPTED:
@@ -260,8 +268,10 @@ class DeviceReader:
                 decrypted.verify_checksum()
 
                 if decrypted.type == MessageType.PEER_PUBKEY:
-                    peer_pubkey_response = self.encryption.msg_peer_pubkey(decrypted)
-                    await self.client.write_gatt_char(WRITE_UUID, peer_pubkey_response)
+                    if not self.pubkey_sent:
+                        self.pubkey_sent = True
+                        peer_pubkey_response = self.encryption.msg_peer_pubkey(decrypted)
+                        await self.client.write_gatt_char(WRITE_UUID, peer_pubkey_response, response=True)
                     return
 
                 if decrypted.type == MessageType.PUBKEY_ACCEPTED:
