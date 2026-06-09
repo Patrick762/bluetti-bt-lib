@@ -49,6 +49,7 @@ Added and mostly validated by contributors (some are moved here from the HA Inte
 |EP760      |[@Apfuntimes](https://github.com/Apfuntimes)                                       |✅                   |PV            |Grid          |❌             |AC Phases      |
 |EP800      |[@jhagenk](https://github.com/jhagenk)                                             |✅                   |❌            |❌            |❌             |❌             |
 |PR30V2     |@gentoo90                                                                          |✅                   |✅            |✅            |✅             |✅             |
+|PR100V2    |shares PR30V2 register layout (pending validation)                                 |✅                   |✅            |✅            |✅             |✅             |
 
 ## Controls
 
