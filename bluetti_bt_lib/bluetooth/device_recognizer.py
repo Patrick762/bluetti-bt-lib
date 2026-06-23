@@ -55,7 +55,8 @@ async def recognize_device(
 
             # We only need 6 registers to get the device type
             data = await device_reader.read(
-                bluetti_device.get_device_type_registers(),
+                bluetti_device.get_device_type_registers()
+                + bluetti_device.get_device_sn_registers(),
             )
 
             if data is None:
@@ -82,23 +83,9 @@ async def recognize_device(
                 _LOGGER.warning("Device has populated type_data with trash data")
                 continue
 
-            data = await device_reader.read(
-                bluetti_device.get_device_sn_registers(),
-            )
-
-            if data is None:
-                # Should never happen
-                return DeviceRecognizerResult(
-                    type_data,
-                    bluetti_device.get_iot_version(),
-                    device_reader.config.use_encryption,
-                    "000000000000",  # Use dummy SN
-                )
-
             sn_data = data.get(FieldName.DEVICE_SN.value)
 
-            if not isinstance(sn_data, int) or sn_data == "":
-                # Should never happen
+            if not isinstance(sn_data, int):
                 return DeviceRecognizerResult(
                     type_data,
                     bluetti_device.get_iot_version(),
