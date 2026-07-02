@@ -75,6 +75,29 @@ Added and mostly validated by contributors:
 pip install bluetti-bt-lib
 ```
 
+## Releases (HACS / Home Assistant integration)
+
+Tagged releases publish a built wheel as a GitHub Release asset. To make HACS
+downloads reproducible, a Home Assistant integration that depends on this
+library should pin its `manifest.json` `requirements` to a released wheel
+instead of a moving branch, e.g.:
+
+```json
+"requirements": [
+  "https://github.com/antoinevalentinHA/bluetti-bt-lib/releases/download/v1.0.0/bluetti_bt_lib-1.0.0-py3-none-any.whl"
+]
+```
+
+Cutting a new release is done by pushing a version tag:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The `Release` workflow then builds the wheel + sdist and attaches them to the
+matching GitHub Release automatically.
+
 ## Commands for testing
 
 Commands included in this library should only be used for testing.
