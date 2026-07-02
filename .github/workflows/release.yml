@@ -1,10 +1,15 @@
 # Build the distribution and publish it as a GitHub Release asset.
 #
-# Triggered by pushing a version tag (e.g. `v1.0.0`). The workflow builds the
-# wheel + sdist, then creates (or updates) the matching GitHub Release and
-# attaches the built artifacts to it. Home Assistant integrations installed via
-# HACS can then pin their `requirements` to a stable release asset URL instead
-# of a moving branch, which makes the download reproducible and reliable.
+# Two ways to cut a release:
+#   * push a version tag (e.g. `v1.0.0`), or
+#   * run this workflow manually (Actions -> Release -> Run workflow) and pass
+#     the version — handy when tags cannot be pushed directly. In that case the
+#     workflow creates the tag itself, at the checked-out commit.
+#
+# Either way it builds the wheel + sdist and attaches them to the matching
+# GitHub Release. Home Assistant integrations installed via HACS can then pin
+# their `requirements` to a stable release asset URL instead of a moving branch,
+# which makes the download reproducible and reliable.
 
 name: Release
 
@@ -12,6 +17,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag to release (e.g. v1.0.0)"
+        required: true
+        default: "v1.0.0"
 
 permissions:
   contents: write
@@ -21,6 +32,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Resolve release tag
+        id: tag
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            TAG="$INPUT_VERSION"
+          else
+            TAG="$REF_NAME"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          # Strip the leading `v` so the package version stays PEP 440 compliant
+          # (tag `v1.0.0` -> version `1.0.0`).
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,22 +62,20 @@ jobs:
 
       - name: Build wheel and sdist
         env:
-          # Strip the leading `v` so the package version stays PEP 440 compliant
-          # (tag `v1.0.0` -> version `1.0.0`).
-          GITHUB_REF_NAME: ${{ github.ref_name }}
-        run: |
-          LIB_VERSION="${GITHUB_REF_NAME#v}" python -m build
+          LIB_VERSION: ${{ steps.tag.outputs.version }}
+        run: python -m build
 
       - name: Create GitHub release with the built artifacts
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.tag.outputs.tag }}
         run: |
-          if gh release view "${{ github.ref_name }}" >/dev/null 2>&1; then
-            gh release upload "${{ github.ref_name }}" \
-              dist/*.whl dist/*.tar.gz --clobber
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/*.whl dist/*.tar.gz --clobber
           else
-            gh release create "${{ github.ref_name }}" \
+            gh release create "$TAG" \
               dist/*.whl dist/*.tar.gz \
-              --title "${{ github.ref_name }}" \
+              --target "$GITHUB_SHA" \
+              --title "$TAG" \
               --generate-notes
           fi

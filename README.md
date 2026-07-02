@@ -88,15 +88,15 @@ instead of a moving branch, e.g.:
 ]
 ```
 
-Cutting a new release is done by pushing a version tag:
+Cutting a new release can be done either way:
 
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
+- Push a version tag: `git tag v1.0.0 && git push origin v1.0.0`, or
+- Run the workflow manually when tags cannot be pushed: **Actions → Release →
+  Run workflow**, entering the version (e.g. `v1.0.0`). The workflow then
+  creates the tag itself at the checked-out commit.
 
-The `Release` workflow then builds the wheel + sdist and attaches them to the
-matching GitHub Release automatically.
+In both cases the `Release` workflow builds the wheel + sdist and attaches them
+to the matching GitHub Release automatically.
 
 ## Commands for testing
 
