@@ -24,12 +24,25 @@ setup(
     url="https://github.com/Patrick762/bluetti-bt-lib",
     packages=find_packages(),
     install_requires=[
-        "async_timeout",
-        "bleak",
-        "bleak_retry_connector",
-        "crcmod",
-        "cryptography",
-        "pyasn1",
+        # Lower bounds only, no upper caps. When Home Assistant installs this
+        # library (uv `pip install` at integration load), unpinned requirements
+        # make the resolver query the HA wheels index (wheels.home-assistant.io)
+        # for the "latest compatible" version of every dependency, even when an
+        # acceptable one is already installed by HA core. An index incident
+        # (e.g. HTTP 522) then breaks the install. bleak, bleak-retry-connector,
+        # async-timeout and cryptography are shipped by HA core; floors aligned
+        # with the versions it provides let the resolver satisfy them from the
+        # already-installed packages without hitting the index. No upper bound:
+        # a cap could conflict with the (newer) version HA has already installed
+        # and break the install. Numbers below match HA core 2026.6.0.
+        "async-timeout>=4.0.3",
+        "bleak>=3.0.2",
+        "bleak-retry-connector>=4.6.1",
+        "cryptography>=48.0.0",
+        # Not part of HA core: these get downloaded regardless, so keep only a
+        # modest floor rather than over-constraining.
+        "crcmod>=1.7",
+        "pyasn1>=0.4.8",
     ],
     keywords=[],
     entry_points={
