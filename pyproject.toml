@@ -1,0 +1,8 @@
+# PEP 517/518 build system declaration.
+# Metadata (name, version, dependencies, entry points) intentionally stays in
+# setup.py, which remains the single source of truth. This file only makes the
+# build backend explicit so source builds (e.g. `pip install git+...@main`) are
+# reproducible across pip/uv/setuptools versions.
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"

@@ -9,7 +9,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = os.getenv("LIB_VERSION")
+VERSION = os.getenv("LIB_VERSION") or "0.0.0"
 DESCRIPTION = "Bluetti BT"
 
 # Setting up
@@ -25,12 +25,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "async_timeout",
-        "asyncio",
         "bleak",
         "bleak_retry_connector",
         "crcmod",
         "cryptography",
-        "logging",
         "pyasn1",
     ],
     keywords=[],
