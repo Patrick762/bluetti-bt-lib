@@ -22,6 +22,7 @@ from .el30v2 import EL30V2
 from .ep500 import EP500
 from .ep500p import EP500P
 from .ep600 import EP600
+from .ep760 import EP760
 from .ep800 import EP800
 from .ep2000 import EP2000
 from .handsfree1 import Handsfree1
@@ -51,6 +52,7 @@ DEVICES = {
     "EP500": EP500,
     "EP500P": EP500P,
     "EP600": EP600,
+    "EP760": EP760,
     "EP800": EP800,
     "EP2000": EP2000,
     "Handsfree 1": Handsfree1,
