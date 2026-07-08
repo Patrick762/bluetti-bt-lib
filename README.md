@@ -62,6 +62,7 @@ Added and mostly validated by contributors:
 |Device Name|Contributor                                              |ctrl_ac|ctrl_dc|ctrl_ups_mode|soc_range_start|soc_range_end|
 |-----------|---------------------------------------------------------|-------|-------|-------------|---------------|-------------|
 |AC200L     |bluetti-mqtt, [@seaburger](https://github.com/seaburger) |✅     |✅     |✅           |❌             |❌           |
+|EL30V2     |[@x3ccd4828](https://github.com/x3ccd4828)               |✅     |✅     |❌           |❌             |❌           |
 
 ## Battery pack data
 
