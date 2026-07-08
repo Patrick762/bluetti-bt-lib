@@ -6,7 +6,7 @@ import logging
 from typing import Any
 from bleak import BleakClient
 
-from ..bluetooth import DeviceWriter
+from ..bluetooth import DeviceWriter, DeviceWriterConfig
 from ..utils.device_builder import build_device
 
 
@@ -20,15 +20,12 @@ async def async_write(
         print("Unsupported powerstation type")
         return
 
-    if encryption:
-        print("Encryption is not supported")
-        return
-
     print("Client created")
 
     writer = DeviceWriter(
         client,
         built,
+        config=DeviceWriterConfig(use_encryption=encryption or False),
     )
 
     print("Writer created")

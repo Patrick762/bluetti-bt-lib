@@ -5,6 +5,7 @@ from .bluetooth import (
     DeviceReader,
     DeviceReaderConfig,
     DeviceWriter,
+    DeviceWriterConfig,
     DeviceRecognizerResult,
     recognize_device,
 )
