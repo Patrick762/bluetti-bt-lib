@@ -5,6 +5,7 @@ from bluetti_bt_lib.fields import (
     BoolField,
     BoolFieldNonZero,
     EnumField,
+    NumberField,
     SelectField,
     StringField,
     SerialNumberField,
@@ -168,3 +169,45 @@ class TestBluettiDevice(unittest.TestCase):
 
         self.assertEqual(len(device.get_select_fields()), 1)
         self.assertEqual(len(device.get_sensor_fields()), 1)
+
+    def test_number_fields(self):
+        fields = [
+            NumberField(FieldName.BATTERY_SOC_RANGE_START, 2022, min=0, max=100),
+            NumberField(FieldName.BATTERY_SOC_RANGE_END, 2023, min=0, max=100),
+            SwitchField(FieldName.CTRL_AC, 150),
+        ]
+
+        device = BluettiDevice(fields=fields, pack_fields=[], max_packs=0)
+
+        self.assertEqual(len(device.get_number_fields()), 2)
+        self.assertEqual(len(device.get_switch_fields()), 1)
+        # NumberField should not appear in sensor fields
+        self.assertEqual(len(device.get_sensor_fields()), 0)
+
+    def test_build_write_command_number_field(self):
+        fields = [
+            NumberField(FieldName.BATTERY_SOC_RANGE_START, 2022, min=0, max=100),
+        ]
+
+        device = BluettiDevice(fields)
+
+        command = device.build_write_command(
+            FieldName.BATTERY_SOC_RANGE_START.value, 75
+        )
+
+        self.assertEqual(command.address, 2022)
+        self.assertEqual(command.value, 75)
+
+    def test_build_write_command_number_field_float(self):
+        fields = [
+            NumberField(FieldName.BATTERY_SOC_RANGE_START, 2022, min=0, max=100),
+        ]
+
+        device = BluettiDevice(fields)
+
+        command = device.build_write_command(
+            FieldName.BATTERY_SOC_RANGE_START.value, 75.9
+        )
+
+        self.assertEqual(command.address, 2022)
+        self.assertEqual(command.value, 75)
