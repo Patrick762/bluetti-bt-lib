@@ -5,6 +5,9 @@ from ..fields import DeviceField, BoolField, BoolFieldNonZero, SwitchField, Sele
 
 
 class BluettiDevice:
+    # Modbus slave address; override in subclasses (e.g., AP300 uses 0)
+    slave_address = 1
+
     def __init__(
         self,
         fields: List[DeviceField],
@@ -22,7 +25,7 @@ class BluettiDevice:
         self.pack_polling_registers: List[ReadableRegisters] = []
 
         for f in self.fields:
-            group = ReadableRegisters(f.address, f.size)
+            group = ReadableRegisters(f.address, f.size, self.slave_address)
             self.polling_registers.append(group)
 
         # Check if we even have battery pack fields defined
@@ -31,7 +34,7 @@ class BluettiDevice:
 
         # Optimize amount of registers to separately request
         for f in self.pack_fields:
-            group = ReadableRegisters(f.address, f.size)
+            group = ReadableRegisters(f.address, f.size, self.slave_address)
             self.pack_polling_registers.append(group)
 
     def get_polling_registers(self) -> List[ReadableRegisters]:
@@ -112,7 +115,7 @@ class BluettiDevice:
         elif isinstance(field, SwitchField):
             value = 1 if value else 0
 
-        return WriteableRegister(field.address, value)
+        return WriteableRegister(field.address, value, self.slave_address)
 
     def get_bool_fields(self):
         """Returns all bool fields for this device"""
