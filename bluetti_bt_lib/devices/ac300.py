@@ -19,7 +19,6 @@ class AC300(BaseDeviceV1):
             [
                 VersionField(FieldName.VER_ARM, 23),
                 VersionField(FieldName.VER_DSP, 25),
-                DecimalField(FieldName.POWER_GENERATION, 43, 1),
                 EnumField(FieldName.AC_OUTPUT_MODE, 70, OutputMode),
                 DecimalField(FieldName.INTERNAL_AC_VOLTAGE, 71, 1),
                 DecimalField(FieldName.INTERNAL_AC_FREQUENCY, 74, 2),
