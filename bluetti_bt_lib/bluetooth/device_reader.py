@@ -322,10 +322,16 @@ class DeviceReader:
             # Handle as message
             data = decrypted.buffer
 
-        # Save data
-        self.notify_response.extend(data)
-
         if self.notify_future is None:
             return
+
+        if self.notify_future.done():
+            # Future was already resolved or cancelled (e.g. response timeout),
+            # so this is a late or duplicate notification we can safely drop
+            self.logger.debug("Dropping notification for already completed future")
+            return
+
+        # Save data
+        self.notify_response.extend(data)
 
         self.notify_future.set_result(self.notify_response)
