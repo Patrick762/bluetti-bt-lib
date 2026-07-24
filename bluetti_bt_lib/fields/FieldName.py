@@ -27,6 +27,8 @@ class FieldName(Enum):
     BATTERY_SOC_RANGE_START = "soc_range_start"
     CTRL_AC = "ctrl_ac"
     CTRL_CHARGING_MODE = "ctrl_charging_mode"
+    CTRL_WORKING_MODE = "ctrl_working_mode"
+    CTRL_CHARGE_FROM_GRID = "ctrl_charge_from_grid" 
     CTRL_DC = "ctrl_dc"
     CTRL_DISPLAY_TIMEOUT = "ctrl_display_timeout"
     CTRL_ECO = "ctrl_eco"

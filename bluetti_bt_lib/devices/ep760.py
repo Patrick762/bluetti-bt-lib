@@ -30,13 +30,12 @@ class EP760(BaseDeviceV2):
                 UIntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
                 UIntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
                 # --- Added: HA Energy dashboard totals (from old library) ---
+                DecimalField(FieldName.DC_INPUT_POWER, 144,1),
                 DecimalField(FieldName.TOTAL_LOAD_CONSUMPTION, 152, 1),
-                # --- Testing: register 154 - untested hypothesis for cumulative
-                # solar generation total (gap between load@152 and grid@156,
-                # matches EP600's POWER_GENERATION pattern). Verify against
-                # app's PV total before trusting this value.
                 DecimalField(FieldName.POWER_GENERATION, 154, 1),
                 DecimalField(FieldName.TOTAL_GRID_CONSUMPTION, 156, 1),
                 DecimalField(FieldName.TOTAL_GRID_FEED, 158, 1),
+                SwitchField(FieldName.CTRL_WORKING_MODE, 2029),
+                SwitchField(FieldName.CTRL_CHARGE_FROM_GRID, 2207),
            ],
         )
