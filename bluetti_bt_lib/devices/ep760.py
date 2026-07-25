@@ -15,7 +15,7 @@ class EP760(BaseDeviceV2):
                 # live hardware to be PV String 3, not a smart meter channel.
                 UIntField(FieldName.PV_S3_POWER, 1228),
                 DecimalField(FieldName.PV_S3_VOLTAGE, 1229, 1),
-                UIntField(FieldName.PV_S3_CURRENT, 1230, 1),
+                DecimalField(FieldName.PV_S3_CURRENT, 1230, 1),
                 DecimalField(FieldName.GRID_FREQUENCY, 1300, 1),
                 UIntField(FieldName.GRID_P1_POWER, 1313),
                 DecimalField(FieldName.GRID_P1_VOLTAGE, 1314, 1),
@@ -30,7 +30,7 @@ class EP760(BaseDeviceV2):
                 UIntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
                 UIntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
                 # --- Added: HA Energy dashboard totals (from old library) ---
-                DecimalField(FieldName.DC_INPUT_POWER, 144,1),
+                UIntField(FieldName.DC_INPUT_POWER, 144,1),
                 DecimalField(FieldName.TOTAL_LOAD_CONSUMPTION, 152, 1),
                 DecimalField(FieldName.POWER_GENERATION, 154, 1),
                 DecimalField(FieldName.TOTAL_GRID_CONSUMPTION, 156, 1),
