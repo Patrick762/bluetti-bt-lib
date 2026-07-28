@@ -8,6 +8,7 @@ COPY bluetti_bt_lib ./bluetti_bt_lib
 COPY tests ./tests
 
 RUN python3 -m unittest discover -s tests -p "*.py"
+RUN python3 -m unittest discover -s tests/bluetooth -p "*.py"
 RUN python3 -m unittest discover -s tests/fields -p "*.py"
 RUN python3 -m unittest discover -s tests/registers -p "*.py"
 RUN python3 -m unittest discover -s tests/base_devices -p "*.py"
