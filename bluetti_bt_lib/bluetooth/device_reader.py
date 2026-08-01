@@ -263,7 +263,12 @@ class DeviceReader:
 
                 if message.type == MessageType.CHALLENGE:
                     challenge_response = self.encryption.msg_challenge(message)
-                    await self.client.write_gatt_char(WRITE_UUID, challenge_response)
+                    try:
+                        await self.client.write_gatt_char(WRITE_UUID, challenge_response)
+                    except BleakError as err:
+                        self.logger.warning(
+                            "Challenge response write failed: %s", err
+                        )
                     return
 
                 if message.type == MessageType.CHALLENGE_ACCEPTED:
@@ -318,7 +323,12 @@ class DeviceReader:
 
                 if decrypted.type == MessageType.PEER_PUBKEY:
                     peer_pubkey_response = self.encryption.msg_peer_pubkey(decrypted)
-                    await self.client.write_gatt_char(WRITE_UUID, peer_pubkey_response)
+                    try:
+                        await self.client.write_gatt_char(
+                            WRITE_UUID, peer_pubkey_response
+                        )
+                    except BleakError as err:
+                        self.logger.warning("Peer pubkey write failed: %s", err)
                     return
 
                 if decrypted.type == MessageType.PUBKEY_ACCEPTED:
