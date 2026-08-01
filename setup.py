@@ -25,12 +25,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "async_timeout",
-        "asyncio",
         "bleak",
         "bleak_retry_connector",
         "crcmod",
         "cryptography",
-        "logging",
         "pyasn1",
     ],
     keywords=[],
