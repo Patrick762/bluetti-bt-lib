@@ -49,6 +49,7 @@ Added and mostly validated by contributors (some are moved here from the HA Inte
 |EP760      |[@Apfuntimes](https://github.com/Apfuntimes)                                       |✅                   |PV            |Grid          |❌             |AC Phases      |
 |EP800      |[@jhagenk](https://github.com/jhagenk)                                             |✅                   |❌            |❌            |❌             |❌             |
 |PR30V2     |@gentoo90                                                                          |✅                   |✅            |✅            |✅             |✅             |
+|PR100V2    |shares PR30V2 register layout (pending validation)                                 |✅                   |✅            |✅            |✅             |✅             |
 
 ## Controls
 
@@ -62,6 +63,7 @@ Added and mostly validated by contributors:
 |Device Name|Contributor                                              |ctrl_ac|ctrl_dc|ctrl_ups_mode|soc_range_start|soc_range_end|
 |-----------|---------------------------------------------------------|-------|-------|-------------|---------------|-------------|
 |AC200L     |bluetti-mqtt, [@seaburger](https://github.com/seaburger) |✅     |✅     |✅           |❌             |❌           |
+|EL30V2     |[@x3ccd4828](https://github.com/x3ccd4828)               |✅     |✅     |❌           |❌             |❌           |
 
 ## Battery pack data
 
@@ -105,12 +107,16 @@ Commands included in this library should only be used for testing.
 ### Scan for supported devices
 
 ```bash
-usage: bluetti-scan [-h]
+usage: bluetti-scan [-h] [-r REGEX] [-s SCAN_TIME]
 
 Detect bluetti devices by bluetooth name
 
 options:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  -r REGEX, --regex REGEX
+                        Custom regex to match device name
+  -s SCAN_TIME, --scan-time SCAN_TIME
+                        How long to scan for devices (seconds)
 ```
 
 Example output: `['EB3A', '00:00:00:00:00:00']`
