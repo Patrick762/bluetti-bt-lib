@@ -6,3 +6,4 @@ class ChargingMode(Enum):
     STANDARD = 0
     SILENT = 1
     TURBO = 2
+    CUSTOM = 4
