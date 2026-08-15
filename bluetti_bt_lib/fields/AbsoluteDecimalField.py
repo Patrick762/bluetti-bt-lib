@@ -4,7 +4,7 @@ from decimal import Decimal
 from . import DeviceField, FieldName
 
 
-class AbsoluteSignedDecimalField(DeviceField):
+class AbsoluteDecimalField(DeviceField):
     def __init__(
         self,
         name: FieldName,
