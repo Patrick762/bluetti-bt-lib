@@ -194,7 +194,7 @@ bluetti-write -m 00:00:00:00:00:00 -t EB3A --on on ctrl_ac
 
 To add new fields, you can use the `bluetti-detect` command to first find out which version of iot protocol is used and if it uses encryption.
 
-After you got this information, you can use the `bluetti-readall` command to read every registry and save the data to a json file. You should also note all values you see in the app to later compare the data.
+After you got this information, you can use the `bluetti-readall` command to read every registry and save the data to a json file and a hexdump (10 bytes per line). You should also note all values you see in the app to later compare the data.
 
 Here's how to use the `bluetti-readall` command:
 
