@@ -13,7 +13,7 @@ from ..fields import (
 from ..base_devices import BaseDeviceV2
 
 
-class EL100V2(BaseDeviceV2):
+class EL10(BaseDeviceV2):
     def __init__(self):
         super().__init__(
             [
@@ -35,10 +35,7 @@ class EL100V2(BaseDeviceV2):
                 UIntField(FieldName.CTRL_ECO_MIN_POWER_AC, 2019),
                 SelectField(FieldName.CTRL_CHARGING_MODE, 2020, ChargingMode),
                 SwitchField(FieldName.CTRL_POWER_LIFTING, 2021),
-                UIntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
-                UIntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
                 SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 2067, DisplayMode),
                 VersionField(FieldName.VER_BMS, 6175),
-                SwapStringField(FieldName.WIFI_NAME, 12002, 16),
             ],
         )

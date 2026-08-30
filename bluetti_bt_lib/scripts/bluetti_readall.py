@@ -48,8 +48,23 @@ async def async_read_device(address: str, iot_version: int, encryption: bool):
         register_data,
     )
 
+    export_json_file(address, data_obj)
+    export_hexdump_file(address, register_data)
+
+
+def export_json_file(address: str, data_obj):
     with open(f"bluetti_data.{address.replace(':', '-')}.json", "w") as f:
         json.dump(data_obj.toJSON(), f)
+
+
+def export_hexdump_file(address: str, register_data: dict[int, str]):
+    with open(f"bluetti_dump.{address.replace(':', '-')}.txt", "w") as f:
+        for key, value in register_data.items():
+            f.writelines(
+                [
+                    f'{key:06x}\t{" ".join([(value[i:i+2] or "00") for i in range(0, 20, 2)])}\t{"".join([chr(int((value[i:i+2] if (value[i:i+2] or "00") != "00" else "2e"), 16)) for i in range(0, 20, 2)])}\n'.lstrip()
+                ]
+            )
 
 
 def start():

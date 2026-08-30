@@ -28,28 +28,29 @@ Validated
 Added and mostly validated by contributors (some are moved here from the HA Integration https://github.com/Patrick762/hassio-bluetti-bt):
 
 
-|Device Name|Contributor                                                                        |total_battery_percent|dc_input_power|ac_input_power|dc_output_power|ac_output_power|
-|-----------|-----------------------------------------------------------------------------------|---------------------|--------------|--------------|---------------|---------------|
-|AC2A       |[@ruanmed](https://github.com/ruanmed)                                             |✅                   |✅            |✅            |✅             |✅             |
-|AC50B      |[@goetzc](https://github.com/goetzc)                                               |✅                   |❌            |✅            |✅             |✅             |
-|AC60       |[@mzpwr](https://github.com/mzpwr)                                                 |✅                   |✅            |✅            |✅             |✅             |
-|AC60P      |[@mzpwr](https://github.com/mzpwr)                                                 |✅                   |✅            |✅            |✅             |✅             |
-|AC70P      |[@matthewpucc](https://github.com/matthewpucc)                                     |✅                   |✅            |✅            |✅             |✅             |
-|AC180P     |@Patrick762                                                                        |✅                   |✅            |✅            |✅             |✅             |
-|AC200L     |bluetti-mqtt                                                                       |✅                   |✅            |✅            |✅             |✅             |
-|AC200M     |bluetti-mqtt                                                                       |✅                   |✅            |✅            |✅             |✅             |
-|AC200PL    |[@0x4E4448](https://github.com/0x4E4448)                                           |✅                   |✅            |✅            |✅             |✅             |
-|AC300      |bluetti-mqtt                                                                       |✅                   |✅            |✅            |✅             |✅             |
-|AC500      |bluetti-mqtt                                                                       |✅                   |✅            |✅            |✅             |✅             |
-|AP300      |[@seaburger](https://github.com/seaburger), [@sidieje](https://github.com/sidieje) |✅                   |✅            |✅            |✅             |✅             |
-|EL30V2     |[@dgudim](https://github.com/dgudim)                                               |✅                   |✅            |✅            |✅             |✅             |
-|EL100V2    |[@seaburger](https://github.com/seaburger)                                         |✅                   |✅            |✅            |✅             |✅             |
-|EP500      |bluetti-mqtt                                                                       |✅                   |✅            |✅            |✅             |✅             |
-|EP500P     |bluetti-mqtt                                                                       |✅                   |✅            |✅            |✅             |✅             |
-|EP760      |[@Apfuntimes](https://github.com/Apfuntimes)                                       |✅                   |PV            |Grid          |❌             |AC Phases      |
-|EP800      |[@jhagenk](https://github.com/jhagenk)                                             |✅                   |❌            |❌            |❌             |❌             |
-|PR30V2     |@gentoo90                                                                          |✅                   |✅            |✅            |✅             |✅             |
-|PR100V2    |shares PR30V2 register layout (pending validation)                                 |✅                   |✅            |✅            |✅             |✅             |
+|Device Name|Contributor                                                                            |total_battery_percent|dc_input_power |ac_input_power |dc_output_power|ac_output_power|
+|-----------|---------------------------------------------------------------------------------------|---------------------|---------------|---------------|---------------|---------------|
+|AC2A       |[@ruanmed](https://github.com/ruanmed)                                                 |✅                   |✅             |✅             |✅             |✅             |
+|AC50B      |[@goetzc](https://github.com/goetzc)                                                   |✅                   |❌             |✅             |✅             |✅             |
+|AC60       |[@mzpwr](https://github.com/mzpwr)                                                     |✅                   |✅             |✅             |✅             |✅             |
+|AC60P      |[@mzpwr](https://github.com/mzpwr)                                                     |✅                   |✅             |✅             |✅             |✅             |
+|AC70P      |[@matthewpucc](https://github.com/matthewpucc)                                         |✅                   |✅             |✅             |✅             |✅             |
+|AC180P     |@Patrick762                                                                            |✅                   |✅             |✅             |✅             |✅             |
+|AC200L     |bluetti-mqtt                                                                           |✅                   |✅             |✅             |✅             |✅             |
+|AC200M     |bluetti-mqtt                                                                           |✅                   |✅             |✅             |✅             |✅             |
+|AC200PL    |[@0x4E4448](https://github.com/0x4E4448)                                               |✅                   |✅             |✅             |✅             |✅             |
+|AC300      |bluetti-mqtt                                                                           |✅                   |✅             |✅             |✅             |✅             |
+|AC500      |bluetti-mqtt                                                                           |✅                   |✅             |✅             |✅             |✅             |
+|AP300      |[@seaburger](https://github.com/seaburger), [@sidieje](https://github.com/sidieje)     |✅                   |✅             |✅             |✅             |✅             |
+|EL30V2     |[@dgudim](https://github.com/dgudim)                                                   |✅                   |✅             |✅             |✅             |✅             |
+|EL100V2    |[@seaburger](https://github.com/seaburger), [lesolas20](https://github.com/lesolas20)  |✅                   |✅             |✅             |✅             |✅             |
+|EP500      |bluetti-mqtt                                                                           |✅                   |✅             |✅             |✅             |✅             |
+|EP500P     |bluetti-mqtt                                                                           |✅                   |✅             |✅             |✅             |✅             |
+|EP760      |[@Apfuntimes](https://github.com/Apfuntimes)                                           |✅                   |PV             |Grid           |❌             |AC Phases      |
+|EP800      |[@jhagenk](https://github.com/jhagenk)                                                 |✅                   |❌             |❌             |❌             |❌             |
+|PR30V2     |@gentoo90                                                                              |✅                   |✅             |✅             |✅             |✅             |
+|PR100V2    |shares PR30V2 register layout (pending validation)                                     |✅                   |✅             |✅             |✅             |✅             |
+|EL10       |[sidieje](https://github.com/sidieje)                                                  |✅                   |✅             |✅             |✅             |✅             |
 
 ## Controls
 
@@ -58,6 +59,7 @@ Validated:
 |Device Name|ctrl_ac|ctrl_dc|
 |-----------|-------|-------|
 |EB3A       |✅     |✅     |
+|EP600      |✅     |❌     |
 
 Added and mostly validated by contributors:
 |Device Name|Contributor                                              |ctrl_ac|ctrl_dc|ctrl_ups_mode|soc_range_start|soc_range_end|
@@ -194,7 +196,7 @@ bluetti-write -m 00:00:00:00:00:00 -t EB3A --on on ctrl_ac
 
 To add new fields, you can use the `bluetti-detect` command to first find out which version of iot protocol is used and if it uses encryption.
 
-After you got this information, you can use the `bluetti-readall` command to read every registry and save the data to a json file. You should also note all values you see in the app to later compare the data.
+After you got this information, you can use the `bluetti-readall` command to read every registry and save the data to a json file and a hexdump (10 bytes per line). You should also note all values you see in the app to later compare the data.
 
 Here's how to use the `bluetti-readall` command:
 
