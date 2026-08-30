@@ -46,6 +46,32 @@ class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(data.get(FieldName.DC_OUTPUT_POWER.value), 7)
         self.assertEqual(data.get(FieldName.BATTERY_SOC.value), 78)
 
+    async def test_notification_with_done_future(self):
+        # Late or duplicate notifications must not raise InvalidStateError (#64)
+        device = BaseDeviceV1()
+        reader = DeviceReader(
+            "00:11:00:11:00:11",
+            device,
+            asyncio.Future,
+            ble_client=self.ble_mock,
+        )
+
+        # First notification resolves the future
+        reader.notify_future = asyncio.Future()
+        await reader._notification_handler(0, bytearray(b"\x01\x02"))
+        self.assertTrue(reader.notify_future.done())
+
+        # Duplicate notification arriving after the future is resolved
+        await reader._notification_handler(0, bytearray(b"\x03\x04"))
+        self.assertEqual(reader.notify_future.result(), bytearray(b"\x01\x02"))
+
+        # Late notification after the future was cancelled (response timeout)
+        reader.notify_response = bytearray()
+        reader.notify_future = asyncio.Future()
+        reader.notify_future.cancel()
+        await reader._notification_handler(0, bytearray(b"\x05\x06"))
+        self.assertTrue(reader.notify_future.cancelled())
+
     async def test_read_soc_wrong(self):
         # SOC
         self.ble_mock.add_r_int(43, 1234)
