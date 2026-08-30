@@ -28,6 +28,7 @@ from .ep760 import EP760
 from .ep800 import EP800
 from .ep2000 import EP2000
 from .handsfree1 import Handsfree1
+from .handsfree2 import Handsfree2
 from .pr30v2 import PR30V2
 from .pr100v2 import PR100V2
 
@@ -61,6 +62,7 @@ DEVICES = {
     "EP800": EP800,
     "EP2000": EP2000,
     "Handsfree 1": Handsfree1,
+    "Handsfree 2": Handsfree2,
     "PR30V2": PR30V2,
     "PR100V2": PR100V2,
 }
