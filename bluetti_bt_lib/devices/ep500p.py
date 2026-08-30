@@ -1,35 +1,31 @@
-from ..base_devices import BaseDeviceV1
-from ..fields import (
-    FieldName,
-    EnumField,
-    DecimalField,
-    UIntField,
-    SelectField,
-    BoolField,
-    SwitchField,
-)
-from ..enums import OutputMode, DisplayMode, UpsMode, SplitPhaseMode
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class EP500P(BaseDeviceV1):
+class EP500P(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                EnumField(FieldName.AC_OUTPUT_MODE, 70, OutputMode),
-                DecimalField(FieldName.AC_OUTPUT_VOLTAGE, 71, 1),
-                DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 74, 2),
-                DecimalField(FieldName.AC_INPUT_VOLTAGE, 77, 1),
-                DecimalField(FieldName.AC_INPUT_FREQUENCY, 80, 2),
-                DecimalField(FieldName.PV_S1_VOLTAGE, 86, 1),
-                DecimalField(FieldName.PV_S1_POWER, 87, 1, 10),
-                DecimalField(FieldName.PV_S1_CURRENT, 88, 2, 10),
-                SelectField(FieldName.CTRL_UPS_MODE, 3001, UpsMode),
-                BoolField(FieldName.CTRL_SPLIT_PHASE, 3004),
-                EnumField(FieldName.CTRL_SPLIT_PHASE_MODE, 3005, SplitPhaseMode),
-                SwitchField(FieldName.CTRL_AC, 3007),
-                SwitchField(FieldName.CTRL_DC, 3008),
-                UIntField(FieldName.BATTERY_SOC_RANGE_START, 3015),
-                UIntField(FieldName.BATTERY_SOC_RANGE_END, 3016),
-                SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
-            ],
-        )
+        super().__init__([
+			StringField("d_inverter_type", 10),
+			SerialNumberField("d_serial", 17),
+			UIntField("dc_i_p_total", 36),
+			UIntField("ac_i_p_total", 37),
+			UIntField("ac_o_p_total", 38),
+			UIntField("dc_o_p_total", 39),
+			UIntField("b_soc_total", 43),
+			EnumField("ac_o_mode", 70),
+			UIntField("ac_1_o_v", 71),
+			UIntField("ac_o_f", 74),
+			UIntField("ac_i_v", 77),
+			UIntField("pv_1_i_v", 86),
+			UIntField("pv_1_i_p", 87),
+			UIntField("pv_1_i_c", 88),
+			EnumField("ac_ups_mode", 3001),
+			BoolField("d_split_phase_switch", 3004),
+			EnumField("d_split_phase_mode", 3005),
+			BoolField("ac_o_switch", 3007),
+			BoolField("dc_o_switch", 3008),
+			UIntField("b_soc_low", 3015),
+			UIntField("b_soc_high", 3016),
+			EnumField("d_display_mode", 3061),
+        ])

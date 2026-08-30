@@ -1,34 +1,26 @@
-from ..base_devices import BaseDeviceV1
-from ..fields import (
-    FieldName,
-    EnumField,
-    DecimalField,
-    SwitchField,
-    SelectField,
-    UIntField,
-    VersionField,
-)
-from ..enums import OutputMode, DisplayMode, UpsMode
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class AC200L(BaseDeviceV1):
+class AC200L(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                VersionField(FieldName.VER_ARM, 23),
-                VersionField(FieldName.VER_DSP, 25),
-                EnumField(FieldName.AC_OUTPUT_MODE, 70, OutputMode),
-                DecimalField(FieldName.INTERNAL_AC_VOLTAGE, 71, 1, 10),
-                DecimalField(FieldName.INTERNAL_AC_FREQUENCY, 74, 2, 10),
-                DecimalField(FieldName.INTERNAL_DC_INPUT_VOLTAGE, 86, 1),
-                DecimalField(FieldName.INTERNAL_DC_INPUT_POWER, 87, 1, 10),
-                DecimalField(FieldName.INTERNAL_DC_INPUT_CURRENT, 88, 2),
-                SelectField(FieldName.CTRL_UPS_MODE, 3001, UpsMode),
-                SwitchField(FieldName.CTRL_AC, 3007),
-                SwitchField(FieldName.CTRL_DC, 3008),
-                UIntField(FieldName.BATTERY_SOC_RANGE_START, 3015, min=0, max=100),
-                UIntField(FieldName.BATTERY_SOC_RANGE_END, 3016, min=0, max=100),
-                SwitchField(FieldName.CTRL_POWER_OFF, 3060),
-                SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
-            ],
-        )
+        super().__init__([
+			StringField("d_inverter_type", 10),
+			SerialNumberField("d_serial", 17),
+			VersionField("d_ver_arm", 23),
+			VersionField("d_ver_dsp", 25),
+			UIntField("dc_i_p_total", 36),
+			UIntField("ac_i_p_total", 37),
+			UIntField("ac_o_p_total", 38),
+			UIntField("dc_o_p_total", 39),
+			UIntField("b_soc_total", 43),
+			EnumField("ac_o_mode", 70),
+			EnumField("ac_ups_mode", 3001),
+			BoolField("ac_o_switch", 3007),
+			BoolField("dc_o_switch", 3008),
+			UIntField("b_soc_low", 3015),
+			UIntField("b_soc_high", 3016),
+			BoolField("d_power_off", 3060),
+			EnumField("d_display_mode", 3061),
+        ])

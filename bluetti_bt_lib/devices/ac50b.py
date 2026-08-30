@@ -1,14 +1,16 @@
-from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class AC50B(BaseDeviceV2):
+class AC50B(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                DecimalField(FieldName.TIME_REMAINING, 104, 1),
-                UIntField(FieldName.DC_OUTPUT_POWER, 140),
-                UIntField(FieldName.AC_OUTPUT_POWER, 142),
-                UIntField(FieldName.AC_INPUT_POWER, 146),
-            ],
-        )
+        super().__init__([
+			UIntField("b_soc_total", 102),
+			UIntField("d_time_remaining", 104),
+			StringField("d_inverter_type", 110),
+			SerialNumberField("d_serial", 116),
+			UIntField("dc_o_p_total", 140),
+			UIntField("ac_o_p_total", 142),
+			UIntField("ac_i_p_total", 146),
+        ])
