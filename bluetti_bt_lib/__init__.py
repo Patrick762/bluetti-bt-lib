@@ -9,5 +9,5 @@ from .bluetooth import (
     recognize_device,
 )
 from .enums import *
-from .fields import DeviceField, FieldName, FieldUnit, get_unit
+from .fields import DeviceField, NumberField, FieldName, FieldUnit, get_unit
 from .utils.device_builder import build_device
