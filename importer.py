@@ -1,6 +1,6 @@
 import requests
 
-tag = "0.0.21"
+tag = "0.0.22"
 url = f"https://github.com/Patrick762/bluetti-registers/releases/download/{tag}/bluetooth.json"
 
 output = "bluetti_bt_lib/devices/"
