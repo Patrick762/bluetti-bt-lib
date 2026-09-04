@@ -1,5 +1,4 @@
 import asyncio
-from decimal import Decimal
 import unittest
 
 from bluetti_bt_lib.utils.bleak_client_mock import ClientMockNoEncryption
