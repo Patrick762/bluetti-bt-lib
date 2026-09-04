@@ -15,7 +15,7 @@ def to_camel_case(snake_str):
 
 
 def get_type(t: str):
-    match(t):
+    match (t):
         case "bool":
             return "BoolField"
         case "enum":
@@ -37,9 +37,11 @@ def get_type(t: str):
 
     return "UINT16"
 
+
 def get_params(f):
     # TODO
     return ""
+
 
 device_names: list[str] = []
 

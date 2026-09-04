@@ -3,31 +3,34 @@ from ..fields import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
+
 class EP600(BluettiDevice):
     def __init__(self):
-        super().__init__([
-			UIntField("b_soc_total", 102),
-			StringField("d_inverter_type", 110),
-			SerialNumberField("d_serial", 116),
-			UIntField("pv_1_i_p", 1212),
-			UIntField("pv_1_i_v", 1213),
-			UIntField("pv_1_i_c", 1214),
-			UIntField("pv_2_i_p", 1220),
-			UIntField("pv_2_i_v", 1221),
-			UIntField("pv_2_i_c", 1222),
-			UIntField("g_i_f", 1300),
-			UIntField("ac_o_f", 1500),
-			UIntField("ac_1_o_p", 1510),
-			UIntField("ac_1_o_v", 1511),
-			UIntField("ac_1_o_c", 1512),
-			UIntField("ac_2_o_p", 1517),
-			UIntField("ac_2_o_v", 1518),
-			UIntField("ac_2_o_c", 1519),
-			UIntField("ac_3_o_p", 1524),
-			UIntField("ac_3_o_v", 1525),
-			UIntField("ac_3_o_c", 1526),
-			BoolField("ac_o_switch", 2011),
-			UIntField("b_soc_low", 2022),
-			UIntField("b_soc_high", 2023),
-			StringField("b_type", 6101),
-        ])
+        super().__init__(
+            [
+                UIntField("b_soc_total", 102),
+                StringField("d_inverter_type", 110),
+                SerialNumberField("d_serial", 116),
+                UIntField("pv_1_i_p", 1212),
+                UIntField("pv_1_i_v", 1213),
+                UIntField("pv_1_i_c", 1214),
+                UIntField("pv_2_i_p", 1220),
+                UIntField("pv_2_i_v", 1221),
+                UIntField("pv_2_i_c", 1222),
+                UIntField("g_i_f", 1300),
+                UIntField("ac_o_f", 1500),
+                UIntField("ac_1_o_p", 1510),
+                UIntField("ac_1_o_v", 1511),
+                UIntField("ac_1_o_c", 1512),
+                UIntField("ac_2_o_p", 1517),
+                UIntField("ac_2_o_v", 1518),
+                UIntField("ac_2_o_c", 1519),
+                UIntField("ac_3_o_p", 1524),
+                UIntField("ac_3_o_v", 1525),
+                UIntField("ac_3_o_c", 1526),
+                BoolField("ac_o_switch", 2011),
+                UIntField("b_soc_low", 2022),
+                UIntField("b_soc_high", 2023),
+                StringField("b_type", 6101),
+            ]
+        )
