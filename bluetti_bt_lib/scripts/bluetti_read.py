@@ -10,7 +10,7 @@ from ..fields import FieldName, get_unit
 
 
 async def async_read_device(address: str, type: str, encryption: bool):
-    built = build_device(type + "12345678")
+    built = build_device(type)
 
     if built is None:
         print("Unsupported powerstation type")

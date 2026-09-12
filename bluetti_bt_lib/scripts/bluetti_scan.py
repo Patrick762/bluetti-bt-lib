@@ -8,7 +8,7 @@ from typing import List
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
 
-from ..utils.device_info import get_type_by_bt_name
+from ..devices import DEVICES
 
 
 async def scan_async(custom_regex, scan_time):
@@ -24,11 +24,15 @@ async def scan_async(custom_regex, scan_time):
         if device.name is None:
             return
 
+        result = None
+
         if custom_regex:
             match = re.match(custom_regex, device.name)
             result = None if match is None else match[0]
         else:
-            result = get_type_by_bt_name(device.name)
+            for d in DEVICES.keys():
+                if device.name.startswith(d):
+                    result = d
 
         if result is not None or device.name.startswith("PBOX"):
             if not any(device.address in devices for devices in found):

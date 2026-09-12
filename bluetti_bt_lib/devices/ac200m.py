@@ -1,27 +1,26 @@
-from ..base_devices import BaseDeviceV1
-from ..fields import (
-    FieldName,
-    EnumField,
-    DecimalField,
-    SwitchField,
-    SelectField,
-)
-from ..enums import OutputMode, DisplayMode
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class AC200M(BaseDeviceV1):
+class AC200M(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                EnumField(FieldName.AC_OUTPUT_MODE, 70, OutputMode),
-                DecimalField(FieldName.INTERNAL_AC_VOLTAGE, 71, 1, 10),
-                DecimalField(FieldName.INTERNAL_AC_FREQUENCY, 74, 2, 10),
-                DecimalField(FieldName.INTERNAL_DC_INPUT_VOLTAGE, 86, 1),
-                DecimalField(FieldName.INTERNAL_DC_INPUT_POWER, 87, 1, 10),
-                DecimalField(FieldName.INTERNAL_DC_INPUT_CURRENT, 88, 2),
-                SwitchField(FieldName.CTRL_AC, 3007),
-                SwitchField(FieldName.CTRL_DC, 3008),
-                SwitchField(FieldName.CTRL_POWER_OFF, 3060),
-                SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
-            ],
-        )
+        super().__init__([
+			UIntField("ac_1_o_v", 71),
+			UIntField("ac_i_p_total", 37),
+			UIntField("ac_o_f", 74),
+			EnumField("ac_o_mode", 70),
+			UIntField("ac_o_p_total", 38),
+			BoolField("ac_o_switch", 3007),
+			UIntField("b_soc_total", 43),
+			EnumField("d_display_mode", 3061),
+			StringField("d_inverter_type", 10),
+			BoolField("d_power_off", 3060),
+			SerialNumberField("d_serial", 17),
+			UIntField("dc_i_p_total", 36),
+			UIntField("dc_i_v", 86),
+			UIntField("dc_o_p_total", 39),
+			BoolField("dc_o_switch", 3008),
+			UIntField("pv_1_i_c", 88),
+			UIntField("pv_1_i_p", 87),
+        ])

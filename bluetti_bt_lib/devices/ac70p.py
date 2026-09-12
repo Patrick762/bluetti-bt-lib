@@ -1,21 +1,23 @@
-from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class AC70P(BaseDeviceV2):
+class AC70P(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                UIntField(FieldName.DC_OUTPUT_POWER, 140),
-                UIntField(FieldName.AC_OUTPUT_POWER, 142),
-                UIntField(FieldName.DC_INPUT_POWER, 144),
-                UIntField(FieldName.AC_INPUT_POWER, 146),
-                DecimalField(FieldName.DC_INPUT_VOLTAGE, 1213, 1),
-                DecimalField(FieldName.DC_INPUT_CURRENT, 1214, 1),
-                DecimalField(FieldName.AC_INPUT_FREQUENCY, 1300, 1),
-                UIntField(FieldName.AC_INPUT_VOLTAGE, 1314, 0.1),
-                DecimalField(FieldName.AC_INPUT_CURRENT, 1315, 1),
-                DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 1500, 1),
-                DecimalField(FieldName.AC_OUTPUT_VOLTAGE, 1511, 1),
-            ],
-        )
+        super().__init__([
+			UIntField("ac_1_o_v", 1511),
+			UIntField("ac_i_f", 1300),
+			UIntField("ac_1_i_c", 1315),
+			UIntField("ac_1_i_v", 1314),
+			UIntField("ac_i_p_total", 146),
+			UIntField("ac_o_f", 1500),
+			UIntField("ac_o_p_total", 142),
+			UIntField("b_soc_total", 102),
+			SwapStringField("d_inverter_type", 110),
+			SerialNumberField("d_serial", 116),
+			UIntField("dc_i_c", 1214),
+			UIntField("dc_i_p_total", 144),
+			UIntField("dc_i_v", 1213),
+			UIntField("dc_o_p_total", 140),
+        ])

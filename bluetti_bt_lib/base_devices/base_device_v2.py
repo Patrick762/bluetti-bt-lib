@@ -2,7 +2,7 @@ from typing import List
 
 from . import BluettiDevice
 from ..fields import DeviceField
-from ..fields import FieldName, SwapStringField, UIntField, SerialNumberField
+from ..fields import FieldName, SwapStringField, SerialNumberField
 from ..registers import ReadableRegisters
 
 
@@ -17,7 +17,6 @@ class BaseDeviceV2(BluettiDevice):
             [
                 SwapStringField(FieldName.DEVICE_TYPE, 110, 6),
                 SerialNumberField(FieldName.DEVICE_SN, 116),
-                UIntField(FieldName.BATTERY_SOC, 102, min=0, max=100),
             ]
             + additional_fields,
             pack_fields,
@@ -39,6 +38,3 @@ class BaseDeviceV2(BluettiDevice):
 
     def get_iot_version(self) -> int:
         return 2
-
-    # def get_pack_selector(self, pack: int) -> WriteableRegister:
-    #     return WriteableRegister(7000, pack)  # TODO test

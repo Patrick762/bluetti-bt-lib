@@ -4,7 +4,7 @@ from typing import Any, Callable, List
 
 from ..base_devices import BluettiDevice, BaseDeviceV1, BaseDeviceV2
 from ..bluetooth import DeviceReader, DeviceReaderConfig
-from ..devices import DEVICE_NAME_RE
+from ..devices import DEVICES
 from ..fields import FieldName
 
 _LOGGER = logging.getLogger(__name__)
@@ -77,7 +77,7 @@ async def recognize_device(
                 # Empty string is not a valid device type
                 continue
 
-            if DEVICE_NAME_RE.match(type_data + "12345678") is None:
+            if type_data not in DEVICES.keys():
                 # Some V2 Devices populate the V1 register for type, so we need to check here
                 _LOGGER.warning("Device has populated type_data with trash data")
                 continue

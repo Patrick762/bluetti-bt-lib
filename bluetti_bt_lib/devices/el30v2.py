@@ -1,27 +1,26 @@
-from ..base_devices import BaseDeviceV2
-from ..enums import ChargingMode, EcoMode
-from ..fields import FieldName, UIntField, DecimalField, SwitchField, SelectField
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class EL30V2(BaseDeviceV2):
+class EL30V2(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                DecimalField(FieldName.TIME_REMAINING, 104, 4, 167),
-                UIntField(FieldName.DC_OUTPUT_POWER, 140),
-                UIntField(FieldName.AC_OUTPUT_POWER, 142),
-                UIntField(FieldName.DC_INPUT_POWER, 144),
-                UIntField(FieldName.AC_INPUT_POWER, 146),
-                DecimalField(FieldName.AC_INPUT_VOLTAGE, 1314, 1),
-                SwitchField(FieldName.CTRL_AC, 2011),
-                SwitchField(FieldName.CTRL_DC, 2012),
-                SwitchField(FieldName.CTRL_ECO_DC, 2014),
-                SelectField(FieldName.CTRL_ECO_TIME_MODE_DC, 2015, EcoMode),
-                UIntField(FieldName.CTRL_ECO_MIN_POWER_DC, 2016),
-                SwitchField(FieldName.CTRL_ECO_AC, 2017),
-                SelectField(FieldName.CTRL_ECO_TIME_MODE_AC, 2018, EcoMode),
-                UIntField(FieldName.CTRL_ECO_MIN_POWER_AC, 2019),
-                SelectField(FieldName.CTRL_CHARGING_MODE, 2020, ChargingMode),
-                SwitchField(FieldName.CTRL_POWER_LIFTING, 2021),
-            ],
-        )
+        super().__init__([
+			EnumField("ac_eco_mode", 2018),
+			BoolField("ac_eco_switch", 2017),
+			UIntField("ac_1_i_v", 1314),
+			UIntField("ac_i_p_total", 146),
+			UIntField("ac_o_p_total", 142),
+			BoolField("ac_o_switch", 2011),
+			BoolField("ac_power_lifting_switch", 2021),
+			UIntField("b_soc_total", 102),
+			EnumField("d_charging_mode", 2020),
+			SwapStringField("d_inverter_type", 110),
+			SerialNumberField("d_serial", 116),
+			TimeField("d_time_remaining", 104),
+			EnumField("dc_eco_mode", 2015),
+			BoolField("dc_eco_switch", 2014),
+			UIntField("dc_i_p_total", 144),
+			UIntField("dc_o_p_total", 140),
+			BoolField("dc_o_switch", 2012),
+        ])

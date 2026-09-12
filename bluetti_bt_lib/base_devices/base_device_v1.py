@@ -2,7 +2,7 @@ from typing import List
 
 from . import BluettiDevice
 from ..fields import DeviceField
-from ..fields import FieldName, StringField, UIntField, SerialNumberField
+from ..fields import FieldName, StringField, SerialNumberField
 from ..registers import ReadableRegisters, WriteableRegister
 
 
@@ -17,11 +17,6 @@ class BaseDeviceV1(BluettiDevice):
             [
                 StringField(FieldName.DEVICE_TYPE, 10, 6),
                 SerialNumberField(FieldName.DEVICE_SN, 17),
-                UIntField(FieldName.BATTERY_SOC, 43, min=0, max=100),
-                UIntField(FieldName.DC_INPUT_POWER, 36),
-                UIntField(FieldName.AC_INPUT_POWER, 37),
-                UIntField(FieldName.AC_OUTPUT_POWER, 38),
-                UIntField(FieldName.DC_OUTPUT_POWER, 39),
             ]
             + additional_fields,
             pack_fields,

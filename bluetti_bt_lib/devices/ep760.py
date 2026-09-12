@@ -1,28 +1,30 @@
-from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField, SwitchField
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class EP760(BaseDeviceV2):
+class EP760(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                UIntField(FieldName.PV_S1_POWER, 1212),
-                DecimalField(FieldName.PV_S1_VOLTAGE, 1213, 1),
-                DecimalField(FieldName.PV_S1_CURRENT, 1214, 1),
-                UIntField(FieldName.PV_S2_POWER, 1220),
-                DecimalField(FieldName.PV_S2_VOLTAGE, 1221, 1),
-                DecimalField(FieldName.PV_S2_CURRENT, 1222, 1),
-                UIntField(FieldName.SM_P1_POWER, 1228),
-                DecimalField(FieldName.SM_P1_VOLTAGE, 1229, 1),
-                UIntField(FieldName.SM_P1_CURRENT, 1230, 1),
-                DecimalField(FieldName.GRID_FREQUENCY, 1300, 1),
-                UIntField(FieldName.GRID_P1_POWER, 1313),
-                DecimalField(FieldName.GRID_P1_VOLTAGE, 1314, 1),
-                DecimalField(FieldName.GRID_P1_CURRENT, 1315, 1),
-                DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 1500, 1),
-                UIntField(FieldName.AC_P1_POWER, 1510),
-                DecimalField(FieldName.AC_P1_VOLTAGE, 1511, 1),
-                DecimalField(FieldName.AC_P1_CURRENT, 1512, 1),
-                SwitchField(FieldName.CTRL_AC, 2208),
-            ],
-        )
+        super().__init__([
+			UIntField("ac_1_o_c", 1512),
+			UIntField("ac_1_o_p", 1510),
+			UIntField("ac_1_o_v", 1511),
+			UIntField("ac_i_f", 1300),
+			UIntField("ac_1_i_c", 1315),
+			UIntField("ac_1_i_p", 1313),
+			UIntField("ac_1_i_v", 1314),
+			UIntField("ac_o_f", 1500),
+			UIntField("b_soc_total", 102),
+			SwapStringField("d_inverter_type", 110),
+			SerialNumberField("d_serial", 116),
+			UIntField("g_i_f", 1300),
+			UIntField("pv_1_i_c", 1214),
+			UIntField("pv_1_i_p", 1212),
+			UIntField("pv_1_i_v", 1213),
+			UIntField("pv_2_i_c", 1222),
+			UIntField("pv_2_i_p", 1220),
+			UIntField("pv_2_i_v", 1221),
+			UIntField("pv_3_i_c", 1230),
+			UIntField("pv_3_i_p", 1228),
+			UIntField("pv_3_i_v", 1229),
+        ])

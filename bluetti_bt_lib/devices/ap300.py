@@ -1,15 +1,17 @@
-from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class AP300(BaseDeviceV2):
+class AP300(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                UIntField(FieldName.DC_OUTPUT_POWER, 140),
-                UIntField(FieldName.AC_OUTPUT_POWER, 142),
-                UIntField(FieldName.DC_INPUT_POWER, 144),
-                UIntField(FieldName.AC_INPUT_POWER, 146),
-                DecimalField(FieldName.AC_INPUT_VOLTAGE, 1314, 1),
-            ],
-        )
+        super().__init__([
+			UIntField("ac_1_i_v", 1314),
+			UIntField("ac_i_p_total", 146),
+			UIntField("ac_o_p_total", 142),
+			UIntField("b_soc_total", 102),
+			SwapStringField("d_inverter_type", 110),
+			SerialNumberField("d_serial", 116),
+			UIntField("dc_i_p_total", 144),
+			UIntField("dc_o_p_total", 140),
+        ])

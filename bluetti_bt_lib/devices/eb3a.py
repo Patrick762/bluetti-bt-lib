@@ -1,29 +1,28 @@
-from ..base_devices import BaseDeviceV1
-from ..fields import (
-    FieldName,
-    SwitchField,
-    SelectField,
-    VersionField,
-    DecimalField,
-)
-from ..enums import EcoMode, LedMode, ChargingMode
+from ..base_devices import BluettiDevice
+from ..fields import *
 
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-class EB3A(BaseDeviceV1):
+class EB3A(BluettiDevice):
     def __init__(self):
-        super().__init__(
-            [
-                VersionField(FieldName.VER_ARM, 23),
-                VersionField(FieldName.VER_DSP, 25),
-                DecimalField(FieldName.AC_INPUT_VOLTAGE, 77, 1),
-                DecimalField(FieldName.DC_INPUT_VOLTAGE, 86, 2),
-                SwitchField(FieldName.CTRL_AC, 3007),
-                SwitchField(FieldName.CTRL_DC, 3008),
-                SelectField(FieldName.CTRL_LED_MODE, 3034, LedMode),
-                SwitchField(FieldName.CTRL_POWER_OFF, 3060),
-                SwitchField(FieldName.CTRL_ECO, 3063),
-                SelectField(FieldName.CTRL_ECO_TIME_MODE, 3064, EcoMode),
-                SelectField(FieldName.CTRL_CHARGING_MODE, 3065, ChargingMode),
-                SwitchField(FieldName.CTRL_POWER_LIFTING, 3066),
-            ],
-        )
+        super().__init__([
+			EnumField("ac_eco_mode", 3064),
+			BoolField("ac_eco_switch", 3063),
+			UIntField("ac_1_i_v", 77),
+			UIntField("ac_i_p_total", 37),
+			UIntField("ac_o_p_total", 38),
+			BoolField("ac_o_switch", 3007),
+			BoolField("ac_power_lifting_switch", 3066),
+			UIntField("b_soc_total", 43),
+			EnumField("d_charging_mode", 3065),
+			StringField("d_inverter_type", 10),
+			EnumField("d_led_mode", 3034),
+			BoolField("d_power_off", 3060),
+			SerialNumberField("d_serial", 17),
+			VersionField("d_ver_arm", 23),
+			VersionField("d_ver_dsp", 25),
+			UIntField("dc_i_p_total", 36),
+			UIntField("dc_i_v", 86),
+			UIntField("dc_o_p_total", 39),
+			BoolField("dc_o_switch", 3008),
+        ])

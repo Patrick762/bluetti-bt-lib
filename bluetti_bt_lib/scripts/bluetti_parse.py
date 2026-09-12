@@ -42,7 +42,7 @@ async def async_parse_file(filename: str):
         print("Parsed data:", parsed)
         return
 
-    device = build_device(device_type + "12345678")
+    device = build_device(device_type)
 
     data = device.parse(1, registers_map, 0)
 
