@@ -1,13 +1,12 @@
 import requests
 
-tag = "0.0.22"
-url = f"https://github.com/Patrick762/bluetti-registers/releases/download/{tag}/bluetooth.json"
+url = "https://patrick762.github.io/bluetti-registers/devices.json"
 
 output = "bluetti_bt_lib/devices/"
 
 print("Loading devices list schema")
 
-schema = requests.get(url).json()
+devices_json = requests.get(url).json()
 
 
 def to_camel_case(snake_str):
@@ -28,14 +27,12 @@ def get_type(t: str):
             return "SwapStringField"
         case "uint":
             return "UIntField"
-        case "uint16":
-            return "UIntField"
-        case "uint32":
-            return "UIntField"
         case "version":
             return "VersionField"
+        case "time":
+            return "TimeField"
 
-    return "UINT16"
+    return "#"
 
 
 def get_params(f):
@@ -45,18 +42,21 @@ def get_params(f):
 
 device_names: list[str] = []
 
-for d in schema:
+for d in devices_json:
+    if d["comm_type"] != "bt":
+        continue
+
     name = d["name"]
     file_name = str(name).lower().replace(" ", "") + ".py"
     fields = ""
 
-    if str(name).startswith("Hands"):
+    if str(name).startswith("Handsfree"):
         device_names.append(str(name).replace(" ", "\\s"))
     else:
         device_names.append(str(name).replace(" ", ""))
 
     for f in d["fields"]:
-        fields += f'\n\t\t\t{get_type(str(f["content"]))}("{f["name"]}", {f["address"]}{get_params(f)}),'
+        fields += f'\n\t\t\t{get_type(str(f["datatype"]))}("{f["name"]}", {f["start"]}{get_params(f)}),'
 
     content = f"""from ..base_devices import BluettiDevice
 from ..fields import *
@@ -74,17 +74,11 @@ class {str(name).replace(" ", "")}(BluettiDevice):
 
 init_py = f"""# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-import re
-
 {"\n".join([f"from .{d.lower().replace("\\s", "")} import *" for d in device_names])}
 
 DEVICES = {{
 \t{"\n\t".join([f"\"{d.replace("\\s", " ")}\": {d.replace("\\s", "")}," for d in device_names])}
 }}
-
-DEVICE_NAME_RE = re.compile(
-    r"^({"|".join([(n.upper() if "\\s" not in n else n) for n in device_names])})(\\d+)$"
-)
 """
 
 with open(output + "__init__.py", "w") as f:
