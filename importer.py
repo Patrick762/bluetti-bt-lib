@@ -1,8 +1,10 @@
 import requests
+from os.path import join
 
 url = "https://patrick762.github.io/bluetti-registers/devices.json"
 
 output = "bluetti_bt_lib/devices/"
+output_base = "bluetti_bt_lib/base_devices/"
 
 print("Loading devices list")
 
@@ -47,6 +49,12 @@ for d in devices_json:
         continue
 
     name = d["name"]
+
+    if name == "BT1":
+        name = "BaseDeviceV1"
+    elif name == "BT2":
+        name = "BaseDeviceV2"
+
     file_name = str(name).lower().replace(" ", "") + ".py"
     fields = ""
 
@@ -74,12 +82,17 @@ class {str(name).replace(" ", "")}(BluettiDevice):
         "\t", "    "
     )
 
-    with open(output + file_name, "w") as f:
+    if name in ["BaseDeviceV1", "BaseDeviceV2"]:
+        output_dir = output_base
+    else:
+        output_dir = output
+
+    with open(join(output_dir, file_name), "w") as f:
         f.write(content)
 
 init_py = f"""# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-{"\n".join([f"from .{d.lower().replace("\\s", "")} import *" for d in device_names])}
+{"\n".join([f"from .{d.lower().replace("\\s", "")} import *" if d not in ["BT1", "BT2"] else f"# Ignored {d}" for d in device_names])}
 
 DEVICES = {{
 \t{"\n\t".join([f"\"{d.replace("\\s", " ")}\": {d.replace("\\s", "")}," if d not in ["BT1", "BT2"] else f"# Ignored {d}" for d in device_names])}
@@ -88,5 +101,5 @@ DEVICES = {{
     "\t", "    "
 )
 
-with open(output + "__init__.py", "w") as f:
+with open(join(output, "__init__.py"), "w") as f:
     f.write(init_py)

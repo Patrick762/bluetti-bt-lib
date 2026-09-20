@@ -1,7 +1,7 @@
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
-from .bt1 import *
-from .bt2 import *
+from .basedevicev1 import *
+from .basedevicev2 import *
 from .ac2a import *
 from .ac2p import *
 from .ac50b import *
@@ -34,8 +34,8 @@ from .pr30v2 import *
 from .pr100v2 import *
 
 DEVICES = {
-    # Ignored BT1
-    # Ignored BT2
+    "BaseDeviceV1": BaseDeviceV1,
+    "BaseDeviceV2": BaseDeviceV2,
     "AC2A": AC2A,
     "AC2P": AC2P,
     "AC50B": AC50B,

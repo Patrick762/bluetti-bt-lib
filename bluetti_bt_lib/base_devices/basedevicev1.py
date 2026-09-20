@@ -4,7 +4,7 @@ from ..fields import *
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
 
-class BT1(BluettiDevice):
+class BaseDeviceV1(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
