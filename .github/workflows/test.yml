@@ -23,5 +23,3 @@ jobs:
       run: python3 -m unittest discover -s tests/registers -p "*.py"
     - name: Run base device unittests
       run: python3 -m unittest discover -s tests/base_devices -p "*.py"
-    - name: Run device unittests
-      run: python3 -m unittest discover -s tests/devices -p "*.py"

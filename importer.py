@@ -1,3 +1,5 @@
+"""This script is used to import devices and fields from json."""
+
 from typing import Any
 
 import requests

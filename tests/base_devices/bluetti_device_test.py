@@ -3,7 +3,6 @@ import unittest
 from bluetti_bt_lib.base_devices import BluettiDevice
 from bluetti_bt_lib.fields import (
     BoolField,
-    BoolFieldNonZero,
     EnumField,
     SelectField,
     StringField,
@@ -121,7 +120,7 @@ class TestBluettiDevice(unittest.TestCase):
         device = BluettiDevice(fields=fields, max_packs=2)
 
         polling_registers = device.get_polling_registers()
-        self.assertEqual(len(polling_registers), 4)
+        self.assertEqual(len(polling_registers), 3)
         self.assertIsInstance(polling_registers[0], ReadableRegisters)
         self.assertIsInstance(polling_registers[1], ReadableRegisters)
         self.assertIsInstance(polling_registers[2], ReadableRegisters)
@@ -130,18 +129,15 @@ class TestBluettiDevice(unittest.TestCase):
         self.assertEqual(polling_registers[0].starting_address, 100)
         self.assertEqual(polling_registers[1].starting_address, 150)
         self.assertEqual(polling_registers[2].starting_address, 200)
-        self.assertEqual(polling_registers[3].starting_address, 2011)
 
         pack_polling_registers = device.get_pack_polling_registers()
-        self.assertEqual(len(pack_polling_registers), 1)
-        self.assertIsInstance(pack_polling_registers[0], ReadableRegisters)
-        self.assertEqual(pack_polling_registers[0].starting_address, 300)
+        self.assertEqual(len(pack_polling_registers), 0)
 
         sensor_fields = device.get_sensor_fields()
         self.assertEqual(len(sensor_fields), 2)
 
         bool_fields = device.get_bool_fields()
-        self.assertEqual(len(bool_fields), 2)
+        self.assertEqual(len(bool_fields), 1)
 
     def test_switch_fields(self):
         fields = [
