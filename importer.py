@@ -43,6 +43,12 @@ def get_type(t: str):
 def get_params(f: dict[str, Any]):
     params: list[str] = []
 
+    params.append(f'name=FieldName.{str(f["name"]).upper()}')
+    params.append(f'address={f["start"]}')
+
+    if f["datatype"] == "":
+        pass
+
     if "unit" in f.keys():
         params.append(f'unit="{f["unit"]}"')
     if "sensor" in f.keys():
@@ -50,8 +56,9 @@ def get_params(f: dict[str, Any]):
     if "state_type" in f.keys():
         params.append(f'state_type="{f["state_type"]}"')
 
+    pre = "\n\t\t\t\t\t"
     if len(params) != 0:
-        return f'\n\t\t\t\t\t{",\n\t\t\t\t\t".join(params)},'
+        return f'{pre}{f",{pre}".join(params)},'
 
     return ""
 
@@ -79,7 +86,9 @@ for d in devices_json:
         device_names.append(str(name).replace(" ", ""))
 
     for f in d["fields"]:
-        fields += f'\n\t\t\t\t{get_type(str(f["datatype"]))}(\n\t\t\t\t\tFieldName.{str(f["name"]).upper()},\n\t\t\t\t\t{f["start"]},{get_params(f)}\n\t\t\t\t),'
+        fields += (
+            f'\n\t\t\t\t{get_type(str(f["datatype"]))}({get_params(f)}\n\t\t\t\t),'
+        )
 
         if f["name"] not in field_names_list:
             field_names_list.append(f["name"])

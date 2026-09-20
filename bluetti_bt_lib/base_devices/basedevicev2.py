@@ -9,19 +9,19 @@ class BaseDeviceV2(BluettiDevice):
         super().__init__(
             [
                 UIntField(
-                    FieldName.B_SOC_TOTAL,
-                    102,
+                    name=FieldName.B_SOC_TOTAL,
+                    address=102,
                     unit="%",
                     sensor="battery",
                     state_type="measurement",
                 ),
                 SwapStringField(
-                    FieldName.D_INVERTER_TYPE,
-                    110,
+                    name=FieldName.D_INVERTER_TYPE,
+                    address=110,
                 ),
                 SerialNumberField(
-                    FieldName.D_SERIAL,
-                    116,
+                    name=FieldName.D_SERIAL,
+                    address=116,
                 ),
             ]
         )
