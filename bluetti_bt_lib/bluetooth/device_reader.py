@@ -5,6 +5,7 @@ from typing import Any, Callable, List, cast
 from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakError
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
+from cryptography.exceptions import InvalidSignature
 
 from .encryption import BluettiEncryption, Message, MessageType, AES_BLOCK_SIZE
 from ..base_devices import BluettiDevice
@@ -188,9 +189,8 @@ class DeviceReader:
                     await self.client.disconnect()
                     self.logger.debug("Disconnected from device")
 
-            # Reset Encryption keys
-            self.encryption.reset()
-            self.encrypted_buffer.clear()
+                self.encryption.reset()
+                self.encrypted_buffer.clear()
 
             # Check if dict is empty
             if not parsed_data:
@@ -316,14 +316,44 @@ class DeviceReader:
             if decrypted.is_pre_key_exchange:
                 decrypted.verify_checksum()
 
-                if decrypted.type == MessageType.PEER_PUBKEY:
-                    peer_pubkey_response = self.encryption.msg_peer_pubkey(decrypted)
+                try:
+                    message_type = decrypted.type
+                except ValueError:
+                    self.logger.warning("Unknown key exchange message type")
+                    return
+
+                if message_type == MessageType.CHALLENGE:
+                    # Refreshes the IV the peer pubkey is later verified against.
+                    challenge_response = self.encryption.msg_challenge(decrypted)
+                    if challenge_response is not None:
+                        await self.client.write_gatt_char(
+                            WRITE_UUID,
+                            self.encryption.aes_encrypt(challenge_response, key, None),
+                        )
+                    return
+
+                if message_type == MessageType.CHALLENGE_ACCEPTED:
+                    self.logger.debug("Challenge accepted (encrypted)")
+                    return
+
+                if message_type == MessageType.PEER_PUBKEY:
+                    try:
+                        peer_pubkey_response = self.encryption.msg_peer_pubkey(decrypted)
+                    except InvalidSignature:
+                        self.logger.warning(
+                            "Peer pubkey signature rejected, restarting handshake"
+                        )
+                        self.encryption.reset()
+                        self.encrypted_buffer.clear()
+                        return
                     await self.client.write_gatt_char(WRITE_UUID, peer_pubkey_response)
                     return
 
-                if decrypted.type == MessageType.PUBKEY_ACCEPTED:
+                if message_type == MessageType.PUBKEY_ACCEPTED:
                     self.encryption.msg_key_accepted(decrypted)
                     return
+
+                return
 
             # Handle as message
             data = decrypted.buffer
