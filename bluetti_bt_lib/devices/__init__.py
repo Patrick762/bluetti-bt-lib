@@ -1,5 +1,7 @@
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
+from .bt1 import *
+from .bt2 import *
 from .ac2a import *
 from .ac2p import *
 from .ac50b import *
@@ -32,34 +34,36 @@ from .pr30v2 import *
 from .pr100v2 import *
 
 DEVICES = {
-	"AC2A": AC2A,
-	"AC2P": AC2P,
-	"AC50B": AC50B,
-	"AC60": AC60,
-	"AC60P": AC60P,
-	"AC70": AC70,
-	"AC70P": AC70P,
-	"AC180": AC180,
-	"AC180P": AC180P,
-	"AC180T": AC180T,
-	"AC200L": AC200L,
-	"AC200M": AC200M,
-	"AC200PL": AC200PL,
-	"AC300": AC300,
-	"AC500": AC500,
-	"AP300": AP300,
-	"EB3A": EB3A,
-	"EL10": EL10,
-	"EL30V2": EL30V2,
-	"EL100V2": EL100V2,
-	"EP500": EP500,
-	"EP500P": EP500P,
-	"EP600": EP600,
-	"EP760": EP760,
-	"EP800": EP800,
-	"EP2000": EP2000,
-	"Handsfree1": Handsfree1,
-	"Handsfree2": Handsfree2,
-	"PR30V2": PR30V2,
-	"PR100V2": PR100V2,
+    # Ignored BT1
+    # Ignored BT2
+    "AC2A": AC2A,
+    "AC2P": AC2P,
+    "AC50B": AC50B,
+    "AC60": AC60,
+    "AC60P": AC60P,
+    "AC70": AC70,
+    "AC70P": AC70P,
+    "AC180": AC180,
+    "AC180P": AC180P,
+    "AC180T": AC180T,
+    "AC200L": AC200L,
+    "AC200M": AC200M,
+    "AC200PL": AC200PL,
+    "AC300": AC300,
+    "AC500": AC500,
+    "AP300": AP300,
+    "EB3A": EB3A,
+    "EL10": EL10,
+    "EL30V2": EL30V2,
+    "EL100V2": EL100V2,
+    "EP500": EP500,
+    "EP500P": EP500P,
+    "EP600": EP600,
+    "EP760": EP760,
+    "EP800": EP800,
+    "EP2000": EP2000,
+    "Handsfree1": Handsfree1,
+    "Handsfree2": Handsfree2,
+    "PR30V2": PR30V2,
+    "PR100V2": PR100V2,
 }

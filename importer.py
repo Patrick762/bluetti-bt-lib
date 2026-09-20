@@ -4,7 +4,7 @@ url = "https://patrick762.github.io/bluetti-registers/devices.json"
 
 output = "bluetti_bt_lib/devices/"
 
-print("Loading devices list schema")
+print("Loading devices list")
 
 devices_json = requests.get(url).json()
 
@@ -56,18 +56,23 @@ for d in devices_json:
         device_names.append(str(name).replace(" ", ""))
 
     for f in d["fields"]:
-        fields += f'\n\t\t\t{get_type(str(f["datatype"]))}("{f["name"]}", {f["start"]}{get_params(f)}),'
+        fields += f'\n\t\t\t\t{get_type(str(f["datatype"]))}("{f["name"]}", {f["start"]}{get_params(f)}),'
 
     content = f"""from ..base_devices import BluettiDevice
 from ..fields import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
+
 class {str(name).replace(" ", "")}(BluettiDevice):
     def __init__(self):
-        super().__init__([{fields}
-        ])
-"""
+        super().__init__(
+            [{fields}
+            ]
+        )
+""".replace(
+        "\t", "    "
+    )
 
     with open(output + file_name, "w") as f:
         f.write(content)
@@ -77,9 +82,11 @@ init_py = f"""# GENERATED FILE! ONLY EDIT FOR TESTING!
 {"\n".join([f"from .{d.lower().replace("\\s", "")} import *" for d in device_names])}
 
 DEVICES = {{
-\t{"\n\t".join([f"\"{d.replace("\\s", " ")}\": {d.replace("\\s", "")}," for d in device_names])}
+\t{"\n\t".join([f"\"{d.replace("\\s", " ")}\": {d.replace("\\s", "")}," if d not in ["BT1", "BT2"] else f"# Ignored {d}" for d in device_names])}
 }}
-"""
+""".replace(
+    "\t", "    "
+)
 
 with open(output + "__init__.py", "w") as f:
     f.write(init_py)
