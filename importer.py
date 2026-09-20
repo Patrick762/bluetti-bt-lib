@@ -92,10 +92,10 @@ class {str(name).replace(" ", "")}(BluettiDevice):
 
 init_py = f"""# GENERATED FILE! ONLY EDIT FOR TESTING!
 
-{"\n".join([f"from .{d.lower().replace("\\s", "")} import *" if d not in ["BT1", "BT2"] else f"# Ignored {d}" for d in device_names])}
+{"\n".join([f"from .{d.lower().replace("\\s", "")} import *" if d not in ["BaseDeviceV1", "BaseDeviceV2"] else f"# Ignored {d}" for d in device_names])}
 
 DEVICES = {{
-\t{"\n\t".join([f"\"{d.replace("\\s", " ")}\": {d.replace("\\s", "")}," if d not in ["BT1", "BT2"] else f"# Ignored {d}" for d in device_names])}
+\t{"\n\t".join([f"\"{d.replace("\\s", " ")}\": {d.replace("\\s", "")}," if d not in ["BaseDeviceV1", "BaseDeviceV2"] else f"# Ignored {d}" for d in device_names])}
 }}
 """.replace(
     "\t", "    "
