@@ -4,8 +4,8 @@ from . import DeviceField, FieldName
 
 
 class SerialNumberField(DeviceField):
-    def __init__(self, name: FieldName, address: int):
-        super().__init__(name, address, 4)
+    def __init__(self, name: FieldName, address: int, **kwargs):
+        super().__init__(name, address, 4, **kwargs)
 
     def parse(self, data: bytes) -> str | None:
         if len(data) != 8:

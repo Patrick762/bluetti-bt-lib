@@ -4,10 +4,21 @@ from . import FieldName
 
 
 class DeviceField:
-    def __init__(self, name: FieldName, address: int, size: int):
+    def __init__(
+        self,
+        name: FieldName,
+        address: int,
+        size: int,
+        unit: str,
+        sensor: str,
+        state_type: str,
+    ):
         self.name = name.value
         self.address = address
         self.size = size
+        self.unit = unit
+        self.sensor = sensor
+        self.state_type = state_type
 
     def parse(self, data: bytes) -> Any:
         raise NotImplementedError

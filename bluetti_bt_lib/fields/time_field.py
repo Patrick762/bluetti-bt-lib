@@ -9,8 +9,9 @@ class TimeField(DeviceField):
         self,
         name: FieldName,
         address: int,
+        **kwargs,
     ):
-        super().__init__(name, address, 1)
+        super().__init__(name, address, 1, **kwargs)
 
     def parse(self, data: bytes) -> Decimal:
         # TODO

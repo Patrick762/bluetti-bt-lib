@@ -5,8 +5,8 @@ from . import DeviceField, FieldName
 
 
 class VersionField(DeviceField):
-    def __init__(self, name: FieldName, address: int):
-        super().__init__(name, address, 2)
+    def __init__(self, name: FieldName, address: int, **kwargs):
+        super().__init__(name, address, 2, **kwargs)
 
     def parse(self, data: bytes) -> int | None:
         if len(data) != 4:

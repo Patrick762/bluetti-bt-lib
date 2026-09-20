@@ -4,8 +4,8 @@ from . import DeviceField, FieldName
 
 
 class BoolField(DeviceField):
-    def __init__(self, name: FieldName, address: int):
-        super().__init__(name, address, 1)
+    def __init__(self, name: FieldName, address: int, **kwargs):
+        super().__init__(name, address, 1, **kwargs)
 
     def parse(self, data: bytes) -> bool | None:
         num = struct.unpack("!H", data)[0]

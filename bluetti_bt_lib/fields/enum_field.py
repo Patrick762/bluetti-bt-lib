@@ -9,8 +9,8 @@ E = TypeVar("E", bound=Enum)
 
 
 class EnumField(DeviceField):
-    def __init__(self, name: FieldName, address: int, e: Type[E]):
-        super().__init__(name, address, 1)
+    def __init__(self, name: FieldName, address: int, e: Type[E], **kwargs):
+        super().__init__(name, address, 1, **kwargs)
         self.e = e
 
     def parse(self, data: bytes) -> E | None:

@@ -1,3 +1,5 @@
+from typing import Any
+
 import requests
 from os.path import join
 
@@ -38,8 +40,19 @@ def get_type(t: str):
     return "#"
 
 
-def get_params(f):
-    # TODO
+def get_params(f: dict[str, Any]):
+    params: list[str] = []
+
+    if "unit" in f.keys():
+        params.append(f'unit="{f["unit"]}"')
+    if "sensor" in f.keys():
+        params.append(f'sensor="{f["sensor"]}"')
+    if "state_type" in f.keys():
+        params.append(f'state_type="{f["state_type"]}"')
+
+    if len(params) != 0:
+        return f'\n\t\t\t\t\t{",\n\t\t\t\t\t".join(params)},'
+
     return ""
 
 
@@ -66,7 +79,7 @@ for d in devices_json:
         device_names.append(str(name).replace(" ", ""))
 
     for f in d["fields"]:
-        fields += f'\n\t\t\t\t{get_type(str(f["datatype"]))}(FieldName.{str(f["name"]).upper()}, {f["start"]}{get_params(f)}),'
+        fields += f'\n\t\t\t\t{get_type(str(f["datatype"]))}(\n\t\t\t\t\tFieldName.{str(f["name"]).upper()},\n\t\t\t\t\t{f["start"]},{get_params(f)}\n\t\t\t\t),'
 
         if f["name"] not in field_names_list:
             field_names_list.append(f["name"])

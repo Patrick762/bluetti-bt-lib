@@ -8,8 +8,8 @@ E = TypeVar("E", bound=Enum)
 
 
 class SelectField(EnumField):
-    def __init__(self, name: FieldName, address: int, e: Type[E]):
-        super().__init__(name, address, 1)
+    def __init__(self, name: FieldName, address: int, e: Type[E], **kwargs):
+        super().__init__(name, address, 1, **kwargs)
         self.e = e
 
     def is_writeable(self):

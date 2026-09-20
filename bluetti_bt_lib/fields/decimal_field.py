@@ -13,8 +13,9 @@ class DecimalField(DeviceField):
         multiplier: float = 1,
         min: Decimal | None = None,
         max: Decimal | None = None,
+        **kwargs,
     ):
-        super().__init__(name, address, 1)
+        super().__init__(name, address, 1, **kwargs)
         self.scale = scale
         self.multiplier = multiplier
         self.min = min

@@ -8,24 +8,102 @@ class EB3A(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                EnumField(FieldName.AC_ECO_MODE, 3064),
-                BoolField(FieldName.AC_ECO_SWITCH, 3063),
-                UIntField(FieldName.AC_1_I_V, 77),
-                UIntField(FieldName.AC_I_P_TOTAL, 37),
-                UIntField(FieldName.AC_O_P_TOTAL, 38),
-                BoolField(FieldName.AC_O_SWITCH, 3007),
-                BoolField(FieldName.AC_POWER_LIFTING_SWITCH, 3066),
-                UIntField(FieldName.B_SOC_TOTAL, 43),
-                EnumField(FieldName.D_CHARGING_MODE, 3065),
-                StringField(FieldName.D_INVERTER_TYPE, 10),
-                EnumField(FieldName.D_LED_MODE, 3034),
-                BoolField(FieldName.D_POWER_OFF, 3060),
-                SerialNumberField(FieldName.D_SERIAL, 17),
-                VersionField(FieldName.D_VER_ARM, 23),
-                VersionField(FieldName.D_VER_DSP, 25),
-                UIntField(FieldName.DC_I_P_TOTAL, 36),
-                UIntField(FieldName.DC_I_V, 86),
-                UIntField(FieldName.DC_O_P_TOTAL, 39),
-                BoolField(FieldName.DC_O_SWITCH, 3008),
+                EnumField(
+                    FieldName.AC_ECO_MODE,
+                    3064,
+                ),
+                BoolField(
+                    FieldName.AC_ECO_SWITCH,
+                    3063,
+                ),
+                UIntField(
+                    FieldName.AC_1_I_V,
+                    77,
+                    unit="V",
+                    sensor="voltage",
+                    state_type="measurement",
+                ),
+                UIntField(
+                    FieldName.AC_I_P_TOTAL,
+                    37,
+                    unit="W",
+                    sensor="power",
+                    state_type="measurement",
+                ),
+                UIntField(
+                    FieldName.AC_O_P_TOTAL,
+                    38,
+                    unit="W",
+                    sensor="power",
+                    state_type="measurement",
+                ),
+                BoolField(
+                    FieldName.AC_O_SWITCH,
+                    3007,
+                ),
+                BoolField(
+                    FieldName.AC_POWER_LIFTING_SWITCH,
+                    3066,
+                ),
+                UIntField(
+                    FieldName.B_SOC_TOTAL,
+                    43,
+                    unit="%",
+                    sensor="battery",
+                    state_type="measurement",
+                ),
+                EnumField(
+                    FieldName.D_CHARGING_MODE,
+                    3065,
+                ),
+                StringField(
+                    FieldName.D_INVERTER_TYPE,
+                    10,
+                ),
+                EnumField(
+                    FieldName.D_LED_MODE,
+                    3034,
+                ),
+                BoolField(
+                    FieldName.D_POWER_OFF,
+                    3060,
+                ),
+                SerialNumberField(
+                    FieldName.D_SERIAL,
+                    17,
+                ),
+                VersionField(
+                    FieldName.D_VER_ARM,
+                    23,
+                ),
+                VersionField(
+                    FieldName.D_VER_DSP,
+                    25,
+                ),
+                UIntField(
+                    FieldName.DC_I_P_TOTAL,
+                    36,
+                    unit="W",
+                    sensor="power",
+                    state_type="measurement",
+                ),
+                UIntField(
+                    FieldName.DC_I_V,
+                    86,
+                    unit="V",
+                    sensor="voltage",
+                    state_type="measurement",
+                ),
+                UIntField(
+                    FieldName.DC_O_P_TOTAL,
+                    39,
+                    unit="W",
+                    sensor="power",
+                    state_type="measurement",
+                ),
+                BoolField(
+                    FieldName.DC_O_SWITCH,
+                    3008,
+                ),
             ]
         )

@@ -8,8 +8,20 @@ class EP800(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                UIntField(FieldName.B_SOC_TOTAL, 102),
-                SwapStringField(FieldName.D_INVERTER_TYPE, 110),
-                SerialNumberField(FieldName.D_SERIAL, 116),
+                UIntField(
+                    FieldName.B_SOC_TOTAL,
+                    102,
+                    unit="%",
+                    sensor="battery",
+                    state_type="measurement",
+                ),
+                SwapStringField(
+                    FieldName.D_INVERTER_TYPE,
+                    110,
+                ),
+                SerialNumberField(
+                    FieldName.D_SERIAL,
+                    116,
+                ),
             ]
         )
