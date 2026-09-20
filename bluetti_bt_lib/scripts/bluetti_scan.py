@@ -4,7 +4,6 @@ import argparse
 import asyncio
 import logging
 import re
-from typing import List
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
 
@@ -16,7 +15,7 @@ async def scan_async(custom_regex, scan_time):
     stop_event = asyncio.Event()
     # We can set the above event to prematurely stop the scan e.g. with `stop_event.set()`
 
-    found: List[List[str]] = []
+    found: list[list[str]] = []
 
     print(f"Scanning for {scan_time} seconds (or until Ctrl+C)...")
 

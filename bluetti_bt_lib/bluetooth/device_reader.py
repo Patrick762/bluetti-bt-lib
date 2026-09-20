@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import async_timeout
-from typing import Any, Callable, List, cast
+from typing import Any, Callable, cast
 from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakError
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
@@ -53,7 +53,7 @@ class DeviceReader:
         self.encrypted_buffer = bytearray()
 
     async def read(
-        self, only_registers: List[ReadableRegisters] | None = None, raw: bool = False
+        self, only_registers: list[ReadableRegisters] | None = None, raw: bool = False
     ) -> dict | None:
 
         registers = self.bluetti_device.get_polling_registers()

@@ -1,6 +1,7 @@
 from ..base_devices import BluettiDevice
 from ..enums import *
 from ..fields import *
+from ..registers import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
@@ -58,3 +59,6 @@ class BaseDeviceV1(BluettiDevice):
 
     def get_iot_version(self) -> int:
         return 1
+
+    def get_full_registers_range(self) -> list[ReadableRegisters]:
+        return [ReadableRegisters(i, 10) for i in range(0, 8000, 10)]

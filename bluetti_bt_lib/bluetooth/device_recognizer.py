@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from typing import Any, Callable, List
+from typing import Any, Callable
 
 from ..base_devices import BluettiDevice, BaseDeviceV1, BaseDeviceV2
 from ..bluetooth import DeviceReader, DeviceReaderConfig
@@ -26,7 +26,7 @@ async def recognize_device(
     future_builder_method: Callable[[], asyncio.Future[Any]],
 ) -> DeviceRecognizerResult | None:
     # Since we don't know the type we use the base device
-    bluetti_devices: List[BluettiDevice] = [
+    bluetti_devices: list[BluettiDevice] = [
         BaseDeviceV2(),
         BaseDeviceV1(),
     ]

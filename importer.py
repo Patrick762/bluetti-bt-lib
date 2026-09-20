@@ -99,8 +99,10 @@ for d in devices_json:
 
     if name == "BT1":
         name = "BaseDeviceV1"
+        r_range = "[ReadableRegisters(i, 10) for i in range(0, 8000, 10)]"
     elif name == "BT2":
         name = "BaseDeviceV2"
+        r_range = "[ReadableRegisters(i, 10) for i in range(0, 20000, 10)]"
 
     file_name = str(name).lower().replace(" ", "") + ".py"
     fields = ""
@@ -119,6 +121,7 @@ for d in devices_json:
     content = f"""from ..base_devices import BluettiDevice
 from ..enums import *
 from ..fields import *
+from ..registers import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
@@ -138,6 +141,10 @@ class {str(name).replace(" ", "")}(BluettiDevice):
 
     if name in ["BaseDeviceV1", "BaseDeviceV2"]:
         output_dir = output_base
+        content += f"""
+    def get_full_registers_range(self) -> list[ReadableRegisters]:
+        return {r_range}
+"""
     else:
         output_dir = output
 
