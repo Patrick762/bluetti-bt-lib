@@ -11,6 +11,7 @@ class AC200L(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_O_V,
                     address=71,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -25,10 +26,11 @@ class AC200L(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_O_F,
                     address=74,
+                    multiplier=0.1,
                     unit="Hz",
                     sensor="frequency",
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.AC_O_MODE,
                     address=70,
                 ),
@@ -39,11 +41,11 @@ class AC200L(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=3007,
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.AC_UPS_MODE,
                     address=3001,
                 ),
@@ -64,15 +66,16 @@ class AC200L(BluettiDevice):
                     sensor="battery",
                     state_type="measurement",
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.D_DISPLAY_MODE,
                     address=3061,
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
+                    size=6,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.D_POWER_OFF,
                     address=3060,
                 ),
@@ -98,6 +101,7 @@ class AC200L(BluettiDevice):
                 UIntField(
                     name=FieldName.DC_I_V,
                     address=86,
+                    multiplier=0.01,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -109,13 +113,14 @@ class AC200L(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_O_SWITCH,
                     address=3008,
                 ),
                 UIntField(
                     name=FieldName.PV_1_I_C,
                     address=88,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",

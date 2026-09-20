@@ -32,6 +32,7 @@ class AC50B(BluettiDevice):
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,

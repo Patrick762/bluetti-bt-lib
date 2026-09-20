@@ -22,11 +22,11 @@ class AC2A(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=2011,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=2021,
                 ),
@@ -40,6 +40,7 @@ class AC2A(BluettiDevice):
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
@@ -59,13 +60,14 @@ class AC2A(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_O_SWITCH,
                     address=2012,
                 ),
                 UIntField(
                     name=FieldName.PV_I_E_TOTAL,
                     address=154,
+                    multiplier=0.1,
                     unit="kWh",
                     sensor="energy",
                     state_type="total_increasing",

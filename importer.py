@@ -18,12 +18,12 @@ def to_camel_case(snake_str):
     return "".join(x.capitalize() for x in snake_str.lower().split("_"))
 
 
-def get_type(t: str):
+def get_type(t: str, w: bool):
     match (t):
         case "bool":
-            return "BoolField"
+            return "BoolField" if w is False else "SwitchField"
         case "enum":
-            return "EnumField"
+            return "EnumField" if w is False else "SelectField"
         case "serial":
             return "SerialNumberField"
         case "string":
@@ -46,7 +46,14 @@ def get_params(f: dict[str, Any]):
     params.append(f'name=FieldName.{str(f["name"]).upper()}')
     params.append(f'address={f["start"]}')
 
-    if f["datatype"] == "":
+    if f["datatype"] == "uint":
+        if "scaling" in f.keys() and str(f["scaling"]) != "1.0":
+            params.append(f'multiplier={f["scaling"]}')
+    elif f["datatype"] == "string" or f["datatype"] == "swstring":
+        if "length" in f.keys():
+            params.append(f'size={f["length"]}')
+    elif f["datatype"] == "enum":
+        # TODO
         pass
 
     if "unit" in f.keys():
@@ -86,9 +93,7 @@ for d in devices_json:
         device_names.append(str(name).replace(" ", ""))
 
     for f in d["fields"]:
-        fields += (
-            f'\n\t\t\t\t{get_type(str(f["datatype"]))}({get_params(f)}\n\t\t\t\t),'
-        )
+        fields += f'\n\t\t\t\t{get_type(str(f["datatype"]), "writable" in f.keys() and f["writable"] is True)}({get_params(f)}\n\t\t\t\t),'
 
         if f["name"] not in field_names_list:
             field_names_list.append(f["name"])

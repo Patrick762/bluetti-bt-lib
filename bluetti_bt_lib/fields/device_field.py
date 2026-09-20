@@ -9,9 +9,9 @@ class DeviceField:
         name: FieldName,
         address: int,
         size: int,
-        unit: str,
-        sensor: str,
-        state_type: str,
+        unit: str | None = None,
+        sensor: str | None = None,
+        state_type: str | None = None,
     ):
         self.name = name.value
         self.address = address

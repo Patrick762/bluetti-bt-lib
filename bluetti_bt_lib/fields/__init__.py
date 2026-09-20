@@ -2,7 +2,6 @@ from .device_field import *
 from .field_name import *
 
 from .bool_field import *
-from .decimal_field import *
 from .enum_field import *
 from .select_field import *
 from .serial_number_field import *

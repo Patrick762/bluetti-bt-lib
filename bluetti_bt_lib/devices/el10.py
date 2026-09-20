@@ -11,21 +11,23 @@ class EL10(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_O_V,
                     address=1511,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.AC_ECO_MODE,
                     address=2018,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
                     address=2017,
                 ),
                 UIntField(
                     name=FieldName.AC_1_I_C,
                     address=1315,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -33,6 +35,7 @@ class EL10(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=1314,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -51,11 +54,11 @@ class EL10(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=2011,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=2021,
                 ),
@@ -70,17 +73,18 @@ class EL10(BluettiDevice):
                     name=FieldName.B_VER_BMS,
                     address=6175,
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.D_CHARGING_MODE,
                     address=2020,
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.D_DISPLAY_MODE,
                     address=2067,
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
@@ -91,11 +95,11 @@ class EL10(BluettiDevice):
                     address=104,
                     sensor="duration",
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.DC_ECO_MODE,
                     address=2015,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_ECO_SWITCH,
                     address=2014,
                 ),
@@ -113,7 +117,7 @@ class EL10(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_O_SWITCH,
                     address=2012,
                 ),

@@ -11,6 +11,7 @@ class Handsfree2(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_O_V,
                     address=1511,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -18,6 +19,7 @@ class Handsfree2(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_I_F,
                     address=1300,
+                    multiplier=0.1,
                     unit="Hz",
                     sensor="frequency",
                     state_type="measurement",
@@ -25,6 +27,7 @@ class Handsfree2(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_I_C,
                     address=1315,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -32,6 +35,7 @@ class Handsfree2(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=1314,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -46,6 +50,7 @@ class Handsfree2(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_O_F,
                     address=1500,
+                    multiplier=0.1,
                     unit="Hz",
                     sensor="frequency",
                 ),
@@ -56,7 +61,7 @@ class Handsfree2(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=2011,
                 ),
@@ -70,6 +75,7 @@ class Handsfree2(BluettiDevice):
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
@@ -83,6 +89,7 @@ class Handsfree2(BluettiDevice):
                 UIntField(
                     name=FieldName.DC_I_C,
                     address=1214,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -97,6 +104,7 @@ class Handsfree2(BluettiDevice):
                 UIntField(
                     name=FieldName.DC_I_V,
                     address=1213,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -108,13 +116,14 @@ class Handsfree2(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_O_SWITCH,
                     address=2012,
                 ),
                 UIntField(
                     name=FieldName.G_I_F,
                     address=1300,
+                    multiplier=0.1,
                     unit="Hz",
                     sensor="frequency",
                     state_type="measurement",

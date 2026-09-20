@@ -11,6 +11,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_O_C,
                     address=1512,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -25,6 +26,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_O_V,
                     address=1511,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -32,6 +34,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_2_O_C,
                     address=1519,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -46,6 +49,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_2_O_V,
                     address=1518,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -53,6 +57,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_3_O_C,
                     address=1526,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -67,6 +72,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_3_O_V,
                     address=1525,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -74,6 +80,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_I_F,
                     address=1300,
+                    multiplier=0.1,
                     unit="Hz",
                     sensor="frequency",
                     state_type="measurement",
@@ -81,6 +88,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_I_C,
                     address=1315,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -95,6 +103,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=1314,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -102,6 +111,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_2_I_C,
                     address=1321,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -116,6 +126,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_2_I_V,
                     address=1320,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -123,6 +134,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_3_I_C,
                     address=1327,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -137,6 +149,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_3_I_V,
                     address=1326,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -144,10 +157,11 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_O_F,
                     address=1500,
+                    multiplier=0.1,
                     unit="Hz",
                     sensor="frequency",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=2011,
                 ),
@@ -171,10 +185,12 @@ class EP600(BluettiDevice):
                 StringField(
                     name=FieldName.B_TYPE,
                     address=6101,
+                    size=6,
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
@@ -183,6 +199,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_1_I_C,
                     address=1214,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -197,6 +214,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_1_I_V,
                     address=1213,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -204,6 +222,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_2_I_C,
                     address=1222,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -218,6 +237,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_2_I_V,
                     address=1221,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -225,6 +245,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_3_I_C,
                     address=1230,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -239,6 +260,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_3_I_V,
                     address=1229,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -246,6 +268,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_4_I_C,
                     address=1238,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -260,6 +283,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_4_I_V,
                     address=1237,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -267,6 +291,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_5_I_C,
                     address=1246,
+                    multiplier=0.1,
                     unit="A",
                     sensor="current",
                     state_type="measurement",
@@ -281,6 +306,7 @@ class EP600(BluettiDevice):
                 UIntField(
                     name=FieldName.PV_5_I_V,
                     address=1245,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",

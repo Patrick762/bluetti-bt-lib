@@ -11,6 +11,7 @@ class AC60(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=1314,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -29,11 +30,11 @@ class AC60(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=2011,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=2021,
                 ),
@@ -47,6 +48,7 @@ class AC60(BluettiDevice):
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
@@ -66,7 +68,7 @@ class AC60(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_O_SWITCH,
                     address=2012,
                 ),

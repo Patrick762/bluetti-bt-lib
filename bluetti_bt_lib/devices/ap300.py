@@ -11,6 +11,7 @@ class AP300(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=1314,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -39,6 +40,7 @@ class AP300(BluettiDevice):
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,

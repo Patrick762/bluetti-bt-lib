@@ -32,6 +32,7 @@ class BaseDeviceV1(BluettiDevice):
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,

@@ -8,17 +8,18 @@ class EL30V2(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                EnumField(
+                SelectField(
                     name=FieldName.AC_ECO_MODE,
                     address=2018,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
                     address=2017,
                 ),
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=1314,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -37,11 +38,11 @@ class EL30V2(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=2011,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=2021,
                 ),
@@ -52,13 +53,14 @@ class EL30V2(BluettiDevice):
                     sensor="battery",
                     state_type="measurement",
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.D_CHARGING_MODE,
                     address=2020,
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
+                    size=6,
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
@@ -69,11 +71,11 @@ class EL30V2(BluettiDevice):
                     address=104,
                     sensor="duration",
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.DC_ECO_MODE,
                     address=2015,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_ECO_SWITCH,
                     address=2014,
                 ),
@@ -91,7 +93,7 @@ class EL30V2(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_O_SWITCH,
                     address=2012,
                 ),

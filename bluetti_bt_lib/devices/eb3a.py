@@ -8,17 +8,18 @@ class EB3A(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                EnumField(
+                SelectField(
                     name=FieldName.AC_ECO_MODE,
                     address=3064,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
                     address=3063,
                 ),
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=77,
+                    multiplier=0.1,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -37,11 +38,11 @@ class EB3A(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_O_SWITCH,
                     address=3007,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=3066,
                 ),
@@ -52,19 +53,20 @@ class EB3A(BluettiDevice):
                     sensor="battery",
                     state_type="measurement",
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.D_CHARGING_MODE,
                     address=3065,
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
+                    size=6,
                 ),
-                EnumField(
+                SelectField(
                     name=FieldName.D_LED_MODE,
                     address=3034,
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.D_POWER_OFF,
                     address=3060,
                 ),
@@ -90,6 +92,7 @@ class EB3A(BluettiDevice):
                 UIntField(
                     name=FieldName.DC_I_V,
                     address=86,
+                    multiplier=0.01,
                     unit="V",
                     sensor="voltage",
                     state_type="measurement",
@@ -101,7 +104,7 @@ class EB3A(BluettiDevice):
                     sensor="power",
                     state_type="measurement",
                 ),
-                BoolField(
+                SwitchField(
                     name=FieldName.DC_O_SWITCH,
                     address=3008,
                 ),
