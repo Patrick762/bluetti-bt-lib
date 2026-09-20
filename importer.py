@@ -5,6 +5,7 @@ url = "https://patrick762.github.io/bluetti-registers/devices.json"
 
 output = "bluetti_bt_lib/devices/"
 output_base = "bluetti_bt_lib/base_devices/"
+output_fields = "bluetti_bt_lib/fields/"
 
 print("Loading devices list")
 
@@ -43,6 +44,7 @@ def get_params(f):
 
 
 device_names: list[str] = []
+field_names_list: list[str] = []
 
 for d in devices_json:
     if d["comm_type"] != "bt":
@@ -65,6 +67,9 @@ for d in devices_json:
 
     for f in d["fields"]:
         fields += f'\n\t\t\t\t{get_type(str(f["datatype"]))}("{f["name"]}", {f["start"]}{get_params(f)}),'
+
+        if f["name"] not in field_names_list:
+            field_names_list.append(f["name"])
 
     content = f"""from ..base_devices import BluettiDevice
 from ..fields import *
@@ -103,3 +108,20 @@ DEVICES = {{
 
 with open(join(output, "__init__.py"), "w") as f:
     f.write(init_py)
+
+field_names = [f'{fn.upper()} = "{fn}"' for fn in field_names_list]
+
+field_name_py = f"""# GENERATED FILE! ONLY EDIT FOR TESTING!
+
+from enum import Enum, unique
+
+
+@unique
+class FieldName(Enum):
+    {"\n\t".join(field_names)}
+""".replace(
+    "\t", "    "
+)
+
+with open(join(output_fields, "field_name.py"), "w") as f:
+    f.write(field_name_py)

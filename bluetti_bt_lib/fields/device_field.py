@@ -1,6 +1,6 @@
 from typing import Any
 
-from ..fields import FieldName
+from . import FieldName
 
 
 class DeviceField:
