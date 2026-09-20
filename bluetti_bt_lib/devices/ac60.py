@@ -74,3 +74,6 @@ class AC60(BluettiDevice):
                 ),
             ]
         )
+
+    def get_iot_version(self) -> int:
+        return 2

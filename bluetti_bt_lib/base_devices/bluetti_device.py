@@ -61,7 +61,16 @@ class BluettiDevice:
 
     def get_device_sn_registers(self) -> List[ReadableRegisters]:
         """Returns the register storing the serial number of the device"""
-        raise NotImplementedError
+
+        found = next(
+            filter(lambda x: x.name == FieldName.D_SERIAL.value, self.fields),
+            None,
+        )
+
+        if found is not None:
+            return [ReadableRegisters(found.address, found.size)]
+        else:
+            raise NotImplementedError
 
     def get_iot_version(self) -> int:
         """Get the IoT protocol version of the device"""

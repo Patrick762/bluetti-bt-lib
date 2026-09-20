@@ -122,3 +122,6 @@ class AC180T(BluettiDevice):
                 ),
             ]
         )
+
+    def get_iot_version(self) -> int:
+        return 2

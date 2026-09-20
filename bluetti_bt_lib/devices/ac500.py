@@ -146,3 +146,6 @@ class AC500(BluettiDevice):
                 ),
             ]
         )
+
+    def get_iot_version(self) -> int:
+        return 1

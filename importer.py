@@ -110,6 +110,9 @@ class {str(name).replace(" ", "")}(BluettiDevice):
             [{fields}
             ]
         )
+
+    def get_iot_version(self) -> int:
+        return {d["proto_version"]}
 """.replace(
         "\t", "    "
     )
