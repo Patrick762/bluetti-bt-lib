@@ -14,10 +14,12 @@ class EB3A(BluettiDevice):
                     name=FieldName.AC_ECO_MODE,
                     address=3064,
                     e=EcoMode,
+                    category="config",
                 ),
                 SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
                     address=3063,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.AC_1_I_V,
@@ -48,6 +50,7 @@ class EB3A(BluettiDevice):
                 SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=3066,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
@@ -62,11 +65,13 @@ class EB3A(BluettiDevice):
                     name=FieldName.D_CHARGING_MODE,
                     address=3065,
                     e=ChargingMode,
+                    category="config",
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
                     size=6,
+                    category="diagnostic",
                 ),
                 SelectField(
                     name=FieldName.D_LED_MODE,
@@ -80,14 +85,17 @@ class EB3A(BluettiDevice):
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=17,
+                    category="diagnostic",
                 ),
                 VersionField(
                     name=FieldName.D_VER_ARM,
                     address=23,
+                    category="diagnostic",
                 ),
                 VersionField(
                     name=FieldName.D_VER_DSP,
                     address=25,
+                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

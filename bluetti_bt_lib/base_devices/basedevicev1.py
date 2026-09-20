@@ -37,10 +37,12 @@ class BaseDeviceV1(BluettiDevice):
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
                     size=6,
+                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=17,
+                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

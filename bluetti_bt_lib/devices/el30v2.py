@@ -14,10 +14,12 @@ class EL30V2(BluettiDevice):
                     name=FieldName.AC_ECO_MODE,
                     address=2018,
                     e=EcoMode,
+                    category="config",
                 ),
                 SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
                     address=2017,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.AC_1_I_V,
@@ -48,6 +50,7 @@ class EL30V2(BluettiDevice):
                 SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=2021,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
@@ -62,15 +65,18 @@ class EL30V2(BluettiDevice):
                     name=FieldName.D_CHARGING_MODE,
                     address=2020,
                     e=ChargingMode,
+                    category="config",
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
                     size=6,
+                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=116,
+                    category="diagnostic",
                 ),
                 TimeField(
                     name=FieldName.D_TIME_REMAINING,
@@ -81,10 +87,12 @@ class EL30V2(BluettiDevice):
                     name=FieldName.DC_ECO_MODE,
                     address=2015,
                     e=EcoMode,
+                    category="config",
                 ),
                 SwitchField(
                     name=FieldName.DC_ECO_SWITCH,
                     address=2014,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

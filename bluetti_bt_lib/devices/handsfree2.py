@@ -80,10 +80,12 @@ class Handsfree2(BluettiDevice):
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
                     size=6,
+                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=116,
+                    category="diagnostic",
                 ),
                 TimeField(
                     name=FieldName.D_TIME_REMAINING,

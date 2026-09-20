@@ -81,11 +81,13 @@ class EP2000(BluettiDevice):
                     name=FieldName.B_SOC_HIGH,
                     address=2023,
                     unit="%",
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_LOW,
                     address=2022,
                     unit="%",
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
@@ -100,10 +102,12 @@ class EP2000(BluettiDevice):
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
                     size=6,
+                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=116,
+                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.G_I_F,

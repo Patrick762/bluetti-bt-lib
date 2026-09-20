@@ -39,6 +39,7 @@ class AC60P(BluettiDevice):
                 SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=2021,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
@@ -53,10 +54,12 @@ class AC60P(BluettiDevice):
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
                     size=6,
+                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=116,
+                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

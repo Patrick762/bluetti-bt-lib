@@ -52,6 +52,7 @@ class AC300(BluettiDevice):
                     name=FieldName.AC_O_MODE,
                     address=70,
                     e=OutputMode,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
@@ -68,16 +69,19 @@ class AC300(BluettiDevice):
                     name=FieldName.AC_UPS_MODE,
                     address=3001,
                     e=UpsMode,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_HIGH,
                     address=3016,
                     unit="%",
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_LOW,
                     address=3015,
                     unit="%",
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
@@ -92,27 +96,33 @@ class AC300(BluettiDevice):
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
                     size=6,
+                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=17,
+                    category="diagnostic",
                 ),
                 SwitchField(
                     name=FieldName.D_SPLIT_PHASE_SWITCH,
                     address=3004,
+                    category="config",
                 ),
                 SelectField(
                     name=FieldName.D_SPLIT_PHASE_MODE,
                     address=3005,
                     e=SplitPhaseMode,
+                    category="config",
                 ),
                 VersionField(
                     name=FieldName.D_VER_ARM,
                     address=23,
+                    category="diagnostic",
                 ),
                 VersionField(
                     name=FieldName.D_VER_DSP,
                     address=25,
+                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

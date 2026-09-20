@@ -22,10 +22,12 @@ class EL100V2(BluettiDevice):
                     name=FieldName.AC_ECO_MODE,
                     address=2018,
                     e=EcoMode,
+                    category="config",
                 ),
                 SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
                     address=2017,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.AC_1_I_C,
@@ -64,16 +66,19 @@ class EL100V2(BluettiDevice):
                 SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=2021,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_HIGH,
                     address=2023,
                     unit="%",
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_LOW,
                     address=2022,
                     unit="%",
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
@@ -87,25 +92,30 @@ class EL100V2(BluettiDevice):
                 VersionField(
                     name=FieldName.B_VER_BMS,
                     address=6175,
+                    category="diagnostic",
                 ),
                 SelectField(
                     name=FieldName.D_CHARGING_MODE,
                     address=2020,
                     e=ChargingMode,
+                    category="config",
                 ),
                 SelectField(
                     name=FieldName.D_DISPLAY_MODE,
                     address=2067,
                     e=DisplayMode,
+                    category="config",
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
                     size=6,
+                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=116,
+                    category="diagnostic",
                 ),
                 TimeField(
                     name=FieldName.D_TIME_REMAINING,
@@ -116,10 +126,12 @@ class EL100V2(BluettiDevice):
                     name=FieldName.DC_ECO_MODE,
                     address=2015,
                     e=EcoMode,
+                    category="config",
                 ),
                 SwitchField(
                     name=FieldName.DC_ECO_SWITCH,
                     address=2014,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

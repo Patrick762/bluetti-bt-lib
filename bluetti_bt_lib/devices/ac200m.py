@@ -36,6 +36,7 @@ class AC200M(BluettiDevice):
                     name=FieldName.AC_O_MODE,
                     address=70,
                     e=OutputMode,
+                    category="config",
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
@@ -61,11 +62,13 @@ class AC200M(BluettiDevice):
                     name=FieldName.D_DISPLAY_MODE,
                     address=3061,
                     e=DisplayMode,
+                    category="config",
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
                     size=6,
+                    category="diagnostic",
                 ),
                 SwitchField(
                     name=FieldName.D_POWER_OFF,
@@ -74,6 +77,7 @@ class AC200M(BluettiDevice):
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=17,
+                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

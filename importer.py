@@ -78,6 +78,8 @@ def get_params(f: dict[str, Any]):
 
     if "unit" in f.keys():
         params.append(f'unit="{f["unit"]}"')
+    if "category" in f.keys():
+        params.append(f'category="{f["category"]}"')
     if "sensor" in f.keys():
         params.append(f'sensor="{f["sensor"]}"')
     if "state_type" in f.keys():
