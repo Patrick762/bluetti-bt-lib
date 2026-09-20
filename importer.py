@@ -66,7 +66,7 @@ for d in devices_json:
         device_names.append(str(name).replace(" ", ""))
 
     for f in d["fields"]:
-        fields += f'\n\t\t\t\t{get_type(str(f["datatype"]))}("{f["name"]}", {f["start"]}{get_params(f)}),'
+        fields += f'\n\t\t\t\t{get_type(str(f["datatype"]))}(FieldName.{str(f["name"]).upper()}, {f["start"]}{get_params(f)}),'
 
         if f["name"] not in field_names_list:
             field_names_list.append(f["name"])

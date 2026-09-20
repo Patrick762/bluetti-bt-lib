@@ -8,12 +8,12 @@ class BaseDeviceV1(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                UIntField("ac_i_p_total", 37),
-                UIntField("ac_o_p_total", 38),
-                UIntField("b_soc_total", 43),
-                StringField("d_inverter_type", 10),
-                SerialNumberField("d_serial", 17),
-                UIntField("dc_i_p_total", 36),
-                UIntField("dc_o_p_total", 39),
+                UIntField(FieldName.AC_I_P_TOTAL, 37),
+                UIntField(FieldName.AC_O_P_TOTAL, 38),
+                UIntField(FieldName.B_SOC_TOTAL, 43),
+                StringField(FieldName.D_INVERTER_TYPE, 10),
+                SerialNumberField(FieldName.D_SERIAL, 17),
+                UIntField(FieldName.DC_I_P_TOTAL, 36),
+                UIntField(FieldName.DC_O_P_TOTAL, 39),
             ]
         )

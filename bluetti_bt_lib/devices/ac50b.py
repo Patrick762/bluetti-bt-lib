@@ -8,12 +8,12 @@ class AC50B(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                UIntField("ac_i_p_total", 146),
-                UIntField("ac_o_p_total", 142),
-                UIntField("b_soc_total", 102),
-                SwapStringField("d_inverter_type", 110),
-                SerialNumberField("d_serial", 116),
-                TimeField("d_time_remaining", 104),
-                UIntField("dc_o_p_total", 140),
+                UIntField(FieldName.AC_I_P_TOTAL, 146),
+                UIntField(FieldName.AC_O_P_TOTAL, 142),
+                UIntField(FieldName.B_SOC_TOTAL, 102),
+                SwapStringField(FieldName.D_INVERTER_TYPE, 110),
+                SerialNumberField(FieldName.D_SERIAL, 116),
+                TimeField(FieldName.D_TIME_REMAINING, 104),
+                UIntField(FieldName.DC_O_P_TOTAL, 140),
             ]
         )
