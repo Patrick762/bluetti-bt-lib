@@ -80,6 +80,9 @@ def get_params(f: dict[str, Any]):
         params.append(f'sensor="{f["sensor"]}"')
     if "state_type" in f.keys():
         params.append(f'state_type="{f["state_type"]}"')
+    if f["name"] in ["b_soc_total", "b_soc"]:
+        params.append(f"min=0")
+        params.append(f"max=100")
 
     pre = "\n\t\t\t\t\t"
     if len(params) != 0:

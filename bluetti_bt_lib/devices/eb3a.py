@@ -55,6 +55,8 @@ class EB3A(BluettiDevice):
                     unit="%",
                     sensor="battery",
                     state_type="measurement",
+                    min=0,
+                    max=100,
                 ),
                 SelectField(
                     name=FieldName.D_CHARGING_MODE,

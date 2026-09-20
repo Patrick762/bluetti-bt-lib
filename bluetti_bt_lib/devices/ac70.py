@@ -86,6 +86,8 @@ class AC70(BluettiDevice):
                     unit="%",
                     sensor="battery",
                     state_type="measurement",
+                    min=0,
+                    max=100,
                 ),
                 VersionField(
                     name=FieldName.B_VER_BMS,

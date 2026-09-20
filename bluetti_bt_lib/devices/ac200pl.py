@@ -54,6 +54,8 @@ class AC200PL(BluettiDevice):
                     unit="%",
                     sensor="battery",
                     state_type="measurement",
+                    min=0,
+                    max=100,
                 ),
                 SelectField(
                     name=FieldName.D_DISPLAY_MODE,

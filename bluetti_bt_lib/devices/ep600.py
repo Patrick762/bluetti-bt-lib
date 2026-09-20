@@ -183,6 +183,8 @@ class EP600(BluettiDevice):
                     unit="%",
                     sensor="battery",
                     state_type="measurement",
+                    min=0,
+                    max=100,
                 ),
                 StringField(
                     name=FieldName.B_TYPE,

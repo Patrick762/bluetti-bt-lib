@@ -16,6 +16,8 @@ class EP800(BluettiDevice):
                     unit="%",
                     sensor="battery",
                     state_type="measurement",
+                    min=0,
+                    max=100,
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,

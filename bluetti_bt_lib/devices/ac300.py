@@ -85,6 +85,8 @@ class AC300(BluettiDevice):
                     unit="%",
                     sensor="battery",
                     state_type="measurement",
+                    min=0,
+                    max=100,
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
