@@ -1,4 +1,5 @@
 from ..base_devices import BluettiDevice
+from ..enums import *
 from ..fields import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
@@ -49,6 +50,7 @@ class EP500(BluettiDevice):
                 SelectField(
                     name=FieldName.AC_O_MODE,
                     address=70,
+                    e=OutputMode,
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
@@ -64,6 +66,7 @@ class EP500(BluettiDevice):
                 SelectField(
                     name=FieldName.AC_UPS_MODE,
                     address=3001,
+                    e=UpsMode,
                 ),
                 UIntField(
                     name=FieldName.B_SOC_HIGH,
@@ -85,6 +88,7 @@ class EP500(BluettiDevice):
                 SelectField(
                     name=FieldName.D_DISPLAY_MODE,
                     address=3061,
+                    e=DisplayMode,
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
@@ -102,6 +106,7 @@ class EP500(BluettiDevice):
                 SelectField(
                     name=FieldName.D_SPLIT_PHASE_MODE,
                     address=3005,
+                    e=SplitPhaseMode,
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,

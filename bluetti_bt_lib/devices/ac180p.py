@@ -1,4 +1,5 @@
 from ..base_devices import BluettiDevice
+from ..enums import *
 from ..fields import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
@@ -48,6 +49,7 @@ class AC180P(BluettiDevice):
                 SelectField(
                     name=FieldName.D_CHARGING_MODE,
                     address=2020,
+                    e=ChargingMode,
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,

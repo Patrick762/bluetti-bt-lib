@@ -1,4 +1,5 @@
 from ..base_devices import BluettiDevice
+from ..enums import *
 from ..fields import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
@@ -19,6 +20,7 @@ class EL10(BluettiDevice):
                 SelectField(
                     name=FieldName.AC_ECO_MODE,
                     address=2018,
+                    e=EcoMode,
                 ),
                 SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
@@ -76,10 +78,12 @@ class EL10(BluettiDevice):
                 SelectField(
                     name=FieldName.D_CHARGING_MODE,
                     address=2020,
+                    e=ChargingMode,
                 ),
                 SelectField(
                     name=FieldName.D_DISPLAY_MODE,
                     address=2067,
+                    e=DisplayMode,
                 ),
                 SwapStringField(
                     name=FieldName.D_INVERTER_TYPE,
@@ -98,6 +102,7 @@ class EL10(BluettiDevice):
                 SelectField(
                     name=FieldName.DC_ECO_MODE,
                     address=2015,
+                    e=EcoMode,
                 ),
                 SwitchField(
                     name=FieldName.DC_ECO_SWITCH,

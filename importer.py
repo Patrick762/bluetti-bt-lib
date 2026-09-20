@@ -53,8 +53,26 @@ def get_params(f: dict[str, Any]):
         if "length" in f.keys():
             params.append(f'size={f["length"]}')
     elif f["datatype"] == "enum":
-        # TODO e -> Enum type
-        pass
+        e = ""
+        match (f["name"]):
+            case "d_charging_mode":
+                e = "ChargingMode"
+            case "d_display_mode":
+                e = "DisplayMode"
+            case "ac_eco_mode":
+                e = "EcoMode"
+            case "dc_eco_mode":
+                e = "EcoMode"
+            case "d_led_mode":
+                e = "LedMode"
+            case "ac_o_mode":
+                e = "OutputMode"
+            case "d_split_phase_mode":
+                e = "SplitPhaseMode"
+            case "ac_ups_mode":
+                e = "UpsMode"
+        if e != "":
+            params.append(f"e={e}")
 
     if "unit" in f.keys():
         params.append(f'unit="{f["unit"]}"')
@@ -99,6 +117,7 @@ for d in devices_json:
             field_names_list.append(f["name"])
 
     content = f"""from ..base_devices import BluettiDevice
+from ..enums import *
 from ..fields import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
@@ -155,3 +174,5 @@ class FieldName(Enum):
 
 with open(join(output_fields, "field_name.py"), "w") as f:
     f.write(field_name_py)
+
+# TODO Generate enums from json at https://patrick762.github.io/bluetti-registers/enums.json

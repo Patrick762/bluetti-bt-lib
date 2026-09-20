@@ -1,4 +1,5 @@
 from ..base_devices import BluettiDevice
+from ..enums import *
 from ..fields import *
 
 # GENERATED FILE! ONLY EDIT FOR TESTING!
@@ -49,6 +50,7 @@ class AC300(BluettiDevice):
                 SelectField(
                     name=FieldName.AC_O_MODE,
                     address=70,
+                    e=OutputMode,
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
@@ -64,6 +66,7 @@ class AC300(BluettiDevice):
                 SelectField(
                     name=FieldName.AC_UPS_MODE,
                     address=3001,
+                    e=UpsMode,
                 ),
                 UIntField(
                     name=FieldName.B_SOC_HIGH,
@@ -98,6 +101,7 @@ class AC300(BluettiDevice):
                 SelectField(
                     name=FieldName.D_SPLIT_PHASE_MODE,
                     address=3005,
+                    e=SplitPhaseMode,
                 ),
                 VersionField(
                     name=FieldName.D_VER_ARM,
