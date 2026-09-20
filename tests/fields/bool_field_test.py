@@ -4,7 +4,7 @@ from bluetti_bt_lib.fields import BoolField, FieldName
 
 class TestBoolField(unittest.TestCase):
     def setUp(self):
-        self.field = BoolField(FieldName.CTRL_AC, 100)
+        self.field = BoolField(FieldName.AC_O_SWITCH, 100)
 
     def test_parse_true(self):
         result = self.field.parse(b"\x00\x01")

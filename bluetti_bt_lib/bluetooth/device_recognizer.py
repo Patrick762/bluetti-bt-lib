@@ -61,7 +61,7 @@ async def recognize_device(
             if data is None:
                 continue
 
-            type_data = data.get(FieldName.DEVICE_TYPE.value)
+            type_data = data.get(FieldName.D_INVERTER_TYPE.value)
 
             if type_data is None:
                 # We have a problem
@@ -95,7 +95,7 @@ async def recognize_device(
                     "000000000000",  # Use dummy SN
                 )
 
-            sn_data = data.get(FieldName.DEVICE_SN.value)
+            sn_data = data.get(FieldName.D_SERIAL.value)
 
             if not isinstance(sn_data, int) or sn_data == "":
                 # Should never happen

@@ -31,6 +31,6 @@ class TestV2(unittest.IsolatedAsyncioTestCase):
 
         data = await reader.read()
 
-        self.assertEqual(data.get(FieldName.BATTERY_SOC.value), 2)
-        self.assertEqual(data.get(FieldName.DEVICE_TYPE.value), "AC70")
-        self.assertEqual(data.get(FieldName.DEVICE_SN.value), 2000000000000)
+        self.assertEqual(data.get(FieldName.B_SOC_TOTAL.value), 2)
+        self.assertEqual(data.get(FieldName.D_INVERTER_TYPE.value), "AC70")
+        self.assertEqual(data.get(FieldName.D_SERIAL.value), 2000000000000)

@@ -35,7 +35,7 @@ async def async_parse_file(filename: str):
 
     parsed = device.parse(1, registers_map, 0)
 
-    device_type = parsed.get(FieldName.DEVICE_TYPE.value)
+    device_type = parsed.get(FieldName.D_INVERTER_TYPE.value)
 
     if device_type is None:
         print("Unknown device type")

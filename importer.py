@@ -53,7 +53,7 @@ def get_params(f: dict[str, Any]):
         if "length" in f.keys():
             params.append(f'size={f["length"]}')
     elif f["datatype"] == "enum":
-        # TODO
+        # TODO e -> Enum type
         pass
 
     if "unit" in f.keys():

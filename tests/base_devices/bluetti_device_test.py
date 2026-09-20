@@ -58,9 +58,9 @@ class TestBluettiDevice(unittest.TestCase):
 
     def test_parse(self):
         fields = [
-            StringField(FieldName.DEVICE_TYPE, 200, 6),
-            SerialNumberField(FieldName.DEVICE_SN, 100),
-            BoolField(FieldName.CTRL_AC, 150),
+            StringField(FieldName.D_INVERTER_TYPE, 200, 6),
+            SerialNumberField(FieldName.D_SERIAL, 100),
+            BoolField(FieldName.AC_O_SWITCH, 150),
         ]
 
         device = BluettiDevice(fields)
@@ -70,13 +70,13 @@ class TestBluettiDevice(unittest.TestCase):
         parsed = device.parse(starting_address=149, data=raw)
 
         self.assertEqual(len(parsed), 1)
-        self.assertTrue(parsed.get(FieldName.CTRL_AC.value))
+        self.assertTrue(parsed.get(FieldName.AC_O_SWITCH.value))
 
     def test_parse_invalid(self):
         fields = [
-            StringField(FieldName.DEVICE_TYPE, 200, 6),
-            SerialNumberField(FieldName.DEVICE_SN, 100),
-            BoolField(FieldName.CTRL_AC, 150),
+            StringField(FieldName.D_INVERTER_TYPE, 200, 6),
+            SerialNumberField(FieldName.D_SERIAL, 100),
+            BoolField(FieldName.AC_O_SWITCH, 150),
         ]
 
         device = BluettiDevice(fields)
@@ -86,43 +86,39 @@ class TestBluettiDevice(unittest.TestCase):
         parsed = device.parse(starting_address=149, data=raw)
 
         self.assertEqual(len(parsed), 1)
-        self.assertIsNone(parsed.get(FieldName.CTRL_AC.value))
+        self.assertIsNone(parsed.get(FieldName.AC_O_SWITCH.value))
 
     def test_build_write_command(self):
         fields = [
-            SwitchField(FieldName.CTRL_AC, 150),
+            SwitchField(FieldName.AC_O_SWITCH, 150),
         ]
 
         device = BluettiDevice(fields)
 
-        command = device.build_write_command(FieldName.CTRL_AC.value, True)
+        command = device.build_write_command(FieldName.AC_O_SWITCH.value, True)
 
         self.assertEqual(command.address, 150)
         self.assertEqual(command.value, 1)
 
     def test_build_write_command_not_writeable(self):
         fields = [
-            BoolField(FieldName.CTRL_DC, 160),
+            BoolField(FieldName.DC_O_SWITCH, 160),
         ]
 
         device = BluettiDevice(fields)
 
-        command = device.build_write_command(FieldName.CTRL_DC.value, False)
+        command = device.build_write_command(FieldName.DC_O_SWITCH.value, False)
 
         self.assertIsNone(command)
 
     def test_initialization_with_fields(self):
         fields = [
-            StringField(FieldName.DEVICE_TYPE, 200, 6),
-            SerialNumberField(FieldName.DEVICE_SN, 100),
-            BoolField(FieldName.CTRL_AC, 150),
-            BoolFieldNonZero(FieldName.AC_OUTPUT_ON, 2011),
-        ]
-        pack_fields = [
-            StringField(FieldName.PACK_TYPE, 300, 6),
+            StringField(FieldName.D_INVERTER_TYPE, 200, 6),
+            SerialNumberField(FieldName.D_SERIAL, 100),
+            BoolField(FieldName.AC_O_SWITCH, 150),
         ]
 
-        device = BluettiDevice(fields=fields, pack_fields=pack_fields, max_packs=2)
+        device = BluettiDevice(fields=fields, max_packs=2)
 
         polling_registers = device.get_polling_registers()
         self.assertEqual(len(polling_registers), 4)
@@ -149,8 +145,8 @@ class TestBluettiDevice(unittest.TestCase):
 
     def test_switch_fields(self):
         fields = [
-            SwitchField(FieldName.CTRL_AC, 150),
-            BoolField(FieldName.CTRL_DC, 160),
+            SwitchField(FieldName.AC_O_SWITCH, 150),
+            BoolField(FieldName.DC_O_SWITCH, 160),
         ]
 
         device = BluettiDevice(fields=fields, pack_fields=[], max_packs=0)
@@ -160,8 +156,8 @@ class TestBluettiDevice(unittest.TestCase):
 
     def test_select_fields(self):
         fields = [
-            SelectField(FieldName.CTRL_CHARGING_MODE, 180, Dummy),
-            EnumField(FieldName.AC_OUTPUT_MODE, 70, Dummy),
+            SelectField(FieldName.D_CHARGING_MODE, 180, Dummy),
+            EnumField(FieldName.AC_O_MODE, 70, Dummy),
         ]
 
         device = BluettiDevice(fields=fields, pack_fields=[], max_packs=0)

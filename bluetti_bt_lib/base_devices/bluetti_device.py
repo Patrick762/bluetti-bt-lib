@@ -1,7 +1,7 @@
 from typing import Any, List
 
 from ..registers import ReadableRegisters, WriteableRegister
-from ..fields import DeviceField, BoolField, BoolFieldNonZero, SwitchField, SelectField
+from ..fields import DeviceField, BoolField, SwitchField, SelectField, FieldName
 
 
 class BluettiDevice:
@@ -48,7 +48,16 @@ class BluettiDevice:
 
     def get_device_type_registers(self) -> List[ReadableRegisters]:
         """Returns the register storing the type of the device"""
-        raise NotImplementedError
+
+        found = next(
+            filter(lambda x: x.name == FieldName.D_INVERTER_TYPE.value, self.fields),
+            None,
+        )
+
+        if found is not None:
+            return [ReadableRegisters(found.address, found.size)]
+        else:
+            raise NotImplementedError
 
     def get_device_sn_registers(self) -> List[ReadableRegisters]:
         """Returns the register storing the serial number of the device"""
@@ -119,8 +128,7 @@ class BluettiDevice:
         return [
             f
             for f in self.fields
-            if (isinstance(f, BoolField) or isinstance(f, BoolFieldNonZero))
-            and not isinstance(f, SwitchField)
+            if (isinstance(f, BoolField)) and not isinstance(f, SwitchField)
         ]
 
     def get_switch_fields(self):
@@ -137,7 +145,6 @@ class BluettiDevice:
             f
             for f in self.fields
             if not isinstance(f, BoolField)
-            and not isinstance(f, BoolFieldNonZero)
             and not isinstance(f, SwitchField)
             and not isinstance(f, SelectField)
         ]
