@@ -14,36 +14,24 @@ class AC200M(BluettiDevice):
                     name=FieldName.AC_1_O_V,
                     address=71,
                     multiplier=0.1,
-                    unit="V",
-                    sensor="voltage",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.AC_I_P_TOTAL,
                     address=37,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.AC_O_F,
                     address=74,
                     multiplier=0.1,
-                    unit="Hz",
-                    sensor="frequency",
                 ),
                 SelectField(
                     name=FieldName.AC_O_MODE,
                     address=70,
                     e=OutputMode,
-                    category="config",
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
                     address=38,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 SwitchField(
                     name=FieldName.AC_O_SWITCH,
@@ -52,9 +40,6 @@ class AC200M(BluettiDevice):
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
                     address=43,
-                    unit="%",
-                    sensor="battery",
-                    state_type="measurement",
                     min=0,
                     max=100,
                 ),
@@ -62,13 +47,11 @@ class AC200M(BluettiDevice):
                     name=FieldName.D_DISPLAY_MODE,
                     address=3061,
                     e=DisplayMode,
-                    category="config",
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
                     size=6,
-                    category="diagnostic",
                 ),
                 SwitchField(
                     name=FieldName.D_POWER_OFF,
@@ -77,29 +60,19 @@ class AC200M(BluettiDevice):
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=17,
-                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,
                     address=36,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.DC_I_V,
                     address=86,
                     multiplier=0.01,
-                    unit="V",
-                    sensor="voltage",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.DC_O_P_TOTAL,
                     address=39,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 SwitchField(
                     name=FieldName.DC_O_SWITCH,
@@ -109,16 +82,10 @@ class AC200M(BluettiDevice):
                     name=FieldName.PV_1_I_C,
                     address=88,
                     multiplier=0.1,
-                    unit="A",
-                    sensor="current",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.PV_1_I_P,
                     address=87,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
             ]
         )

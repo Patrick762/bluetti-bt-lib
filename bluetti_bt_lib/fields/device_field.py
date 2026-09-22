@@ -9,18 +9,11 @@ class DeviceField:
         name: FieldName,
         address: int,
         size: int,
-        unit: str | None = None,
-        category: str | None = None,
-        sensor: str | None = None,
-        state_type: str | None = None,
+        **kwargs,
     ):
         self.name = name.value
         self.address = address
         self.size = size
-        self.unit = unit
-        self.category = category
-        self.sensor = sensor
-        self.state_type = state_type
 
     def parse(self, data: bytes) -> Any:
         raise NotImplementedError

@@ -13,23 +13,14 @@ class BaseDeviceV1(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_I_P_TOTAL,
                     address=37,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
                     address=38,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
                     address=43,
-                    unit="%",
-                    sensor="battery",
-                    state_type="measurement",
                     min=0,
                     max=100,
                 ),
@@ -37,26 +28,18 @@ class BaseDeviceV1(BluettiDevice):
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
                     size=6,
-                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=17,
-                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,
                     address=36,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.DC_O_P_TOTAL,
                     address=39,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
             ]
         )

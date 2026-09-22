@@ -13,23 +13,14 @@ class AC50B(BluettiDevice):
                 UIntField(
                     name=FieldName.AC_I_P_TOTAL,
                     address=146,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
                     address=142,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
                     address=102,
-                    unit="%",
-                    sensor="battery",
-                    state_type="measurement",
                     min=0,
                     max=100,
                 ),
@@ -37,24 +28,18 @@ class AC50B(BluettiDevice):
                     name=FieldName.D_INVERTER_TYPE,
                     address=110,
                     size=6,
-                    category="diagnostic",
                 ),
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=116,
-                    category="diagnostic",
                 ),
                 TimeField(
                     name=FieldName.D_TIME_REMAINING,
                     address=104,
-                    sensor="duration",
                 ),
                 UIntField(
                     name=FieldName.DC_O_P_TOTAL,
                     address=140,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
             ]
         )

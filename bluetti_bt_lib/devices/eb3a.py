@@ -14,34 +14,23 @@ class EB3A(BluettiDevice):
                     name=FieldName.AC_ECO_MODE,
                     address=3064,
                     e=EcoMode,
-                    category="config",
                 ),
                 SwitchField(
                     name=FieldName.AC_ECO_SWITCH,
                     address=3063,
-                    category="config",
                 ),
                 UIntField(
                     name=FieldName.AC_1_I_V,
                     address=77,
                     multiplier=0.1,
-                    unit="V",
-                    sensor="voltage",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.AC_I_P_TOTAL,
                     address=37,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.AC_O_P_TOTAL,
                     address=38,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 SwitchField(
                     name=FieldName.AC_O_SWITCH,
@@ -50,14 +39,10 @@ class EB3A(BluettiDevice):
                 SwitchField(
                     name=FieldName.AC_POWER_LIFTING_SWITCH,
                     address=3066,
-                    category="config",
                 ),
                 UIntField(
                     name=FieldName.B_SOC_TOTAL,
                     address=43,
-                    unit="%",
-                    sensor="battery",
-                    state_type="measurement",
                     min=0,
                     max=100,
                 ),
@@ -65,13 +50,11 @@ class EB3A(BluettiDevice):
                     name=FieldName.D_CHARGING_MODE,
                     address=3065,
                     e=ChargingMode,
-                    category="config",
                 ),
                 StringField(
                     name=FieldName.D_INVERTER_TYPE,
                     address=10,
                     size=6,
-                    category="diagnostic",
                 ),
                 SelectField(
                     name=FieldName.D_LED_MODE,
@@ -85,39 +68,27 @@ class EB3A(BluettiDevice):
                 SerialNumberField(
                     name=FieldName.D_SERIAL,
                     address=17,
-                    category="diagnostic",
                 ),
                 VersionField(
                     name=FieldName.D_VER_ARM,
                     address=23,
-                    category="diagnostic",
                 ),
                 VersionField(
                     name=FieldName.D_VER_DSP,
                     address=25,
-                    category="diagnostic",
                 ),
                 UIntField(
                     name=FieldName.DC_I_P_TOTAL,
                     address=36,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.DC_I_V,
                     address=86,
                     multiplier=0.01,
-                    unit="V",
-                    sensor="voltage",
-                    state_type="measurement",
                 ),
                 UIntField(
                     name=FieldName.DC_O_P_TOTAL,
                     address=39,
-                    unit="W",
-                    sensor="power",
-                    state_type="measurement",
                 ),
                 SwitchField(
                     name=FieldName.DC_O_SWITCH,
