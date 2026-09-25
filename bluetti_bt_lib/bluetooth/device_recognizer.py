@@ -1,10 +1,11 @@
 import asyncio
 import logging
-from typing import Any, Callable, List
+from typing import Any, Callable
+from bleak.backends.device import BLEDevice
 
 from ..base_devices import BluettiDevice, BaseDeviceV1, BaseDeviceV2
 from ..bluetooth import DeviceReader, DeviceReaderConfig
-from ..devices import DEVICE_NAME_RE
+from ..devices import DEVICES
 from ..fields import FieldName
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,9 +25,10 @@ class DeviceRecognizerResult:
 async def recognize_device(
     mac: str,
     future_builder_method: Callable[[], asyncio.Future[Any]],
+    ble_device: BLEDevice | None = None,
 ) -> DeviceRecognizerResult | None:
     # Since we don't know the type we use the base device
-    bluetti_devices: List[BluettiDevice] = [
+    bluetti_devices: list[BluettiDevice] = [
         BaseDeviceV2(),
         BaseDeviceV1(),
     ]
@@ -42,12 +44,14 @@ async def recognize_device(
                     timeout=15,
                     use_encryption=True,
                 ),
+                ble_device=ble_device,
             ),
             DeviceReader(
                 mac,
                 bluetti_device,
                 future_builder_method,
                 DeviceReaderConfig(timeout=8),
+                ble_device=ble_device,
             ),
         ]
 
@@ -61,7 +65,7 @@ async def recognize_device(
             if data is None:
                 continue
 
-            type_data = data.get(FieldName.DEVICE_TYPE.value)
+            type_data = data.get(FieldName.D_INVERTER_TYPE.value)
 
             if type_data is None:
                 # We have a problem
@@ -77,7 +81,7 @@ async def recognize_device(
                 # Empty string is not a valid device type
                 continue
 
-            if DEVICE_NAME_RE.match(type_data + "12345678") is None:
+            if type_data not in DEVICES.keys():
                 # Some V2 Devices populate the V1 register for type, so we need to check here
                 _LOGGER.warning("Device has populated type_data with trash data")
                 continue
@@ -95,7 +99,7 @@ async def recognize_device(
                     "000000000000",  # Use dummy SN
                 )
 
-            sn_data = data.get(FieldName.DEVICE_SN.value)
+            sn_data = data.get(FieldName.D_SERIAL.value)
 
             if not isinstance(sn_data, int) or sn_data == "":
                 # Should never happen

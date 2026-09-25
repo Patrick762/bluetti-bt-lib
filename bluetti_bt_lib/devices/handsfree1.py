@@ -1,22 +1,92 @@
-from ..base_devices import BaseDeviceV2
-from ..fields import FieldName, UIntField, DecimalField
+from ..base_devices import BluettiDevice
+from ..enums import *
+from ..fields import *
+from ..registers import *
+
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
 
-class Handsfree1(BaseDeviceV2):
+class Handsfree1(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                DecimalField(FieldName.TIME_REMAINING, 104, 1),
-                UIntField(FieldName.DC_OUTPUT_POWER, 140),
-                UIntField(FieldName.AC_OUTPUT_POWER, 142),
-                UIntField(FieldName.DC_INPUT_POWER, 144),
-                UIntField(FieldName.AC_INPUT_POWER, 146),
-                DecimalField(FieldName.DC_INPUT_VOLTAGE, 1213, 1),
-                DecimalField(FieldName.DC_INPUT_CURRENT, 1214, 1),
-                DecimalField(FieldName.AC_INPUT_FREQUENCY, 1300, 1),
-                DecimalField(FieldName.AC_INPUT_VOLTAGE, 1314, 1),
-                DecimalField(FieldName.AC_INPUT_CURRENT, 1315, 1),
-                DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 1500, 1),
-                DecimalField(FieldName.AC_OUTPUT_VOLTAGE, 1511, 1),
-            ],
+                UIntField(
+                    name=FieldName.AC_1_O_V,
+                    address=1511,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_I_F,
+                    address=1300,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_I_C,
+                    address=1315,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_I_V,
+                    address=1314,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_I_P_TOTAL,
+                    address=146,
+                ),
+                UIntField(
+                    name=FieldName.AC_O_F,
+                    address=1500,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_O_P_TOTAL,
+                    address=142,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_TOTAL,
+                    address=102,
+                    min=0,
+                    max=100,
+                ),
+                SwapStringField(
+                    name=FieldName.D_INVERTER_TYPE,
+                    address=110,
+                    size=6,
+                ),
+                SerialNumberField(
+                    name=FieldName.D_SERIAL,
+                    address=116,
+                ),
+                TimeField(
+                    name=FieldName.D_TIME_REMAINING,
+                    address=104,
+                ),
+                UIntField(
+                    name=FieldName.DC_I_C,
+                    address=1214,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.DC_I_P_TOTAL,
+                    address=144,
+                ),
+                UIntField(
+                    name=FieldName.DC_I_V,
+                    address=1213,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.DC_O_P_TOTAL,
+                    address=140,
+                ),
+                UIntField(
+                    name=FieldName.G_I_F,
+                    address=1300,
+                    multiplier=0.1,
+                ),
+            ]
         )
+
+    def get_iot_version(self) -> int:
+        return 2

@@ -1,10 +1,16 @@
 from typing import Any
 
-from ..fields import FieldName
+from .field_name import FieldName
 
 
 class DeviceField:
-    def __init__(self, name: FieldName, address: int, size: int):
+    def __init__(
+        self,
+        name: FieldName,
+        address: int,
+        size: int,
+        **kwargs,
+    ):
         self.name = name.value
         self.address = address
         self.size = size

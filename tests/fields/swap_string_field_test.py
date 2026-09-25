@@ -4,7 +4,7 @@ from bluetti_bt_lib.fields import SwapStringField, FieldName
 
 class TestSwapStringField(unittest.TestCase):
     def setUp(self):
-        self.field = SwapStringField(FieldName.DEVICE_TYPE, 110, 6)
+        self.field = SwapStringField(FieldName.D_INVERTER_TYPE, 110, 6)
 
     def test_parse(self):
         result = self.field.parse(b"\x50\x45\x30\x36\x00\x30")

@@ -17,7 +17,7 @@ class Dummy2(Enum):
 
 class TestSelectField(unittest.TestCase):
     def test_parse(self):
-        field = SelectField(FieldName.AC_OUTPUT_MODE, 70, Dummy)
+        field = SelectField(FieldName.AC_O_MODE, 70, Dummy)
 
         result = field.parse(b"\x00\x00")
         self.assertEqual(result, Dummy.VALUE_0)
@@ -32,13 +32,13 @@ class TestSelectField(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_is_writeable(self):
-        field = SelectField(FieldName.AC_OUTPUT_MODE, 70, Dummy)
+        field = SelectField(FieldName.AC_O_MODE, 70, Dummy)
         self.assertTrue(field.is_writeable())
 
     def test_write_type_valid(self):
-        field = SelectField(FieldName.AC_OUTPUT_MODE, 70, Dummy)
+        field = SelectField(FieldName.AC_O_MODE, 70, Dummy)
         self.assertTrue(field.allowed_write_type(Dummy.VALUE_1))
 
     def test_write_type_invalid(self):
-        field = SelectField(FieldName.AC_OUTPUT_MODE, 70, Dummy)
+        field = SelectField(FieldName.AC_O_MODE, 70, Dummy)
         self.assertFalse(field.allowed_write_type(Dummy2.VALUE_3))

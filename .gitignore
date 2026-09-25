@@ -208,3 +208,5 @@ __marimo__/
 
 bluetti_data.*.json
 bluetti_dump.*.txt
+
+*notes.txt

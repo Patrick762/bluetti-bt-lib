@@ -14,7 +14,7 @@ async def async_write(
     address: str, type: str, encryption: bool, field: str, value: Any
 ):
     client = BleakClient(address)
-    built = build_device(type + "12345678")
+    built = build_device(type)
 
     if built is None:
         print("Unsupported powerstation type")

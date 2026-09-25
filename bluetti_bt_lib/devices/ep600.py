@@ -1,73 +1,213 @@
-from ..base_devices import BaseDeviceV2
-from ..fields import (
-    FieldName,
-    UIntField,
-    DecimalField,
-    SwapStringField,
-    SerialNumberField,
-    VersionField,
-    SwitchField,
-    BoolField,
-)
+from ..base_devices import BluettiDevice
+from ..enums import *
+from ..fields import *
+from ..registers import *
+
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
 
-class EP600(BaseDeviceV2):
+class EP600(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                DecimalField(FieldName.POWER_GENERATION, 1202, 1),
-                UIntField(FieldName.PV_S1_POWER, 1212),
-                DecimalField(FieldName.PV_S1_VOLTAGE, 1213, 1),
-                DecimalField(FieldName.PV_S1_CURRENT, 1214, 1),
-                UIntField(FieldName.PV_S2_POWER, 1220),
-                DecimalField(FieldName.PV_S2_VOLTAGE, 1221, 1),
-                DecimalField(FieldName.PV_S2_CURRENT, 1222, 1),
-                UIntField(FieldName.SM_P1_POWER, 1228),
-                DecimalField(FieldName.SM_P1_VOLTAGE, 1229, 1),
-                UIntField(FieldName.SM_P1_CURRENT, 1230, 1),
-                UIntField(FieldName.SM_P2_POWER, 1236),
-                DecimalField(FieldName.SM_P2_VOLTAGE, 1237, 1),
-                UIntField(FieldName.SM_P2_CURRENT, 1238, 1),
-                UIntField(FieldName.SM_P3_POWER, 1244),
-                DecimalField(FieldName.SM_P3_VOLTAGE, 1245, 1),
-                UIntField(FieldName.SM_P3_CURRENT, 1246, 1),
-                DecimalField(FieldName.GRID_FREQUENCY, 1300, 1),
-                UIntField(FieldName.GRID_P1_POWER, 1313),
-                DecimalField(FieldName.GRID_P1_VOLTAGE, 1314, 1),
-                DecimalField(FieldName.GRID_P1_CURRENT, 1315, 1),
-                UIntField(FieldName.GRID_P2_POWER, 1319),
-                DecimalField(FieldName.GRID_P2_VOLTAGE, 1320, 1),
-                DecimalField(FieldName.GRID_P2_CURRENT, 1321, 1),
-                UIntField(FieldName.GRID_P3_POWER, 1325),
-                DecimalField(FieldName.GRID_P3_VOLTAGE, 1326, 1),
-                DecimalField(FieldName.GRID_P3_CURRENT, 1327, 1),
-                DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 1500, 1),
-                UIntField(FieldName.AC_P1_POWER, 1510),
-                DecimalField(FieldName.AC_P1_VOLTAGE, 1511, 1),
-                DecimalField(FieldName.AC_P1_CURRENT, 1512, 1),
-                UIntField(FieldName.AC_P2_POWER, 1517),
-                DecimalField(FieldName.AC_P2_VOLTAGE, 1518, 1),
-                DecimalField(FieldName.AC_P2_CURRENT, 1519, 1),
-                UIntField(FieldName.AC_P3_POWER, 1524),
-                DecimalField(FieldName.AC_P3_VOLTAGE, 1525, 1),
-                DecimalField(FieldName.AC_P3_CURRENT, 1526, 1),
-                SwitchField(FieldName.CTRL_AC, 2011),
-                UIntField(FieldName.BATTERY_SOC_RANGE_START, 2022),
-                UIntField(FieldName.BATTERY_SOC_RANGE_END, 2023),
-                BoolField(FieldName.CTRL_GENERATOR, 2246),
-                DecimalField(FieldName.GRID_VOLT_MIN_VAL, 2435, 1),
-                DecimalField(FieldName.GRID_VOLT_MAX_VAL, 2436, 1),
-                DecimalField(FieldName.GRID_FREQ_MIN_VALUE, 2437, 2),
-                DecimalField(FieldName.GRID_FREQ_MAX_VALUE, 2438, 2),
-                SwapStringField(FieldName.WIFI_NAME, 12002, 16),
-            ],
-            [
-                SwapStringField(FieldName.PACK_TYPE, 6101, 6),
-                SerialNumberField(FieldName.PACK_SN, 6107),
-                VersionField(FieldName.PACK_VER_BCU, 6175),
-                VersionField(FieldName.PACK_VER_BMU, 6178),
-                VersionField(FieldName.PACK_VER_SAFETY_MOD, 6181),
-                VersionField(FieldName.PACK_VER_HV_MOD, 6184),
-            ],
-            # max_packs=2,
+                UIntField(
+                    name=FieldName.AC_1_O_C,
+                    address=1512,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_O_P,
+                    address=1510,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_O_V,
+                    address=1511,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_2_O_C,
+                    address=1519,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_2_O_P,
+                    address=1517,
+                ),
+                UIntField(
+                    name=FieldName.AC_2_O_V,
+                    address=1518,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_3_O_C,
+                    address=1526,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_3_O_P,
+                    address=1524,
+                ),
+                UIntField(
+                    name=FieldName.AC_3_O_V,
+                    address=1525,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_I_F,
+                    address=1300,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_I_C,
+                    address=1315,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_I_P,
+                    address=1313,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_I_V,
+                    address=1314,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_2_I_C,
+                    address=1321,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_2_I_P,
+                    address=1319,
+                ),
+                UIntField(
+                    name=FieldName.AC_2_I_V,
+                    address=1320,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_3_I_C,
+                    address=1327,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_3_I_P,
+                    address=1325,
+                ),
+                UIntField(
+                    name=FieldName.AC_3_I_V,
+                    address=1326,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_O_F,
+                    address=1500,
+                    multiplier=0.1,
+                ),
+                SwitchField(
+                    name=FieldName.AC_O_SWITCH,
+                    address=2011,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_HIGH,
+                    address=2023,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_LOW,
+                    address=2022,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_TOTAL,
+                    address=102,
+                    min=0,
+                    max=100,
+                ),
+                StringField(
+                    name=FieldName.B_TYPE,
+                    address=6101,
+                    size=6,
+                ),
+                SwapStringField(
+                    name=FieldName.D_INVERTER_TYPE,
+                    address=110,
+                    size=6,
+                ),
+                SerialNumberField(
+                    name=FieldName.D_SERIAL,
+                    address=116,
+                ),
+                UIntField(
+                    name=FieldName.PV_1_I_C,
+                    address=1214,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_1_I_P,
+                    address=1212,
+                ),
+                UIntField(
+                    name=FieldName.PV_1_I_V,
+                    address=1213,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_2_I_C,
+                    address=1222,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_2_I_P,
+                    address=1220,
+                ),
+                UIntField(
+                    name=FieldName.PV_2_I_V,
+                    address=1221,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_3_I_C,
+                    address=1230,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_3_I_P,
+                    address=1228,
+                ),
+                UIntField(
+                    name=FieldName.PV_3_I_V,
+                    address=1229,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_4_I_C,
+                    address=1238,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_4_I_P,
+                    address=1236,
+                ),
+                UIntField(
+                    name=FieldName.PV_4_I_V,
+                    address=1237,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_5_I_C,
+                    address=1246,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_5_I_P,
+                    address=1244,
+                ),
+                UIntField(
+                    name=FieldName.PV_5_I_V,
+                    address=1245,
+                    multiplier=0.1,
+                ),
+            ]
         )
+
+    def get_iot_version(self) -> int:
+        return 2

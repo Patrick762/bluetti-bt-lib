@@ -1,9 +1,8 @@
 """Bleak Mock Client for unittests."""
 
-from decimal import Decimal
 import struct
 import sys
-from typing import Awaitable, Callable, List, Union
+from typing import Awaitable, Callable, Union
 import uuid
 from bleak.backends.characteristic import BleakGATTCharacteristic
 import crcmod
@@ -49,7 +48,7 @@ class BleakClientMock:
 
     def __init__(self, packs_max: int = 0):
         self._bytemap: bytearray = bytearray(40000)
-        self.packs: List[bytearray] = [bytearray() for _ in range(packs_max)]
+        self.packs: list[bytearray] = [bytearray() for _ in range(packs_max)]
 
     def add_r_int(self, register: int, value: int):
         real = register * 2

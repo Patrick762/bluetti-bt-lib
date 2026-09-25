@@ -1,20 +1,70 @@
-from ..base_devices import BaseDeviceV2
-from ..enums import ChargingMode
-from ..fields import FieldName, UIntField, SwitchField, SelectField, DecimalField
+from ..base_devices import BluettiDevice
+from ..enums import *
+from ..fields import *
+from ..registers import *
+
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
 
-class AC180P(BaseDeviceV2):
+class AC180P(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                UIntField(FieldName.DC_OUTPUT_POWER, 140),
-                UIntField(FieldName.AC_OUTPUT_POWER, 142),
-                UIntField(FieldName.DC_INPUT_POWER, 144),
-                UIntField(FieldName.AC_INPUT_POWER, 146),
-                DecimalField(FieldName.AC_INPUT_VOLTAGE, 1314, 1),
-                SwitchField(FieldName.CTRL_AC, 2011),
-                SwitchField(FieldName.CTRL_DC, 2012),
-                SelectField(FieldName.CTRL_CHARGING_MODE, 2020, ChargingMode),
-                SwitchField(FieldName.CTRL_POWER_LIFTING, 2021),
-            ],
+                UIntField(
+                    name=FieldName.AC_1_I_V,
+                    address=1314,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_I_P_TOTAL,
+                    address=146,
+                ),
+                UIntField(
+                    name=FieldName.AC_O_P_TOTAL,
+                    address=142,
+                ),
+                SwitchField(
+                    name=FieldName.AC_O_SWITCH,
+                    address=2011,
+                ),
+                SwitchField(
+                    name=FieldName.AC_POWER_LIFTING_SWITCH,
+                    address=2021,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_TOTAL,
+                    address=102,
+                    min=0,
+                    max=100,
+                ),
+                SelectField(
+                    name=FieldName.D_CHARGING_MODE,
+                    address=2020,
+                    e=ChargingMode,
+                ),
+                SwapStringField(
+                    name=FieldName.D_INVERTER_TYPE,
+                    address=110,
+                    size=6,
+                ),
+                SerialNumberField(
+                    name=FieldName.D_SERIAL,
+                    address=116,
+                ),
+                UIntField(
+                    name=FieldName.DC_I_P_TOTAL,
+                    address=144,
+                ),
+                UIntField(
+                    name=FieldName.DC_O_P_TOTAL,
+                    address=140,
+                ),
+                SwitchField(
+                    name=FieldName.DC_O_SWITCH,
+                    address=2012,
+                ),
+            ]
         )
+
+    def get_iot_version(self) -> int:
+        return 2

@@ -1,14 +1,14 @@
-from typing import Any, List
+from typing import Any
 
 from ..registers import ReadableRegisters, WriteableRegister
-from ..fields import DeviceField, BoolField, BoolFieldNonZero, SwitchField, SelectField
+from ..fields import DeviceField, BoolField, SwitchField, SelectField, FieldName
 
 
 class BluettiDevice:
     def __init__(
         self,
-        fields: List[DeviceField],
-        pack_fields: List[DeviceField] = [],
+        fields: list[DeviceField],
+        pack_fields: list[DeviceField] = [],
         max_packs: int = 0,
     ):
         self.fields = fields
@@ -18,8 +18,8 @@ class BluettiDevice:
         self.fields.sort(key=lambda f: f.address)
         self.pack_fields.sort(key=lambda f: f.address)
 
-        self.polling_registers: List[ReadableRegisters] = []
-        self.pack_polling_registers: List[ReadableRegisters] = []
+        self.polling_registers: list[ReadableRegisters] = []
+        self.pack_polling_registers: list[ReadableRegisters] = []
 
         for f in self.fields:
             group = ReadableRegisters(f.address, f.size)
@@ -34,25 +34,43 @@ class BluettiDevice:
             group = ReadableRegisters(f.address, f.size)
             self.pack_polling_registers.append(group)
 
-    def get_polling_registers(self) -> List[ReadableRegisters]:
+    def get_polling_registers(self) -> list[ReadableRegisters]:
         """Returns all registers required to poll device fields"""
         return self.polling_registers
 
-    def get_pack_polling_registers(self) -> List[ReadableRegisters]:
+    def get_pack_polling_registers(self) -> list[ReadableRegisters]:
         """Returns all registers required to poll device battery pack fields"""
         return self.pack_polling_registers
 
-    def get_full_registers_range(self) -> List[ReadableRegisters]:
+    def get_full_registers_range(self) -> list[ReadableRegisters]:
         """Returns all registers which are tested with the readall command"""
         raise NotImplementedError
 
-    def get_device_type_registers(self) -> List[ReadableRegisters]:
+    def get_device_type_registers(self) -> list[ReadableRegisters]:
         """Returns the register storing the type of the device"""
-        raise NotImplementedError
 
-    def get_device_sn_registers(self) -> List[ReadableRegisters]:
+        found = next(
+            filter(lambda x: x.name == FieldName.D_INVERTER_TYPE.value, self.fields),
+            None,
+        )
+
+        if found is not None:
+            return [ReadableRegisters(found.address, found.size)]
+        else:
+            raise NotImplementedError
+
+    def get_device_sn_registers(self) -> list[ReadableRegisters]:
         """Returns the register storing the serial number of the device"""
-        raise NotImplementedError
+
+        found = next(
+            filter(lambda x: x.name == FieldName.D_SERIAL.value, self.fields),
+            None,
+        )
+
+        if found is not None:
+            return [ReadableRegisters(found.address, found.size)]
+        else:
+            raise NotImplementedError
 
     def get_iot_version(self) -> int:
         """Get the IoT protocol version of the device"""
@@ -119,8 +137,7 @@ class BluettiDevice:
         return [
             f
             for f in self.fields
-            if (isinstance(f, BoolField) or isinstance(f, BoolFieldNonZero))
-            and not isinstance(f, SwitchField)
+            if (isinstance(f, BoolField)) and not isinstance(f, SwitchField)
         ]
 
     def get_switch_fields(self):
@@ -137,7 +154,6 @@ class BluettiDevice:
             f
             for f in self.fields
             if not isinstance(f, BoolField)
-            and not isinstance(f, BoolFieldNonZero)
             and not isinstance(f, SwitchField)
             and not isinstance(f, SelectField)
         ]

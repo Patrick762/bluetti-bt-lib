@@ -6,11 +6,11 @@ import logging
 
 from ..bluetooth.device_reader import DeviceReader, DeviceReaderConfig
 from ..utils.device_builder import build_device
-from ..fields import FieldName, get_unit
+from ..fields import FieldName
 
 
 async def async_read_device(address: str, type: str, encryption: bool):
-    built = build_device(type + "12345678")
+    built = build_device(type)
 
     if built is None:
         print("Unsupported powerstation type")
@@ -33,7 +33,8 @@ async def async_read_device(address: str, type: str, encryption: bool):
     print()
     for key, value in data.items():
         key = FieldName(key) if key in [i.value for i in FieldName] else key
-        unit = get_unit(key)
+        definition = next(filter(lambda x: x.name == key, built.fields), None)
+        unit = definition.unit if definition is not None else None
         print(f"{key}: {value}" + ("" if unit is None else unit))
 
 

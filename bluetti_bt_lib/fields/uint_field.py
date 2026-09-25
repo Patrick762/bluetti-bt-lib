@@ -11,8 +11,9 @@ class UIntField(DeviceField):
         multiplier: float = 1,
         min: int | None = None,
         max: int | None = None,
+        **kwargs,
     ):
-        super().__init__(name, address, 1)
+        super().__init__(name, address, 1, **kwargs)
         self.multiplier = multiplier
         self.min = min
         self.max = max

@@ -4,7 +4,7 @@ from bluetti_bt_lib.fields import SerialNumberField, FieldName
 
 class TestSerialNumberField(unittest.TestCase):
     def setUp(self):
-        self.field = SerialNumberField(FieldName.DEVICE_SN, 116)
+        self.field = SerialNumberField(FieldName.D_SERIAL, 116)
 
     def test_parse(self):
         result = self.field.parse(b"\x00\x01\x00\x00\x00\x00\x00\x00")

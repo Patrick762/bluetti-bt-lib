@@ -38,13 +38,13 @@ class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
 
         data = await reader.read()
 
-        self.assertEqual(data.get(FieldName.DEVICE_TYPE.value), "AC300")
-        self.assertEqual(data.get(FieldName.DEVICE_SN.value), 2300000000000)
-        self.assertEqual(data.get(FieldName.DC_INPUT_POWER.value), 10)
-        self.assertEqual(data.get(FieldName.AC_INPUT_POWER.value), 8)
-        self.assertEqual(data.get(FieldName.AC_OUTPUT_POWER.value), 9)
-        self.assertEqual(data.get(FieldName.DC_OUTPUT_POWER.value), 7)
-        self.assertEqual(data.get(FieldName.BATTERY_SOC.value), 78)
+        self.assertEqual(data.get(FieldName.D_INVERTER_TYPE.value), "AC300")
+        self.assertEqual(data.get(FieldName.D_SERIAL.value), 2300000000000)
+        self.assertEqual(data.get(FieldName.DC_I_P_TOTAL.value), 10)
+        self.assertEqual(data.get(FieldName.AC_I_P_TOTAL.value), 8)
+        self.assertEqual(data.get(FieldName.AC_O_P_TOTAL.value), 9)
+        self.assertEqual(data.get(FieldName.DC_O_P_TOTAL.value), 7)
+        self.assertEqual(data.get(FieldName.B_SOC_TOTAL.value), 78)
 
     async def test_read_soc_wrong(self):
         # SOC
@@ -60,4 +60,4 @@ class TestDeviceReader(unittest.IsolatedAsyncioTestCase):
 
         data = await reader.read()
 
-        self.assertIsNone(data.get(FieldName.BATTERY_SOC.value))
+        self.assertIsNone(data.get(FieldName.B_SOC_TOTAL.value))

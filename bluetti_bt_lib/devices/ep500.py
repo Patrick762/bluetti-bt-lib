@@ -1,35 +1,122 @@
-from ..base_devices import BaseDeviceV1
-from ..fields import (
-    FieldName,
-    EnumField,
-    DecimalField,
-    UIntField,
-    SelectField,
-    BoolField,
-    SwitchField,
-)
-from ..enums import OutputMode, DisplayMode, UpsMode, SplitPhaseMode
+from ..base_devices import BluettiDevice
+from ..enums import *
+from ..fields import *
+from ..registers import *
+
+# GENERATED FILE! ONLY EDIT FOR TESTING!
 
 
-class EP500(BaseDeviceV1):
+class EP500(BluettiDevice):
     def __init__(self):
         super().__init__(
             [
-                EnumField(FieldName.AC_OUTPUT_MODE, 70, OutputMode),
-                DecimalField(FieldName.AC_OUTPUT_VOLTAGE, 71, 1),
-                DecimalField(FieldName.AC_OUTPUT_FREQUENCY, 74, 2),
-                DecimalField(FieldName.AC_INPUT_VOLTAGE, 77, 1),
-                DecimalField(FieldName.AC_INPUT_FREQUENCY, 80, 2),
-                DecimalField(FieldName.PV_S1_VOLTAGE, 86, 1),
-                DecimalField(FieldName.PV_S1_POWER, 87, 1, 10),
-                DecimalField(FieldName.PV_S1_CURRENT, 88, 2, 10),
-                SelectField(FieldName.CTRL_UPS_MODE, 3001, UpsMode),
-                BoolField(FieldName.CTRL_SPLIT_PHASE, 3004),
-                EnumField(FieldName.CTRL_SPLIT_PHASE_MODE, 3005, SplitPhaseMode),
-                SwitchField(FieldName.CTRL_AC, 3007),
-                SwitchField(FieldName.CTRL_DC, 3008),
-                UIntField(FieldName.BATTERY_SOC_RANGE_START, 3015),
-                UIntField(FieldName.BATTERY_SOC_RANGE_END, 3016),
-                SelectField(FieldName.CTRL_DISPLAY_TIMEOUT, 3061, DisplayMode),
-            ],
+                UIntField(
+                    name=FieldName.AC_1_O_V,
+                    address=71,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_I_F,
+                    address=80,
+                    multiplier=0.01,
+                ),
+                UIntField(
+                    name=FieldName.AC_1_I_V,
+                    address=77,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.AC_I_P_TOTAL,
+                    address=37,
+                ),
+                UIntField(
+                    name=FieldName.AC_O_F,
+                    address=74,
+                    multiplier=0.1,
+                ),
+                SelectField(
+                    name=FieldName.AC_O_MODE,
+                    address=70,
+                    e=OutputMode,
+                ),
+                UIntField(
+                    name=FieldName.AC_O_P_TOTAL,
+                    address=38,
+                ),
+                SwitchField(
+                    name=FieldName.AC_O_SWITCH,
+                    address=3007,
+                ),
+                SelectField(
+                    name=FieldName.AC_UPS_MODE,
+                    address=3001,
+                    e=UpsMode,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_HIGH,
+                    address=3016,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_LOW,
+                    address=3015,
+                ),
+                UIntField(
+                    name=FieldName.B_SOC_TOTAL,
+                    address=43,
+                    min=0,
+                    max=100,
+                ),
+                SelectField(
+                    name=FieldName.D_DISPLAY_MODE,
+                    address=3061,
+                    e=DisplayMode,
+                ),
+                StringField(
+                    name=FieldName.D_INVERTER_TYPE,
+                    address=10,
+                    size=6,
+                ),
+                SerialNumberField(
+                    name=FieldName.D_SERIAL,
+                    address=17,
+                ),
+                SwitchField(
+                    name=FieldName.D_SPLIT_PHASE_SWITCH,
+                    address=3004,
+                ),
+                SelectField(
+                    name=FieldName.D_SPLIT_PHASE_MODE,
+                    address=3005,
+                    e=SplitPhaseMode,
+                ),
+                UIntField(
+                    name=FieldName.DC_I_P_TOTAL,
+                    address=36,
+                ),
+                UIntField(
+                    name=FieldName.DC_O_P_TOTAL,
+                    address=39,
+                ),
+                SwitchField(
+                    name=FieldName.DC_O_SWITCH,
+                    address=3008,
+                ),
+                UIntField(
+                    name=FieldName.PV_1_I_C,
+                    address=88,
+                    multiplier=0.1,
+                ),
+                UIntField(
+                    name=FieldName.PV_1_I_P,
+                    address=87,
+                ),
+                UIntField(
+                    name=FieldName.PV_1_I_V,
+                    address=86,
+                    multiplier=0.1,
+                ),
+            ]
         )
+
+    def get_iot_version(self) -> int:
+        return 1

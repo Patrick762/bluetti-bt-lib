@@ -10,8 +10,8 @@ def swap_bytes(data: bytes):
 
 
 class SwapStringField(DeviceField):
-    def __init__(self, name: FieldName, address: int, size: int):
-        super().__init__(name, address, size)
+    def __init__(self, name: FieldName, address: int, size: int, **kwargs):
+        super().__init__(name, address, size, **kwargs)
 
     def parse(self, data: bytes) -> str:
         return swap_bytes(data).rstrip(b"\0").decode("ascii", errors="ignore")

@@ -1,8 +1,9 @@
 import asyncio
 import logging
 import async_timeout
-from typing import Any, Callable, List, cast
+from typing import Any, Callable, cast
 from bleak import BleakClient, BleakScanner
+from bleak.backends.device import BLEDevice
 from bleak.exc import BleakError
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
 
@@ -27,6 +28,7 @@ class DeviceReader:
         future_builder_method: Callable[[], asyncio.Future[Any]],
         config: DeviceReaderConfig = DeviceReaderConfig(),
         lock: asyncio.Lock = asyncio.Lock(),
+        ble_device: BLEDevice | None = None,
         ble_client: BleakClient | None = None,
     ):
         self.mac = mac
@@ -34,9 +36,8 @@ class DeviceReader:
         self.create_future = future_builder_method
         self.config = config
         self.polling_lock = lock
-
+        self.ble_device = ble_device
         self.ble_client = ble_client
-        """Used for unittests"""
 
         self.logger = logging.getLogger(
             f"{__name__}.{mac_loggable(mac).replace(':', '_')}"
@@ -53,7 +54,7 @@ class DeviceReader:
         self.encrypted_buffer = bytearray()
 
     async def read(
-        self, only_registers: List[ReadableRegisters] | None = None, raw: bool = False
+        self, only_registers: list[ReadableRegisters] | None = None, raw: bool = False
     ) -> dict | None:
 
         registers = self.bluetti_device.get_polling_registers()
@@ -74,6 +75,8 @@ class DeviceReader:
 
                     if self.ble_client:
                         self.device = None
+                    elif self.ble_device is not None:
+                        self.device = self.ble_device
                     else:
                         self.device = await BleakScanner.find_device_by_address(
                             self.mac, timeout=5
@@ -187,6 +190,9 @@ class DeviceReader:
                 if self.client:
                     await self.client.disconnect()
                     self.logger.debug("Disconnected from device")
+
+            self.client = None
+            self.device = None
 
             # Reset Encryption keys
             self.encryption.reset()
