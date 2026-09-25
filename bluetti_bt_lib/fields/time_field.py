@@ -1,19 +1,8 @@
-import struct
-from decimal import Decimal
-
-from . import DeviceField, FieldName
+from .uint_field import UIntField
 
 
-class TimeField(DeviceField):
-    def __init__(
-        self,
-        name: FieldName,
-        address: int,
-        **kwargs,
-    ):
-        super().__init__(name, address, 1, **kwargs)
+class TimeField(UIntField):
+    """Returns a duration in seconds."""
 
-    def parse(self, data: bytes) -> Decimal:
-        # TODO
-        val = Decimal(struct.unpack("!H", data)[0])
-        return (val / 10**self.scale) * Decimal(self.multiplier)
+    def __init__(self, name, address, multiplier = 360, min = None, max = None, **kwargs):
+        super().__init__(name, address, multiplier, min, max, **kwargs)
