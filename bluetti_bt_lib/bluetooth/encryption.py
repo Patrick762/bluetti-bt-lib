@@ -298,3 +298,5 @@ class BluettiEncryption:
     def reset(self):
         self.peer_pubkey = None
         self.secure_aes_key = None
+        self.unsecure_aes_key = None
+        self.unsecure_aes_iv = None
