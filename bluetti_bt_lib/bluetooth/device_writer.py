@@ -1,7 +1,6 @@
 import asyncio
 import logging
 from typing import Any
-import async_timeout
 from bleak import BleakClient
 from bleak.exc import BleakError
 
@@ -33,27 +32,27 @@ class DeviceWriter:
             f"{__name__}.{mac_loggable(bleak_client.address).replace(':', '_')}"
         )
 
-    async def write(self, field: str, value: Any):
+    async def write(self, field: str, value: Any) -> None:
         if self.config.use_encryption:
-            self.logger.error("Encryption on writes is not yet supported")
+            self.logger.debug("Encryption on writes is not yet supported")
             return
 
         available_fields = [f.name for f in self.bluetti_device.fields]
         if field not in available_fields:
-            self.logger.error("Field not supported")
+            self.logger.debug("Field not supported")
             return
 
         command = self.bluetti_device.build_write_command(field, value)
 
         if command is None:
-            self.logger.error("Field is not writeable")
+            self.logger.debug("Field is not writeable")
             return
 
         self.logger.debug("Writing to device register")
 
         async with self.polling_lock:
             try:
-                async with async_timeout.timeout(self.config.timeout):
+                async with asyncio.timeout(self.config.timeout):
                     if not self.client.is_connected:
                         self.logger.debug("Connecting to device")
                         await self.client.connect()
@@ -70,13 +69,13 @@ class DeviceWriter:
                     self.logger.debug("Write successful")
 
             except TimeoutError:
-                self.logger.warning("Timeout")
+                self.logger.debug("Timeout")
                 return None
             except BleakError as err:
-                self.logger.warning("Bleak error: %s", err)
+                self.logger.debug("Bleak error: %s", err)
                 return None
             except BaseException as err:
-                self.logger.warning("Unknown error: %s", err)
+                self.logger.debug("Unknown error: %s", err)
                 return None
             finally:
                 await self.client.disconnect()

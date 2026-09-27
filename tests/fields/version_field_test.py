@@ -5,11 +5,11 @@ from bluetti_bt_lib.fields import VersionField, FieldName
 
 class TestVersionField(unittest.TestCase):
     def setUp(self):
-        self.field = VersionField(FieldName.VER_ARM, 23)
+        self.field = VersionField(FieldName.D_VER_ARM, 23)
 
     def test_parse(self):
         result = self.field.parse(b"\x91\x96\x00\x01")
-        self.assertEqual(result, Decimal("1028.06"))
+        self.assertEqual(result, "1028.06")
 
     def test_parse_invalid_length(self):
         result = self.field.parse(b"\x00\x01")

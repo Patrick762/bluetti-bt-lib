@@ -1,8 +1,10 @@
 import asyncio
+from enum import Enum
 import logging
-import async_timeout
-from typing import Any, Callable, List, cast
+from typing import Any, Callable, cast
 from bleak import BleakClient, BleakScanner
+from bleak.backends.characteristic import BleakGATTCharacteristic
+from bleak.backends.device import BLEDevice
 from bleak.exc import BleakError
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
 
@@ -27,6 +29,7 @@ class DeviceReader:
         future_builder_method: Callable[[], asyncio.Future[Any]],
         config: DeviceReaderConfig = DeviceReaderConfig(),
         lock: asyncio.Lock = asyncio.Lock(),
+        ble_device: BLEDevice | None = None,
         ble_client: BleakClient | None = None,
     ):
         self.mac = mac
@@ -34,27 +37,26 @@ class DeviceReader:
         self.create_future = future_builder_method
         self.config = config
         self.polling_lock = lock
-
+        self.ble_device = ble_device
         self.ble_client = ble_client
-        """Used for unittests"""
 
         self.logger = logging.getLogger(
             f"{__name__}.{mac_loggable(mac).replace(':', '_')}"
         )
 
-        self.device = None
-        self.client = None
+        self.device: BLEDevice | None = None
+        self.client: BleakClient | None = None
 
         self.has_notifier = False
-        self.current_registers = None
+        self.current_registers: DeviceRegister | None = None
         self.notify_response = bytearray()
         self.notify_future: asyncio.Future[Any] | None = None
         self.encryption = BluettiEncryption()
         self.encrypted_buffer = bytearray()
 
     async def read(
-        self, only_registers: List[ReadableRegisters] | None = None, raw: bool = False
-    ) -> dict | None:
+        self, only_registers: list[ReadableRegisters] | None = None, raw: bool = False
+    ) -> dict[str, bool | int | float | Enum | str | bytes] | None:
 
         registers = self.bluetti_device.get_polling_registers()
         pack_registers = self.bluetti_device.get_pack_polling_registers()
@@ -63,31 +65,37 @@ class DeviceReader:
             registers = only_registers
             pack_registers = []
 
-        parsed_data: dict = {}
+        parsed_data: dict[str, bool | int | float | Enum | str | bytes] = {}
 
         self.logger.debug("Reading device registers")
 
         async with self.polling_lock:
             try:
-                async with async_timeout.timeout(self.config.timeout):
+                async with asyncio.timeout(self.config.timeout):
                     self.logger.debug("Searching for device")
 
                     if self.ble_client:
                         self.device = None
+                    elif self.ble_device is not None:
+                        self.device = self.ble_device
                     else:
                         self.device = await BleakScanner.find_device_by_address(
                             self.mac, timeout=5
                         )
 
                         if self.device is None:
-                            self.logger.error("Device not found")
-                            return
+                            self.logger.debug("Device not found")
+                            return None
 
                     self.logger.debug("Connecting to device")
 
                     if self.ble_client:
                         self.client = self.ble_client
                     else:
+                        if self.device is None:
+                            self.logger.debug("Device, Client or mac have to be set")
+                            return None
+
                         self.client = await establish_connection(
                             BleakClientWithServiceCache,
                             self.device,
@@ -121,7 +129,7 @@ class DeviceReader:
 
                         if raw:
                             d = {}
-                            d[register.starting_address] = body
+                            d[str(register.starting_address)] = body
                             parsed_data.update(d)
                             continue
 
@@ -152,7 +160,7 @@ class DeviceReader:
 
                             if raw:
                                 d = {}
-                                d[register.starting_address] = body
+                                d[str(register.starting_address)] = body
                                 parsed_data.update(d)
                                 continue
 
@@ -167,33 +175,37 @@ class DeviceReader:
                             parsed_data.update(parsed)
 
             except TimeoutError:
-                self.logger.warning("Timeout")
+                self.logger.debug("Timeout")
                 return None
             except BleakError as err:
-                self.logger.warning("Bleak error: %s", err)
+                self.logger.debug("Bleak error: %s", err)
                 return None
             except BaseException as err:
-                self.logger.warning("Unknown error %s", err)
+                self.logger.debug("Unknown error %s", err)
                 return None
             finally:
-                if self.has_notifier:
-                    try:
-                        await self.client.stop_notify(NOTIFY_UUID)
-                        self.logger.debug("Stopped notifier")
-                    except:
-                        # Ignore errors here
-                        pass
-                    self.has_notifier = False
                 if self.client:
+                    if self.has_notifier:
+                        try:
+                            await self.client.stop_notify(NOTIFY_UUID)
+                            self.logger.debug("Stopped notifier")
+                        except:
+                            # Ignore errors here
+                            pass
+                        self.has_notifier = False
+
                     await self.client.disconnect()
                     self.logger.debug("Disconnected from device")
+
+            self.client = None
+            self.device = None
 
             # Reset Encryption keys
             self.encryption.reset()
             self.encrypted_buffer.clear()
 
             # Check if dict is empty
-            if not parsed_data:
+            if len(parsed_data.keys()) == 0:
                 return None
 
             return parsed_data
@@ -215,6 +227,9 @@ class DeviceReader:
                 command_bytes, self.encryption.secure_aes_key, None
             )
 
+        if not self.client:
+            return bytes()
+
         try:
             # Make request
             await self.client.write_gatt_char(WRITE_UUID, command_bytes)
@@ -228,7 +243,7 @@ class DeviceReader:
 
             return cast(bytes, res)
         except:
-            self.logger.warning("Error while reading data")
+            self.logger.debug("Error while reading data")
 
         return bytes()
 
@@ -251,9 +266,14 @@ class DeviceReader:
 
         return header_size + padded_len
 
-    async def _notification_handler(self, _: int, data: bytearray):
+    async def _notification_handler(
+        self, _: BleakGATTCharacteristic, data: bytes | bytearray
+    ) -> None:
         """Handle bt data."""
         self.logger.debug("Got new data (%d bytes)", len(data))
+
+        if not self.client:
+            return
 
         if self.config.use_encryption is True:
             message = Message(data)
@@ -263,6 +283,10 @@ class DeviceReader:
 
                 if message.type == MessageType.CHALLENGE:
                     challenge_response = self.encryption.msg_challenge(message)
+
+                    if not challenge_response:
+                        return
+
                     await self.client.write_gatt_char(WRITE_UUID, challenge_response)
                     return
 
@@ -273,7 +297,7 @@ class DeviceReader:
                 return
 
             if self.encryption.unsecure_aes_key is None:
-                self.logger.error(
+                self.logger.debug(
                     "Received encrypted message before key initialization"
                 )
                 return
@@ -309,7 +333,7 @@ class DeviceReader:
                     self.encryption.aes_decrypt(complete_message, key, iv)
                 )
             except ValueError as e:
-                self.logger.error("Decryption failed: %s", e)
+                self.logger.debug("Decryption failed: %s", e)
                 self.encrypted_buffer.clear()
                 return
 

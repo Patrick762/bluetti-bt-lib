@@ -1,7 +1,7 @@
 from . import DeviceField, FieldName
 
 
-def swap_bytes(data: bytes):
+def swap_bytes(data: bytes) -> bytearray:
     """Swaps the place of every other byte, returning a new byte array"""
     arr = bytearray(data)
     for i in range(0, len(arr) - 1, 2):

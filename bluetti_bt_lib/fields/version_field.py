@@ -8,9 +8,9 @@ class VersionField(DeviceField):
     def __init__(self, name: FieldName, address: int):
         super().__init__(name, address, 2)
 
-    def parse(self, data: bytes) -> int | None:
+    def parse(self, data: bytes) -> str | None:
         if len(data) != 4:
             return None
 
         values = struct.unpack("!2H", data)
-        return Decimal(values[0] + (values[1] << 16)) / 100
+        return str(Decimal(values[0] + (values[1] << 16)) / 100)

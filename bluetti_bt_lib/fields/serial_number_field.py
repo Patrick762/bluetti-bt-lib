@@ -12,4 +12,6 @@ class SerialNumberField(DeviceField):
             return None
 
         values = struct.unpack("!4H", data)
-        return values[0] + (values[1] << 16) + (values[2] << 32) + (values[3] << 48)
+        return str(
+            values[0] + (values[1] << 16) + (values[2] << 32) + (values[3] << 48)
+        )

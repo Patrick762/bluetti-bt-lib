@@ -14,7 +14,7 @@ async def async_write(
     address: str, type: str, encryption: bool, field: str, value: Any
 ):
     client = BleakClient(address)
-    built = build_device(type + "12345678")
+    built = build_device(type)
 
     if built is None:
         print("Unsupported powerstation type")
@@ -50,7 +50,10 @@ def start():
         "-s", "--select", type=str, help="Value to write to a Select/Enum field"
     )
     parser.add_argument(
-        "-e", "--encryption", type=bool, help="Add this if encryption is needed"
+        "-e",
+        "--encryption",
+        action="store_true",
+        help="Add this if encryption is needed",
     )
     parser.add_argument("field", type=str, help="Field name (ctrl_dc f.ex.)")
     args = parser.parse_args()

@@ -6,11 +6,11 @@ import logging
 
 from ..bluetooth.device_reader import DeviceReader, DeviceReaderConfig
 from ..utils.device_builder import build_device
-from ..fields import FieldName, get_unit
+from ..fields import FieldName
 
 
 async def async_read_device(address: str, type: str, encryption: bool):
-    built = build_device(type + "12345678")
+    built = build_device(type)
 
     if built is None:
         print("Unsupported powerstation type")
@@ -33,7 +33,8 @@ async def async_read_device(address: str, type: str, encryption: bool):
     print()
     for key, value in data.items():
         key = FieldName(key) if key in [i.value for i in FieldName] else key
-        unit = get_unit(key)
+        definition = next(filter(lambda x: x.name == key, built.fields), None)
+        unit = definition.unit if definition is not None else None
         print(f"{key}: {value}" + ("" if unit is None else unit))
 
 
@@ -45,7 +46,10 @@ def start():
         "-t", "--type", type=str, help="Type of the powerstation (AC70 f.ex.)"
     )
     parser.add_argument(
-        "-e", "--encryption", type=bool, help="Add this if encryption is needed"
+        "-e",
+        "--encryption",
+        action="store_true",
+        help="Add this if encryption is needed",
     )
     args = parser.parse_args()
 
@@ -56,3 +60,7 @@ def start():
     logging.basicConfig(level=logging.WARNING)
 
     asyncio.run(async_read_device(args.mac, args.type, args.encryption))
+
+
+if __name__ == "__main__":
+    start()

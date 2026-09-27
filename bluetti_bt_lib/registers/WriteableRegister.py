@@ -9,11 +9,11 @@ class WriteableRegister(DeviceRegister):
         self.address = address
         self.value = value
 
-    def response_size(self):
+    def response_size(self) -> int:
         return 8
 
-    def parse_response(self, response: bytes):
+    def parse_response(self, response: bytes) -> bytes:
         return bytes(response[4:6])
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"WriteableRegister(address={self.address}, value={self.value:#04x})"

@@ -12,6 +12,11 @@ from pyasn1.type import univ
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric.ec import (
+    EllipticCurvePublicKey,
+    EllipticCurvePrivateKey,
+)
+from cryptography.hazmat.primitives.asymmetric.types import PublicKeyTypes
 from cryptography.exceptions import InvalidSignature
 
 LOCAL_AES_KEY = "459FC535808941F17091E0993EE3E93D"
@@ -25,7 +30,7 @@ KEX_MAGIC = b"**"
 AES_BLOCK_SIZE = 16
 
 
-def hexsum(s, sz: int):
+def hexsum(s: bytes | memoryview, sz: int) -> bytes:
     checksum = sum(s)
     as_hex = f"{checksum:0{sz*2}x}"
     return bytes.fromhex(as_hex)
@@ -33,12 +38,12 @@ def hexsum(s, sz: int):
 
 def hexxor(a: bytes, b: bytes) -> bytes | None:
     if len(a) != len(b):
-        _LOGGER.error("Can only XOR two identical length byte strings")
+        _LOGGER.debug("Can only XOR two identical length byte strings")
         return None
     return bytes([x ^ y for x, y in zip(a, b)])
 
 
-def raw_ecdsa_to_der(sig):
+def raw_ecdsa_to_der(sig: memoryview) -> der_encoder.Encoder:
     # <byte r[32]> <byte s[32]>
 
     if len(sig) != 64:
@@ -54,7 +59,7 @@ def raw_ecdsa_to_der(sig):
     return der_encoder.encode(seq)
 
 
-def der_to_raw_ecdsa(sig):
+def der_to_raw_ecdsa(sig: bytes) -> bytes:
     # 30 45 02 20 1956307e59448178b47c222e4e1e6c8ef7d707bc230e5a9fa77f919ec44e5f74
     # |  |  |  |  |> byte r[0x20]
     # |  |  |  |---> Length
@@ -74,7 +79,9 @@ def der_to_raw_ecdsa(sig):
     return b"".join([int.to_bytes(int(x), 0x20, "big") for x in seq])
 
 
-def verify_and_extract_signed_data(message, signed_data_suffix: bytes | None):
+def verify_and_extract_signed_data(
+    message: memoryview, signed_data_suffix: bytes | None
+) -> memoryview:
     # 64 bytes of data
     # 64 bytes of signature
     if len(message) != 128:
@@ -96,17 +103,17 @@ def verify_and_extract_signed_data(message, signed_data_suffix: bytes | None):
     return data
 
 
-def pubkey_from_bytes(data):
+def pubkey_from_bytes(data: memoryview) -> PublicKeyTypes:
     encoded_peer_pubkey = bytes.fromhex(SECP_256R1_PUBLIC_PREFIX) + data
     return serialization.load_der_public_key(encoded_peer_pubkey)
 
 
-def generate_keypair():
+def generate_keypair() -> tuple[EllipticCurvePublicKey, EllipticCurvePrivateKey]:
     private = ec.generate_private_key(ec.SECP256R1())
     return (private.public_key(), private)
 
 
-def pubkey_to_bytes(pubkey):
+def pubkey_to_bytes(pubkey: EllipticCurvePublicKey) -> bytes:
     out = pubkey.public_bytes(
         encoding=serialization.Encoding.X962,
         format=serialization.PublicFormat.UncompressedPoint,
@@ -142,7 +149,7 @@ class Message:
     See aes_decrypt() for the format.
     """
 
-    def __init__(self, buffer: bytes):
+    def __init__(self, buffer: bytes | bytearray) -> None:
         self.buffer = buffer
         self.view = memoryview(self.buffer)
 
@@ -167,14 +174,14 @@ class Message:
         return self.body[2:]
 
     @property
-    def type(self) -> int:
+    def type(self) -> MessageType:
         return MessageType(self.body[0])
 
-    def verify_checksum(self):
+    def verify_checksum(self) -> None:
         message_checksum = self.checksum
         computed_checksum = hexsum(self.body, len(message_checksum))
         if computed_checksum != message_checksum:
-            _LOGGER.error("Checksum error!")
+            _LOGGER.debug("Checksum error!")
         _LOGGER.debug("Checksum OK")
 
 
@@ -201,7 +208,9 @@ class BluettiEncryption:
     def is_ready_for_commands(self) -> bool:
         return self.secure_aes_key is not None and self.peer_pubkey is not None
 
-    def aes_decrypt(self, data: bytes, aes_key: bytes | None, iv: bytes | None):
+    def aes_decrypt(
+        self, data: bytes, aes_key: bytes | None, iv: bytes | None
+    ) -> bytes:
         data_len = (data[0] << 8) + data[1]
 
         if iv is None:
@@ -221,7 +230,9 @@ class BluettiEncryption:
         _LOGGER.debug(">PLAIN " + decrypted.hex())
         return decrypted
 
-    def aes_encrypt(self, data: bytes, aes_key: bytes | None, iv: bytes | None):
+    def aes_encrypt(
+        self, data: bytes, aes_key: bytes | None, iv: bytes | None
+    ) -> bytes:
         message_header = int.to_bytes(len(data), 2, "big")
 
         if iv is None:
@@ -244,20 +255,20 @@ class BluettiEncryption:
         _LOGGER.debug("Received challenge")
 
         if len(message.data) != 4:
-            _LOGGER.error("Unexpected message length")
+            _LOGGER.debug("Unexpected message length")
             return None
 
         self.unsecure_aes_iv = hashlib.md5(message.data[::-1].tobytes()).digest()
         static_key = bytes.fromhex(LOCAL_AES_KEY)
         self.unsecure_aes_key = hexxor(self.unsecure_aes_iv, static_key)
 
-        _LOGGER.info("Unsecure iv  " + self.unsecure_aes_iv.hex())
-        _LOGGER.info("Unsecure key " + self.unsecure_aes_key.hex())
+        _LOGGER.debug("Unsecure iv  " + self.unsecure_aes_iv.hex())
+        _LOGGER.debug("Unsecure key " + self.unsecure_aes_key.hex())
 
         body = bytes.fromhex("0204") + self.unsecure_aes_iv[8:12]
         return b"".join([KEX_MAGIC, body, hexsum(body, 2)])
 
-    def msg_peer_pubkey(self, message: Message) -> bytes | None:
+    def msg_peer_pubkey(self, message: Message) -> bytes:
         _LOGGER.debug("Received peer pubkey, checking signature")
         data = verify_and_extract_signed_data(message.data, self.unsecure_aes_iv)
         self.peer_pubkey = pubkey_from_bytes(data)
@@ -286,15 +297,17 @@ class BluettiEncryption:
             raise ValueError("Key acceptance response is not 0")
 
         self.secure_aes_key = self.my_privkey.exchange(ec.ECDH(), self.peer_pubkey)
-        _LOGGER.info("Secure key   " + self.secure_aes_key.hex())
+        _LOGGER.debug("Secure key   " + self.secure_aes_key.hex())
 
-    def getKeyIv(self):
+    def getKeyIv(self) -> tuple[bytes | None, bytes | None] | tuple[bytes, None]:
         return (
             (self.unsecure_aes_key, self.unsecure_aes_iv)
             if self.secure_aes_key is None
             else (self.secure_aes_key, None)
         )
 
-    def reset(self):
+    def reset(self) -> None:
         self.peer_pubkey = None
         self.secure_aes_key = None
+        self.unsecure_aes_key = None
+        self.unsecure_aes_iv = None

@@ -1,4 +1,5 @@
 import struct
+from typing import Iterator
 import crcmod.predefined
 from enum import Enum
 
@@ -24,26 +25,26 @@ class DeviceRegister:
         """Returns the expected response size in bytes"""
         raise NotImplementedError()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[int]:
         """Provide an iter implemention so that bytes(cmd) works"""
         return iter(self.cmd)
 
-    def is_exception_response(self, response: bytes):
+    def is_exception_response(self, response: bytes) -> bool:
         """Checks the response code to see if it's a MODBUS exception"""
         if len(response) < 2:
             return False
         else:
             return response[1] == self.register_action.value + 0x80
 
-    def is_valid_response(self, response: bytes):
+    def is_valid_response(self, response: bytes) -> bool:
         """Validates that the reponse is complete and uncorrupted"""
         if len(response) < 3:
             return False
 
         crc = modbus_crc(response[0:-2])
         crc_bytes = crc.to_bytes(2, byteorder="little")
-        return response[-2:] == crc_bytes
+        return bool(response[-2:] == crc_bytes)
 
-    def parse_response(self, response: bytes):
+    def parse_response(self, response: bytes) -> bytes:
         """Returns the raw body of the response"""
         raise NotImplementedError()

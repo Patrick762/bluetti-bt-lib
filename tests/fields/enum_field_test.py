@@ -11,7 +11,7 @@ class Dummy(Enum):
 
 class TestEnumField(unittest.TestCase):
     def test_parse(self):
-        field = EnumField(FieldName.AC_OUTPUT_MODE, 70, Dummy)
+        field = EnumField(FieldName.AC_O_MODE, 70, Dummy)
 
         result = field.parse(b"\x00\x00")
         self.assertEqual(result, Dummy.VALUE_0)
@@ -26,5 +26,5 @@ class TestEnumField(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_is_writeable(self):
-        self.field = EnumField(FieldName.AC_OUTPUT_MODE, 70, Dummy)
+        self.field = EnumField(FieldName.AC_O_MODE, 70, Dummy)
         self.assertFalse(self.field.is_writeable())

@@ -1,15 +1,21 @@
+from enum import Enum
 from typing import Any
 
-from ..fields import FieldName
+from .field_name import FieldName
 
 
 class DeviceField:
-    def __init__(self, name: FieldName, address: int, size: int):
+    def __init__(
+        self,
+        name: FieldName,
+        address: int,
+        size: int,
+    ) -> None:
         self.name = name.value
         self.address = address
         self.size = size
 
-    def parse(self, data: bytes) -> Any:
+    def parse(self, data: bytes) -> bool | int | float | Enum | str | None:
         raise NotImplementedError
 
     def is_writeable(self) -> bool:

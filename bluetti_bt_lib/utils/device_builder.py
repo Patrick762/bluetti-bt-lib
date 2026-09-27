@@ -2,21 +2,11 @@
 
 from ..base_devices import BluettiDevice
 
-from ..devices import DEVICES, DEVICE_NAME_RE
+from ..devices import DEVICES
 
 
 def build_device(name: str) -> BluettiDevice | None:
-    devMatch = DEVICE_NAME_RE.match(name)
-
-    if devMatch is None:
-        return None
-
-    devType = devMatch[1]
-
-    if devType is None:
-        return None
-
-    Station = DEVICES.get(devType)
+    Station = DEVICES.get(name)
 
     if Station is None:
         return None

@@ -1,0 +1,102 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python-Debugger: Importer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/importer.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python-Debugger: Scan",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bluetti_bt_lib.scripts.bluetti_scan",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python-Debugger: Detect",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bluetti_bt_lib.scripts.bluetti_detect",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "args": ["${input:mac_address}"]
+        },
+        {
+            "name": "Python-Debugger: Read",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bluetti_bt_lib.scripts.bluetti_read",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "args": ["-m", "${input:mac_address}", "-t", "${input:device_type}", "${input:device_enc}"]
+        },
+        {
+            "name": "Python-Debugger: Read all",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bluetti_bt_lib.scripts.bluetti_readall",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "args": ["-m", "${input:mac_address}", "-v", "${input:device_version}", "${input:device_enc}"]
+        },
+        {
+            "name": "Python-Debugger: Write",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bluetti_bt_lib.scripts.bluetti_write",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "args": ["-m", "${input:mac_address}", "-t", "${input:device_type}", "${input:device_enc}", "-v", "${input:field_value}", "${input:field_name}"]
+        },
+    ],
+    "inputs": [
+        {
+            "id": "mac_address",
+            "type": "promptString",
+            "description": "Enter Mac-address:",
+            "default": ""
+        },
+        {
+            "id": "device_type",
+            "type": "promptString",
+            "description": "Enter device type:",
+            "default": ""
+        },
+        {
+            "id": "device_enc",
+            "type": "pickString",
+            "description": "Uses Encryption?",
+            "options": [
+                { "label": "No", "value": "" },
+                { "label": "Yes", "value": "-e" }
+            ],
+            "default": ""
+        },
+        {
+            "id": "device_version",
+            "type": "pickString",
+            "description": "What version is used?",
+            "options": [
+                { "label": "Version 1", "value": "1" },
+                { "label": "Version 2", "value": "2" }
+            ],
+            "default": ""
+        },
+        {
+            "id": "field_name",
+            "type": "promptString",
+            "description": "Enter Field name (f.ex. ac_o_switch):",
+            "default": ""
+        },
+        {
+            "id": "field_value",
+            "type": "promptString",
+            "description": "Enter Field value:",
+            "default": ""
+        }
+    ]
+}

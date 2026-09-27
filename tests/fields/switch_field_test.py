@@ -4,7 +4,7 @@ from bluetti_bt_lib.fields import SwitchField, FieldName
 
 class TestSwitchField(unittest.TestCase):
     def setUp(self):
-        self.field = SwitchField(FieldName.CTRL_AC, 100)
+        self.field = SwitchField(FieldName.AC_O_SWITCH, 100)
 
     def test_parse_true(self):
         result = self.field.parse(b"\x00\x01")

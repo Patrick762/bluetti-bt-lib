@@ -7,5 +7,5 @@ from bluetti_bt_lib.devices import DEVICES
 class TestDeviceBuilder(unittest.TestCase):
     def test_build(self):
         for name, cls in DEVICES.items():
-            built = build_device(name + "12345678")
+            built = build_device(name)
             self.assertIsInstance(built, cls)

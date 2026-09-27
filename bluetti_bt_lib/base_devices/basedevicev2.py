@@ -6,7 +6,7 @@ from ..registers import *
 # GENERATED FILE! ONLY EDIT FOR TESTING!
 
 
-class EP800(BluettiDevice):
+class BaseDeviceV2(BluettiDevice):
     def __init__(self) -> None:
         super().__init__(
             [
@@ -30,3 +30,6 @@ class EP800(BluettiDevice):
 
     def get_iot_version(self) -> int:
         return 2
+
+    def get_full_registers_range(self) -> list[ReadableRegisters]:
+        return [ReadableRegisters(i, 10) for i in range(0, 20000, 10)]

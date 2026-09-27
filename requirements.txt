@@ -1,6 +1,7 @@
-async_timeout
+requests
 bleak
 bleak_retry_connector
 crcmod
 cryptography
 pyasn1
+mypy

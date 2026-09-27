@@ -1,32 +1,31 @@
 import struct
-from decimal import Decimal
 
 from . import DeviceField, FieldName
 
 
-class DecimalField(DeviceField):
+class UIntField(DeviceField):
     def __init__(
         self,
         name: FieldName,
         address: int,
-        scale: int = 1,
         multiplier: float = 1,
-        min: Decimal | None = None,
-        max: Decimal | None = None,
+        min: int | None = None,
+        max: int | None = None,
     ):
         super().__init__(name, address, 1)
-        self.scale = scale
         self.multiplier = multiplier
         self.min = min
         self.max = max
 
-    def parse(self, data: bytes) -> Decimal:
-        val = Decimal(struct.unpack("!H", data)[0])
-        return (val / 10**self.scale) * Decimal(self.multiplier)
+    def parse(self, data: bytes) -> int | float:
+        val: int | float = struct.unpack("!H", data)[0]
+        if self.multiplier != 1:
+            val = round(val * self.multiplier, 2)
+        return val
 
-    def in_range(self, value: Decimal) -> bool:
+    def in_range(self, value: int) -> bool:
         if self.min is not None and self.min > value:
             return False
         if self.max is not None and self.max < value:
             return False
-        return True
+        return value >= 0

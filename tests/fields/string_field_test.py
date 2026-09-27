@@ -4,7 +4,7 @@ from bluetti_bt_lib.fields import StringField, FieldName
 
 class TestStringField(unittest.TestCase):
     def setUp(self):
-        self.field = StringField(FieldName.DEVICE_TYPE, 10, 6)
+        self.field = StringField(FieldName.D_INVERTER_TYPE, 10, 6)
 
     def test_parse(self):
         result = self.field.parse(b"\x45\x42\x33\x41\x00\x00")
