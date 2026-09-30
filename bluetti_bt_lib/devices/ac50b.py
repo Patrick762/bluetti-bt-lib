@@ -9,6 +9,7 @@ class AC50B(BaseDeviceV2):
                 DecimalField(FieldName.TIME_REMAINING, 104, 1),
                 UIntField(FieldName.DC_OUTPUT_POWER, 140),
                 UIntField(FieldName.AC_OUTPUT_POWER, 142),
+                UIntField(FieldName.DC_INPUT_POWER, 144),
                 UIntField(FieldName.AC_INPUT_POWER, 146),
             ],
         )
