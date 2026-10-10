@@ -52,6 +52,7 @@ Added and mostly validated by contributors (some are moved here from the HA Inte
 |PR30V2     |@gentoo90                                                                              |✅                   |✅             |✅             |✅             |✅             |
 |PR100V2    |shares PR30V2 register layout (pending validation)                                     |✅                   |✅             |✅             |✅             |✅             |
 |EL10       |[sidieje](https://github.com/sidieje)                                                  |✅                   |✅             |✅             |✅             |✅             |
+|FP         |[@rgw3d](https://github.com/rgw3d), [@madsciencetist](https://github.com/madsciencetist)|✅                   |✅             |✅             |✅             |✅             |
 
 ## Controls
 
@@ -68,6 +69,7 @@ Added and mostly validated by contributors:
 |AC200L     |bluetti-mqtt, [@seaburger](https://github.com/seaburger) |✅     |✅     |✅           |❌             |❌           |
 |EL30V2     |[@x3ccd4828](https://github.com/x3ccd4828)               |✅     |✅     |❌           |❌             |❌           |
 |Handsfree 2|[@pablogiaccaglia](https://github.com/pablogiaccaglia)   |✅     |✅     |❌           |❌             |❌           |
+|FP         |[@rgw3d](https://github.com/rgw3d), [@madsciencetist](https://github.com/madsciencetist)|✅     |✅     |✅           |❌             |❌           |
 
 ## Battery pack data
 
