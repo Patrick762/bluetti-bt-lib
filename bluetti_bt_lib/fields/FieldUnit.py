@@ -22,6 +22,8 @@ FIELD_UNIT: Dict[FieldName, str] = {
     FieldName.BATTERY_SOC: "%",
     FieldName.BATTERY_SOC_RANGE_END: "%",
     FieldName.BATTERY_SOC_RANGE_START: "%",
+    FieldName.BATTERY_SOH: "%",
+    FieldName.BATTERY_TEMPERATURE: "°C",
     FieldName.CTRL_ECO_MIN_POWER_AC: "W",
     FieldName.CTRL_ECO_MIN_POWER_DC: "W",
     FieldName.DC_INPUT_CURRENT: "A",
