@@ -27,3 +27,24 @@ class TestDecimalField(unittest.TestCase):
     def test_is_writeable(self):
         self.field = DecimalField(FieldName.AC_INPUT_VOLTAGE, 1314)
         self.assertFalse(self.field.is_writeable())
+
+    def test_parse_offset(self):
+        self.field = DecimalField(
+            FieldName.BATTERY_TEMPERATURE, 6007, 0, offset=-40, min=Decimal(-39)
+        )
+        result = self.field.parse(b"\x00\x49")
+        self.assertEqual(result, 33)
+        self.assertTrue(self.field.in_range(result))
+
+    def test_parse_offset_no_sensor(self):
+        self.field = DecimalField(
+            FieldName.BATTERY_TEMPERATURE, 6007, 0, offset=-40, min=Decimal(-39)
+        )
+        result = self.field.parse(b"\x00\x00")
+        self.assertEqual(result, -40)
+        self.assertFalse(self.field.in_range(result))
+
+    def test_parse_offset_applied_before_scale(self):
+        self.field = DecimalField(FieldName.BATTERY_TEMPERATURE, 6007, 1, offset=-400)
+        result = self.field.parse(b"\x01\xf3")
+        self.assertEqual(result, Decimal("9.9"))
