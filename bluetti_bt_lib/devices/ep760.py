@@ -1,6 +1,7 @@
 from ..base_devices import BaseDeviceV2
 from ..fields import FieldName, UIntField, DecimalField, SwitchField
 
+
 class EP760(BaseDeviceV2):
     def __init__(self):
         super().__init__(
@@ -22,6 +23,6 @@ class EP760(BaseDeviceV2):
                 UIntField(FieldName.AC_P1_POWER, 1510),
                 DecimalField(FieldName.AC_P1_VOLTAGE, 1511, 1),
                 DecimalField(FieldName.AC_P1_CURRENT, 1512, 1),
-                SwitchField(FieldName.CTRL_AC, 2208),             
-           ],
+                SwitchField(FieldName.CTRL_AC, 2208),
+            ],
         )

@@ -245,7 +245,9 @@ class DeviceReader:
         else:
             header_size = 2
 
-        padded_len = ((data_len + AES_BLOCK_SIZE - 1) // AES_BLOCK_SIZE) * AES_BLOCK_SIZE
+        padded_len = (
+            (data_len + AES_BLOCK_SIZE - 1) // AES_BLOCK_SIZE
+        ) * AES_BLOCK_SIZE
 
         return header_size + padded_len
 
@@ -278,7 +280,9 @@ class DeviceReader:
 
             self.encrypted_buffer.extend(data)
 
-            expected_len = self._calculate_expected_encrypted_length(self.encrypted_buffer)
+            expected_len = self._calculate_expected_encrypted_length(
+                self.encrypted_buffer
+            )
 
             if expected_len is None:
                 return
@@ -287,7 +291,7 @@ class DeviceReader:
                 self.logger.debug(
                     "Buffering fragment: %d/%d bytes",
                     len(self.encrypted_buffer),
-                    expected_len
+                    expected_len,
                 )
                 return
 
@@ -301,7 +305,9 @@ class DeviceReader:
             key, iv = self.encryption.getKeyIv()
 
             try:
-                decrypted = Message(self.encryption.aes_decrypt(complete_message, key, iv))
+                decrypted = Message(
+                    self.encryption.aes_decrypt(complete_message, key, iv)
+                )
             except ValueError as e:
                 self.logger.error("Decryption failed: %s", e)
                 self.encrypted_buffer.clear()

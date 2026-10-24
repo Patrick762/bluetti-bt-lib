@@ -22,7 +22,7 @@ class DecimalField(DeviceField):
 
     def parse(self, data: bytes) -> Decimal:
         val = Decimal(struct.unpack("!H", data)[0])
-        return (val / 10 ** self.scale) * Decimal(self.multiplier)
+        return (val / 10**self.scale) * Decimal(self.multiplier)
 
     def in_range(self, value: Decimal) -> bool:
         if self.min is not None and self.min > value:

@@ -17,6 +17,7 @@ from .ac300 import AC300
 from .ac500 import AC500
 from .ap300 import AP300
 from .eb3a import EB3A
+from .el10 import EL10
 from .el100v2 import EL100V2
 from .el30v2 import EL30V2
 from .ep500 import EP500
@@ -26,6 +27,7 @@ from .ep760 import EP760
 from .ep800 import EP800
 from .ep2000 import EP2000
 from .handsfree1 import Handsfree1
+from .handsfree2 import Handsfree2
 from .pr30v2 import PR30V2
 from .pr100v2 import PR100V2
 
@@ -48,6 +50,7 @@ DEVICES = {
     "AC500": AC500,
     "AP300": AP300,
     "EB3A": EB3A,
+    "EL10": EL10,
     "EL100V2": EL100V2,
     "EL30V2": EL30V2,
     "EP500": EP500,
@@ -57,11 +60,12 @@ DEVICES = {
     "EP800": EP800,
     "EP2000": EP2000,
     "Handsfree 1": Handsfree1,
+    "Handsfree 2": Handsfree2,
     "PR30V2": PR30V2,
     "PR100V2": PR100V2,
 }
 
 # Prefixes of all currently supported devices
 DEVICE_NAME_RE = re.compile(
-    r"^(AC2A|AC2P|AC50B|AC60|AC60P|AC70|AC70P|AC180|AC180T|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL100V2|EL30V2|EP500|EP500P|EP600|EP760|EP800|EP2000|Handsfree\s1|PR30V2|PR100V2)(\d+)$"
+    r"^(AC2A|AC2P|AC50B|AC60|AC60P|AC70|AC70P|AC180|AC180T|AC180P|AC200L|AC200M|AC200PL|AC300|AC500|AP300|EB3A|EL10|EL100V2|EL30V2|EP500|EP500P|EP600|EP760|EP800|EP2000|Handsfree\s[12]|PR30V2|PR100V2)(\d+)$"
 )
